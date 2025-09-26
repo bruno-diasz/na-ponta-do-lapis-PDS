@@ -90,13 +90,12 @@ Criar um ambiente acolhedor para jovens iniciando a vida adulta, onde os mesmos 
 
 
 ## 8. Requisitos Funcionais
-| Código | Nome | Descrição | Prioridade |
-| :----: | :--: | :-------: | :--------: |
-| RF01 | Autenticação | Criar conta do usuário no sistema para que possa começar fazer uso do sistema | Alta |
-| RF02 | Cadastrar usuário | Preencher os dados os dados adicionais para que possa ter controle dos dados do usuário  | Alta |
-| RF03 | Edição de dados do usuário | Usuário poder editar seus dados | Alta |
-| RF04 | Criar gastos |  Criar gasto do usuário com informações detalhadas como tipo e valor | Alta |
-| RF05 | Editar gastos |  Editar gastos do usuário como informações detalhadas como tipo e valor | Alta |
+| Código |                     Nome                      |                                   Descrição                                   | Prioridade |
+| :----: | :-------------------------------------------: | :---------------------------------------------------------------------------: | :--------: |
+|  RF01  |                Login e Logout                 | Criar conta do usuário no sistema para que possa começar fazer uso do sistema |    Alta    |
+|  RF02  |  Cadastrar usuário e editar dados do usuário  |       Criação de conta do usuário no sistema e edição de dados do mesmo       |    Alta    |
+|  RF03  |        Criar gastos, editar e excluir         |      Criar gasto do usuário com informações detalhadas como tipo e valor      |    Alta    |
+|  RF04  | Visualização de tabelas e gráficos dos gastos |     Uma área no sistema que o usuário possa ver a evolução de seus gastos     |    Alta    |
 
 
 
@@ -107,12 +106,12 @@ Criar um ambiente acolhedor para jovens iniciando a vida adulta, onde os mesmos 
 ## 9. Requisitos Não-funcionais
 
 
-| Código | Nome | Descrição | Categoria | Classificação |
-| :----: | :--: | :-------: | :-------: | :-----------: |
-| NF01 | Ferramenta de desenvolvimento | Utilização de Python e Django para desenvolver o projeto | Restrição de projeto | Obrigatório |
-| NF02 | Banco de Dados | Postgres, MariaDB, sqlite, Oracle | Restrição de projeto | Obrigatório |
-| NF03 | Criptografia | As senhas deve ser armazenadas usando criptografia | Restrição de projeto | Obrigatório |
-| NF04 | Usabilidade | O sistema deve ser acessível em celular e design responsivo | Restrição de projeto | Desejável |
+| Código |             Nome              |                          Descrição                          |      Categoria       | Classificação |
+| :----: | :---------------------------: | :---------------------------------------------------------: | :------------------: | :-----------: |
+|  NF01  | Ferramenta de desenvolvimento |  Utilização de Python e Django para desenvolver o projeto   | Restrição de projeto |  Obrigatório  |
+|  NF02  |        Banco de Dados         |                           sqlite                            | Restrição de projeto |  Obrigatório  |
+|  NF03  |         Criptografia          |     As senhas deve ser armazenadas usando criptografia      | Restrição de projeto |  Obrigatório  |
+|  NF04  |          Usabilidade          | O sistema deve ser acessível em celular e design responsivo | Restrição de projeto |   Desejável   |
 
 
 > **Categoria** Usabilidade, confiabilidade, performance, suportabilidade, restrição de projeto, implementação, interface e requisito físico - segundo classificação [FURP+](https://pt.wikipedia.org/wiki/FURPS).
