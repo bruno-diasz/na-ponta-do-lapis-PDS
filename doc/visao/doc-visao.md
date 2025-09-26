@@ -111,7 +111,7 @@ Criar um ambiente acolhedor para jovens iniciando a vida adulta, onde os mesmos 
 |  NF01  | Ferramenta de desenvolvimento |  Utilização de Python e Django para desenvolver o projeto   | Restrição de projeto |  Obrigatório  |
 |  NF02  |        Banco de Dados         |                           sqlite                            | Restrição de projeto |  Obrigatório  |
 |  NF03  |         Criptografia          |     As senhas deve ser armazenadas usando criptografia      | Restrição de projeto |  Obrigatório  |
-|  NF04  |          Usabilidade          | O sistema deve ser acessível em celular e design responsivo | Restrição de projeto |   Desejável   |
+|  NF04  |          Usabilidade          | O sistema deve ser acessível em celular e design responsivo |          UI          |   Desejável   |
 
 
 > **Categoria** Usabilidade, confiabilidade, performance, suportabilidade, restrição de projeto, implementação, interface e requisito físico - segundo classificação [FURP+](https://pt.wikipedia.org/wiki/FURPS).
