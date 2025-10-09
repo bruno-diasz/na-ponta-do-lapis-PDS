@@ -29,30 +29,34 @@ Criar um ambiente acolhedor para jovens iniciando a vida adulta, onde os mesmos 
 ## 3. Descrição dos Usuários
 
 
-|    Usuário    |          Descrição           |      Responsabilidades      |
-| :-----------: | :--------------------------: | :-------------------------: |
-|  Estudantes   | Jovens no início da carreira | Cria planejamento de gastos |
-| Trabalhadores |    Trabalhadores no geral    | Cria planejamento de gastos |
+|    Usuário    |                     Descrição                     |             Responsabilidades             |
+| :-----------: | :-----------------------------------------------: | :---------------------------------------: |
+|  Estudantes   |           Jovens no início da carreira            | Planejar e controlar seus gastos pessoais |
+| Trabalhadores |              Trabalhadores no geral               | Planejar finanças pessoais ou familiares  |
+| Administrador | Usuário que irá gerenciar partes estatica do site | Criar posts para o site/Atualizar cotação |
 
 
 ## 4. Descrição do Ambiente dos Usuários
 
 
-Os usuários utilizarão o sistema através de um Navegador (Sistema Web), onde ficará acessível tanto a desktops indiferente de seu SO e  também de dispositivos mobile
+Os usuários utilizarão o sistema através de um Navegador (Sistema Web), onde ficará acessível tanto a desktops indiferente de seu SO quanto também a dispositivos moveis.
 
 
 ## 5. Principais Necessidades dos Usuários
 
 
 > Apresentadas no formato de tópicos
-1. **Papel 1**
-  - ...
-  - ...
-1. **Papel 2**
-  - ...
-  - ...
-
-
+1. **Estudantes**
+  - Aprender a controlar suas primeiras rendas (mesadas, bolsas, estágios).
+  - Entender conceitos básicos de finanças pessoais (entrada, saída, economia).
+  - Criar hábitos financeiros saudáveis desde cedo.
+2. **Trabalhadores no Geral**
+  - Controlar despesas mensais com aluguel, transporte, alimentação, etc.
+  - Estabelecer metas de economia ou investimentos.
+  - Integrar finanças pessoais e familiares.
+3. **Administrador**
+  - Realizar a inclusão de posts sobre educação financeira de forma prática.
+  - Atualizar dados estáticos do sites como por exemplo a contação atual de cada moeda.
 
 
 ## 6. Alternativas Concorrentes

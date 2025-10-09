@@ -4,7 +4,7 @@
 
 | Data | Versão | Descrição | Autores |
 | :--: | :----: | :-------: | :-----: |
-| - | - | Versão inicial |  - |
+| 09/10/2025 | 0.1 | Versão inicial | Bruno |
 | - | - | - |  - |
 
 ## 1. Mapa do Site
@@ -48,8 +48,9 @@ flowchart TD
 
 ```
 
+### Protótipo de baixa fidelidade
+[Link para vizualização no Figma](https://www.figma.com/proto/6Njq45FdTD9s7HylIFz7CB/NPL?node-id=0-1&t=k5t2BBqivpS6uZjG-1)
 ### A. Tela 1: Index
-
 > Obs. Substituir pela captura das imagens, sejam elas provenientes do Figma (anexar também o link para o Figma) ou já em HTML e CSS...
 
 ### B. Tela 2: Login
