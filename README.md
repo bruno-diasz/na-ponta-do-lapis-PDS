@@ -1,4 +1,4 @@
-# Título do Projeto
+# Na Ponta do Lápis
 
 <img src="logo.png" width="200" height="200" />
 
@@ -8,14 +8,17 @@
 
 # Equipe e Formas de Contato
 
-1. Nome...
-2. Nome...
-
-> Descrever as formas de contato da equipe - WhatsApp, Discord, etc.
+1. Bruno Dias
+2. Eduardo Aguiar
+3. Lucas Medeiros
+4. Pedro Gomes
+5. Wagner Souza
 
 # Horário de Reuniões
 
-> Descrever dias, horários e local das reuniões da equipe
+- Quarta-Feira: 20:30 às 21:30. (Discord)
+- Quinta-Feira: 16:30 às 18:00. (Presencial com o Orientador) 
+- Sexta-Feira:  20:30 às 21:30. (Discord)
 
 # Documentação
 
