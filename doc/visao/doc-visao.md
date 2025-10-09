@@ -38,10 +38,7 @@ Criar um ambiente acolhedor para jovens iniciando a vida adulta, onde os mesmos 
 ## 4. Descrição do Ambiente dos Usuários
 
 
-| Usuário | Ambiente operacional |
-| :-----: | :------------------: |
-| Desktop |         Web          |
-| Mobile  |         Web          |
+Os usuários utilizarão o sistema através de um Navegador (Sistema Web), onde ficará acessível tanto a desktops indiferente de seu SO e  também de dispositivos mobile
 
 
 ## 5. Principais Necessidades dos Usuários
@@ -65,15 +62,15 @@ Criar um ambiente acolhedor para jovens iniciando a vida adulta, onde os mesmos 
   - Estética de componentes do site agradável;
   - Paleta de cores harmônica, alinhada com o conteúdo apresentado;
   - Gráficos para saldo, entrada, despesa e etc.
-1. **Excel**
+2. **Excel**
   - Quantidade de recurso;
   - Organização e alinhamento;
   - Ícones para funcionalidades;
   - Personalização de planilha.
-1. **Minhas Economias**
+3. **Minhas Economias**
   - Curso em vídeo ensinando sobre o dinheiro, com dicas e exemplos práticos;
   - Integração com vários bancos;
-1. **Mobills**
+4. **Mobills**
   - Dashboard personalizável;
   - Interface minimalista;
   - Planejamento mensal;
