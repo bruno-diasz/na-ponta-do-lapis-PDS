@@ -4,7 +4,7 @@
 
 - **Atores secundários**: ...	 
 
-- **Resumo**: O Sistema exibe os campos para criar uma transação, como por exemplo campo, nome, valor, tipo e categoria. O Usuário preenche todos os campos obrigatórios e confirma o cadastro.
+- **Resumo**: O Sistema exibe os campos para criar, editar e exluir uma transação, como por exemplo campo, nome, valor, tipo e categoria. O Usuário preenche todos os campos obrigatórios e confirma o cadastro.
 
 - **Pré-condição**: O usuário deve estar autenticado no sistema para conseguir registrar uma transação.
 
