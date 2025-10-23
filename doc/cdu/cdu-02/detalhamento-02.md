@@ -2,9 +2,9 @@
 
 - **Ator principal**: ...
 - **Atores secundários**: ...	 
-- **Resumo**: Usuário clica no botão de logout e encerra sua sessão no sistema, persistindo os dados
+- **Resumo**: Usuário clica no botão de logout e encerra sua sessão no sistema
 - **Pré-condição**: O usuário deve estar autenticado no sistema 
-- **Pós-Condição**: Sessão no sistema encerrada e após isso para usar novamente precisar fazer login. 
+- **Pós-Condição**: Sessão no sistema encerrada
 
 
 ## Fluxo Principal
