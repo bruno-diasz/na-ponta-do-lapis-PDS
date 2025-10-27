@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'admin/css/tailwind_css/dist/output.css' %}">
+</head>
+<body>
+    <nav>
+        <ul class="menu">
+            <li><a href="">Lorem</a></li>
+            <li><a href="">Lorem</a></li>
+            <li><a href="">Lorem</a></li>
+            <li><a href="">Lorem</a></li>
+            <li><a href="">Lorem</a></li>
+            <li><a href="">Lorem</a></li>
+        </ul>
+    </nav>
+    <main>
+        {% block main %}
+
+        {% endblock %}
+    </main>
+    
+</body>
+</html>
