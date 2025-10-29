@@ -1,4 +1,4 @@
-# CDU 16. Manter Categoria
+# CDU 16. Manter Categoria (Persistente)
 
 - **Ator principal**: Usuário
 - **Atores secundários**: Não tem
