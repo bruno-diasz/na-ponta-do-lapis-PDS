@@ -30,7 +30,7 @@
 | Ações do ator | Ações do sistema |
 | :-----------------: | :-----------------: | 
 | | 4.2 - O sistema retorna uma mensagem "Dado(s) Inválido(s)" e mostra novamente o formulário com o/os campo/os inválido/os em vermelho com uma pequena mensagem em vermelho embaixo do campo. |  
-| 5.2 - O usuário preenche novamente e aperta em "concluir" | | 
+| 5.2 - O usuário preenche novamente e aperta em "concluir". | | 
 | | 6.2 - O sistema vincula a conta do novo membro à familia, persiste as informaçôes e retorna um pop-up escrito "adicionado com sucesso". | 
 
 > Obs. as seções a seguir apenas serão utilizadas na segunda unidade do PDSWeb (segundo orientações do gerente do projeto).
