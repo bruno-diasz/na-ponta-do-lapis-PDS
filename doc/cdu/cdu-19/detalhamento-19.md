@@ -29,25 +29,25 @@
 ## Fluxo Alternativo II - Visualizar conta
 | Ações do ator | Ações do sistema |
 | :-----------------: | :-----------------: | 
-| 2.1 - O usuário seleciona uma conta através do carrossel de imagens das contas criadas e clica na opção de "visualizar conta" ||  
+| 1.2 - O usuário seleciona uma conta através do carrossel de imagens das contas criadas e clica na opção de "visualizar conta" ||  
 || 2.2 - O sistema mostra uma visão detalhada das informações da conta selecionada e o seu histórico de transações ordenado cronologicamente e em formato de tabela|
 
 ## Fluxo Alternativo III - Alteração de dados de conta
 | Ações do ator | Ações do sistema |
 | :-----------: | :--------------: | 
-| 3.1 - O usuário seleciona uma conta através do carrossel de imagens das contas criadas e clica na opção de "Editar conta" | |  
-| | 3.2 - O sistema exibe um formulário equivalente ao de "Adicionar conta", mas preenchido |
+| 1.3 - O usuário seleciona uma conta através do carrossel de imagens das contas criadas e clica na opção de "Editar conta" | |  
+| | 2.3 - O sistema exibe um formulário equivalente ao de "Adicionar conta", mas preenchido |
 | 3.3 - Parecido com o passo 3 do fluxo principal, o usuário altera e salva os dados que desejar | |
-| | 3.4 - O sistema faz a validação, podendo repetir as etapas 4 do fluxo principal ou o 4.1 do fluxo alternativo I |
-||3.5 - O sistema mostra uma mensagem de êxito: "Conta alterada com sucesso"|
+| | 4.3 - O sistema faz a validação, podendo repetir as etapas 4 do fluxo principal ou o 4.1 do fluxo alternativo I |
+||5.3 - O sistema mostra uma mensagem de êxito: "Conta alterada com sucesso"|
 
 
 ## Fluxo Alternativo IV - Exclusão de conta
 | Ações do ator | Ações do sistema |
 | :-----------: | :--------------: | 
-| 4.1 - O usuário seleciona uma conta através do carrossel de imagens das contas criadas e clica na opção de "Excluir conta" | |  
-| | 4.2 - O sistema solicita a confirmação do usuário |
-| 4.3 - O usuário confirma a solicitação de exclusão | |
+| 1.4 - O usuário seleciona uma conta através do carrossel de imagens das contas criadas e clica na opção de "Excluir conta" | |  
+| | 2.4 - O sistema solicita a confirmação do usuário |
+| 3.4 - O usuário confirma a solicitação de exclusão | |
 | | 4.4 - O sistema exclui a conta e apresenta uma mensagem de sucesso: "A Conta '(nome da conta)' foi excluída!" |
 
 
