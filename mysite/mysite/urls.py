@@ -18,6 +18,9 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("testeTailwind/",include("testeTailwind.urls")),
-    path('testebase/', include('baseteste.urls')),
+    path('usuario/', include('usuario.urls')),
+    path('contas/', include('contas.urls')),
+    path('transacoes/', include('transacoes.urls')),
+    path('config/', include('config.urls')),
+    path('familia/', include('grupo_familiar.urls')),
 ]
