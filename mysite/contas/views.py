@@ -4,6 +4,3 @@ from django.shortcuts import render
 
 def index(request):
     return render(request, 'contas/index.html')
-
-def contas(request):
-    pass
