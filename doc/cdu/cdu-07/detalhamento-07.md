@@ -4,7 +4,7 @@
 - **Atores secundários**: Não existe.	 
 - **Resumo**: O Usuário/Visitante entra na página de investimentos e visualiza os posts publicados.
 - **Pré-condição**: Entrar na página de investimentos.
-- **Pós-Condição**: 
+- **Pós-Condição**: Não existe.
 
 ## Fluxo Principal
 | Ações do ator | Ações do sistema |
