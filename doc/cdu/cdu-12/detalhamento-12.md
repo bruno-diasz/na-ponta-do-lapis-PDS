@@ -3,8 +3,8 @@
 - **Ator principal**: Usuário
 - **Atores secundários**: Não existe
 - **Resumo**: O usuário seleciona a opção de tema e será mudado para claro ou escuro através de um botão que alterna de modo como uma chave.
-- **Pré-condição**: ...
-- **Pós-Condição**: ...
+- **Pré-condição**: Não existe
+- **Pós-Condição**: Não existe
 
 ## Fluxo Principal
 
