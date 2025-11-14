@@ -6,6 +6,7 @@
 | :--: | :----: | :-------: | :-----: |
 | 26/10/2025 | 1.0 | Versão inicial |  Bruno Dias, Eduardo Medeiros, Lucas Henrique, Pedro Ricardo, Wagner Souza |
 | 04/11/2025 | 2.0 | Versão atualizada |  Bruno Dias, Eduardo Medeiros, Lucas Henrique, Pedro Ricardo, Wagner Souza |
+| 14/11/2025 | 3.0 | Ajustes pós 4º Iteração |  Bruno Dias, Eduardo Medeiros, Lucas Henrique, Pedro Ricardo, Wagner Souza |
 
 ## 1. Diagrama das Classes Conceituais do Domínio
 
