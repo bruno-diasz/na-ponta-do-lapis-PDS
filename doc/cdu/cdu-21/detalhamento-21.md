@@ -3,7 +3,7 @@
 - **Ator principal**: Usuário.
 - **Atores secundários**: Não existe.	 
 - **Resumo**: Na página "Grupo Familiar" o usuário chefe da família aperta no botão para remover um membro da família.
-- **Pré-condição**: Usuário cadastrado e autenticado e chefe da família.
+- **Pré-condição**: Usuário cadastrado, autenticado e chefe da família.
 - **Pós-Condição**: O membro é desligado da família no banco da dados.
 
 ## Fluxo Principal
