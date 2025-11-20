@@ -1,6 +1,6 @@
 # CDU 02. Logout
 
-- **Ator principal**: 
+- **Ator principal**: Usuario
 - **Atores secundários**: ...	 
 - **Resumo**: Usuário clica no botão de logout e encerra sua sessão no sistema
 - **Pré-condição**: O usuário deve estar autenticado no sistema 
@@ -10,20 +10,15 @@
 ## Fluxo Principal
 | Ações do ator | Ações do sistema |
 | :-----------------: | :-----------------: | 
-| 1 - ... | |  
-| | 2 - ... | 
+| 1 - Usuario já autenticado aperta no botão logout | |  
+| | 2 - Sistema encerra sessão | 
 
-## Fluxo Alternativo I - ...
+## Fluxo Alternativo I - Sem internet
 | Ações do ator | Ações do sistema |
 | :-----------------: |:-----------------: | 
-| 1.1 - ... | |  
-| | 1.2 - ... |
-
-## Fluxo Alternativo II - ...
-| Ações do ator | Ações do sistema |
-| :-----------------: | :-----------------: | 
-| 2.1 - ... | |  
-| | 2.2 - ... |  
+| 1.1 - Usuario sem acesso internet aperta no botão logout | |  
+| | 1.2 - Sistema retorna: erro ao tentar fazer logout |
+ 
 
 > Obs. as seções a seguir apenas serão utilizadas na segunda unidade do PDSWeb (segundo orientações do gerente do projeto).
 
