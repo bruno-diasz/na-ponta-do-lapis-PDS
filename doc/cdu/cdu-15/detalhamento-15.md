@@ -1,6 +1,7 @@
 # CDU 15. Manter Conta de Administrador
 
 - **Ator principal**: Administrador
+
 - **Atores secundários**: n/a
 - **Resumo**: O administrador consegue criar contas para outros administradores, listar as contas, editar e excluir a conta de outros administradores.
 - **Pré-condição**: O usuario deverá estar autenticado como administrador do sistema.

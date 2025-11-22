@@ -1,6 +1,7 @@
 # CDU 12. Alterar Tema
 
 - **Ator principal**: Usuário
+
 - **Atores secundários**: Não existe
 - **Resumo**: O usuário seleciona a opção de tema e será mudado para claro ou escuro através de um botão que alterna de modo como uma chave.
 - **Pré-condição**: Não existe

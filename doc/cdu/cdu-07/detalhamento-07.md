@@ -1,6 +1,7 @@
 # CDU 07. Visualizar Post
 
 - **Ator principal**: Usuário e Visitante.
+
 - **Atores secundários**: Não existe.
 - **Resumo**: O Usuário/Visitante entra na página de investimentos e visualiza os posts publicados.
 - **Pré-condição**: Entrar na página de investimentos.

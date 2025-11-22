@@ -1,6 +1,7 @@
 # CDU 17. Manter Meta (Persistente)
 
 - **Ator principal**: Usuario.
+
 - **Atores secundários**: N/A.
 - **Resumo**: Ao apertar no botão "Meta", é apresentado um quadro com todas as metas ja criadas e seus devidos progressos, sendo possivel a adição, edição e exclusão das mesmas.
 - **Pré-condição**: O usuario deverá está autenticado

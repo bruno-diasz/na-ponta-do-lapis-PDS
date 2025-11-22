@@ -1,6 +1,7 @@
 # CDU 02. Logout
 
 - **Ator principal**: Usuario e Admin
+
 - **Atores secundários**: NT
 - **Resumo**: Usuário clica no botão de logout e encerra sua sessão no sistema
 - **Pré-condição**: O usuário deve estar autenticado no sistema

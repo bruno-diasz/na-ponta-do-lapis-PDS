@@ -1,6 +1,7 @@
 # CDU 13. Manter Post
 
 - **Ator principal**: Administrador
+
 - **Atores secundários**: n/a
 - **Resumo**: O administrador consegue gerenciar as postagens do site, executando operações de CRUD como criar um novo post, remover, editar e vizualizar. Para a criação de um post o administrador deverá preencher um formulario com titulo, corpo e imagem do post. Apos isso conseguira confirmar e efetuar a postagem de fato.
 - **Pré-condição**: Estar autenticado como administrador do sistema.

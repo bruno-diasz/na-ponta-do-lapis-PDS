@@ -1,6 +1,7 @@
 # CDU 16. Manter Categoria (Persistente)
 
 - **Ator principal**: Usuário
+
 - **Atores secundários**: Não tem
 - **Resumo**: O usuário pode criar categorias, remover e atualizar para separar em grupos os seus gastos.
 - **Pré-condição**: O usuário deve estar autenticado.
