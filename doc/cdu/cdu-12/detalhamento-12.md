@@ -10,7 +10,7 @@
 
 | Ações do ator | Ações do sistema |
 | :-----------------: | :-----------------: |
-| 1 - O usuário seleciona a chave de alterar tema | |  
+| 1 - O usuário seleciona a chave de alterar tema | |
 | | 2 - O sistema alterna de tema após o clique do usuário |
 
 > Obs. as seções a seguir apenas serão utilizadas na segunda unidade do PDSWeb (segundo orientações do gerente do projeto).
