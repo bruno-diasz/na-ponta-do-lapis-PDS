@@ -7,6 +7,7 @@
 - **Pós-Condição**: O usuário visualiza o relatório financeiro da família de determinado tempo.
 
 ## Fluxo Principal
+
 | Ações do ator | Ações do sistema |
 | :-----------------: | :-----------------: |
 | 1 - Escolhe entre 1 semana, 15 dias, o último mês ou outros meses e aperta o botão "visualizar". | |  
