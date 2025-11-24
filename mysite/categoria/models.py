@@ -2,7 +2,7 @@ from django.db import models
 
 
 # Create your models here.
-class marcador(models.Model):
+class Marcador(models.Model):
     nome = models.CharField(max_length=70, verbose_name="Nome")
     cor = models.CharField(max_length=7, verbose_name="Cor")
 
