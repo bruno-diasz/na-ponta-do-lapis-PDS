@@ -1,6 +1,10 @@
 from django.db import models
+<<<<<<< HEAD
 """
 from grupo_familiar.models import Familia
+=======
+#from grupo_familiar.models import Familia
+>>>>>>> origin
 
 # Create your models here.
 
@@ -16,7 +20,7 @@ class Usuario(models.Model):
     senha = models.CharField(max_length=254, null=False, blank=False, verbose_name="Senha")
     foto_perfil = models.ImageField(upload_to="fotos_perfil/", null=True, blank=True, verbose_name="Foto de Perfil")
     papel = models.CharField(max_length=50, choices=Papel.choices, default=Papel.USUARIO, null=False, blank=False, verbose_name="Papel do Usuário")
-    id_familia = models.ForeignKey(Familia, null=True, on_delete=models.SET_NULL, related_name="usuarios", verbose_name="Família")
+    id_familia = models.ForeignKey('grupo_familiar.Familia', null=True, on_delete=models.SET_NULL, related_name="usuarios", verbose_name="Família")
 
     def __str__(self):
         return self.nome_completo
