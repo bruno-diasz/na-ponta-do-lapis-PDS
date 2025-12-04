@@ -38,6 +38,15 @@
                        <p class="validator-hint hidden">
                         A senha deve ter mais de 8 caracteres, incluindo número e letra minuscula e maiuscúla
                     </p>
+                    {% if messages %}
+                        <div>
+                            {% for message in messages %}
+                            <p class="text-red-500 text-sm">
+                                {{ message }}
+                            </p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                       <button type="submit" class="btn bg-bg-azul-p1  text-white rounded-2xl flex my-5">Cadastre-se</button>
 
                       <a href="{% url 'login' %}" class="text-xs font-semibold  text-white">Já tenho <span class="text-text-azul-p1 ">conta</span></a>
