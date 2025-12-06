@@ -4,33 +4,34 @@
 
 | Data | Versão | Descrição | Autores |
 | :--: | :----: | :-------: | :-----: |
-| 30/10/2025 | 1.0 | Diagrama |  Lucas |
-| - | - | - |  - |
+| 30/10/2025 | 1.0 | Diagrama | Bruno Dias, Eduardo Medeiros, Lucas Henrique, Pedro Ricardo, Wagner Souza |
+| 05/12/2025 | 2.0 | Diagrama atualizado | Bruno Dias, Eduardo Medeiros, Lucas Henrique, Pedro Ricardo, Wagner Souza |
 
 ## 1. Diagrama ER
 
->   <img src="./DER.jpeg" alt="descrição da imagem">
+![Diagrama Entidade-Relacionamento Intermediário](./DERIntermediario2.png)
 
 ## 2. Modelo Relacional
 
-> <img src="./DR_NPL2.5.png" alt="descrição da imagem">
+![Diagrama Relacional](./DR-NPL2.png)
 
 ## 3. Dicionário de Dados
 
---- 
+---
+
 **Tabela** : [nome da tabela 1]
 
 *Descrição* : ...
 
 *Observações* : ...
 
-| Colunas | Descrição | Tipo de Dado | Tamanho | Null | PK | FK | Unique | Identity | Default | Check | 
+| Colunas | Descrição | Tipo de Dado | Tamanho | Null | PK | FK | Unique | Identity | Default | Check |
 | ------- | --------- | ------------ | ------- | ---- | -- | -- | ------ | -------- | ------- | ----- |
-| [nome da coluna] | [descrição da coluna] | [tipo_de_dado] | [tamanho - se necessário | &#9745;  | &#9744; | &#9744; | &#9744; | &#9744; | [default - se necessário] | [outras restrições - se necessário] | 
+| [nome da coluna] | [descrição da coluna] | [tipo_de_dado] | [tamanho - se necessário] | &#9745;  | &#9744; | &#9744; | &#9744; | &#9744; | [default - se necessário] | [outras restrições - se necessário] |
 
 ---
 
-**Tabela** : [Usuario]
+### **Tabela** : [Usuário]
 
 | Colunas        | Descrição                        | Tipo de Dado | Tamanho | Null | PK | FK | Unique | Identity | Default | Check                        |
 | -------------- | -------------------------------- | ------------ | ------- | ---- | -- | -- | ------ | -------- | ------- | ---------------------------- |
@@ -41,9 +42,7 @@
 | **papel**      | Papel do usuário (User ou Admin) | VARCHAR      | 50      | ☐    | ☐  | ☐  | ☐      | ☐        | –       | `papel IN ('User', 'Admin')` |
 | **id_familia** | ID da família associada          | INTEGER      | –       | ☑️   | ☐  | ☑️ | ☐      | ☐        | –       | –                            |
 
-
-### **Tabela** : [Conta financeira]
-
+### **Tabela** : [Conta Financeira]
 
 | Colunas        | Descrição                       | Tipo de Dado | Tamanho | Null | PK | FK | Unique | Identity | Default | Check             |
 | -------------- | ------------------------------- | ------------ | ------- | ---- | -- | -- | ------ | -------- | ------- | ----------------- |
@@ -53,9 +52,7 @@
 | **tipo**       | Tipo de conta                   | VARCHAR      | 50      | ☐    | ☐  | ☐  | ☐      | ☐        | –       | –                 |
 | **id_usuario** | ID do usuário associado à conta | INTEGER      | –       | ☐    | ☐  | ☑️ | ☐      | ☐        | –       | `id_usuario >= 1` |
 
-
 ### **Tabela** : [Transação]
-
 
 | Colunas                 | Descrição                              | Tipo de Dado | Tamanho | Null | PK | FK | Unique | Identity | Default | Check                            |
 | ----------------------- | -------------------------------------- | ------------ | ------- | ---- | -- | -- | ------ | -------- | ------- | -------------------------------- |
@@ -65,30 +62,26 @@
 | **tipo**                | Tipo da transação (Receita ou Despesa) | VARCHAR      | 50      | ☐    | ☐  | ☐  | ☐      | ☐        | –       | `tipo IN ('Receita', 'Despesa')` |
 | **data**                | Data da transação                      | TIMESTAMP    | 10      | ☐    | ☐  | ☐  | ☐      | ☐        | –       | –                                |
 | **id_usuario**          | ID do usuário associado à transação    | INTEGER      | –       | ☐    | ☐  | ☑️ | ☐      | ☐        | –       | `id_usuario >= 1`                |
-| **id_categoria**        | ID associado à categoria               | INTEGER      | –       | ☐    | ☐  | ☑️ | ☐      | ☐        | –       | –                                |
+| **id_marcador**        | ID associado ao marcador              | INTEGER      | –       | ☐    | ☐  | ☑️ | ☐      | ☐        | –       | –                                |
 | **id_conta_financeira** | ID associado à conta financeira        | INTEGER      | –       | ☐    | ☐  | ☑️ | ☐      | ☐        | –       | –                                |
 
-
-### **Tabela** : [Categoria]
-
+### **Tabela** : [Marcador]
 
 | Colunas  | Descrição                  | Tipo de Dado | Tamanho | Null | PK | FK | Unique | Identity | Default | Check |
 | -------- | -------------------------- | ------------ | ------- | ---- | -- | -- | ------ | -------- | ------- | ----- |
-| **id**   | Identificação da categoria | INTEGER      | –       | ☐    | ☑️ | ☐  | ☐      | ☑️       | –       | –     |
-| **nome** | Nome da categoria          | VARCHAR      | 100     | ☐    | ☐  | ☐  | ☑️     | ☐        | –       | –     |
+| **id**   | Identificação do marcador | INTEGER      | –       | ☐    | ☑️ | ☐  | ☐      | ☑️       | –       | –     |
+| **nome** | Nome do marcador          | VARCHAR      | 100     | ☐    | ☐  | ☐  | ☑️     | ☐        | –       | –     |
+| **cor**   | Cor do marcador | VARCHAR      | –       | ☐    | ☐ | ☐  | ☐      | ☐       | –       | –     |
+| **id_usuario**   | Identificação do usuário do marcador | INTEGER      | –       | ☐    | ☑️ | ☑️  | ☐      | ☑️       | –       | –     |
 
-
-### **Tabela** : [Familia]
-
+### **Tabela** : [Família]
 
 | Colunas  | Descrição                | Tipo de Dado | Tamanho | Null | PK | FK | Unique | Identity | Default | Check |
 | -------- | ------------------------ | ------------ | ------- | ---- | -- | -- | ------ | -------- | ------- | ----- |
 | **id**   | Identificação da família | INTEGER      | –       | ☐    | ☑️ | ☐  | ☐      | ☑️       | –       | –     |
 | **nome** | Nome da família          | VARCHAR      | 254     | ☐    | ☐  | ☐  | ☐      | ☐        | –       | –     |
 
-
 ### **Tabela** : [Post]
-
 
 | Colunas        | Descrição                       | Tipo de Dado | Tamanho | Null | PK | FK | Unique | Identity | Default | Check             |
 | -------------- | ------------------------------- | ------------ | ------- | ---- | -- | -- | ------ | -------- | ------- | ----------------- |
@@ -100,9 +93,7 @@
 | **data**       | Data da publicação              | TIMESTAMP    | 10      | ☐    | ☐  | ☐  | ☐      | ☐        | –       | –                 |
 | **id_usuario** | ID do usuário associado ao post | INTEGER      | –       | ☐    | ☐  | ☑️ | ☐      | ☐        | –       | `id_usuario >= 1` |
 
-
 ### **Tabela** : [Meta]
-
 
 | Colunas        | Descrição                      | Tipo de Dado | Tamanho | Null | PK | FK | Unique | Identity | Default | Check             |
 | -------------- | ------------------------------ | ------------ | ------- | ---- | -- | -- | ------ | -------- | ------- | ----------------- |
@@ -114,9 +105,7 @@
 | **data_hora**  | Data e hora de criação da meta | TIMESTAMP    | 10      | ☐    | ☐  | ☐  | ☐      | ☐        | –       | –                 |
 | **id_usuario** | ID do usuário que criou a meta | INTEGER      | –       | ☐    | ☐  | ☑️ | ☐      | ☐        | –       | `id_usuario >= 1` |
 
-
 ### **Tabela** : [Cotação]
-
 
 | Colunas   | Descrição                | Tipo de Dado | Tamanho | Null | PK | FK | Unique | Identity | Default | Check       |
 | --------- | ------------------------ | ------------ | ------- | ---- | -- | -- | ------ | -------- | ------- | ----------- |
