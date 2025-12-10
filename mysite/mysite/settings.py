@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'contas.middleware.AuthenticationMiddleware',  # Temporariamente desativado para debug
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -138,6 +139,11 @@ MEDIA_ROOT = '/home/pdsweb/mysite/media'
 MEDIA_URL = '/media/'
 STATIC_ROOT = '/home/pdsweb/mysite/static'
 STATIC_URL = '/static/'
+
+# Configurações de Autenticação
+LOGIN_URL = 'usuario:login'
+LOGIN_REDIRECT_URL = 'contas:index'
+LOGOUT_REDIRECT_URL = 'usuario:login'
 
 if 'CODESPACE_NAME' in os.environ:
     codespace_name = os.getenv("CODESPACE_NAME")

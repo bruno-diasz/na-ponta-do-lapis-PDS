@@ -61,7 +61,17 @@ class ModalManager {
 
     // Abrir modal de editar conta
     openEditAccountModal() {
+        // Se existir o toggle do DaisyUI, use-o; caso contrário, fallback para método antigo
+        const toggle = document.getElementById('editAccountModalToggle');
         const modal = document.getElementById('editAccountModal');
+        if (toggle) {
+            toggle.checked = true;
+            this.currentModal = document.querySelector('.modal-box');
+            // Seleciona o tipo de conta atual (CRÉDITO por padrão)
+            this.selectEditAccountType(document.querySelector('.edit-account-type-btn[data-type="CREDITO"]'), 'CREDITO');
+            return;
+        }
+
         if (modal) {
             modal.style.display = 'flex';
             this.currentModal = modal;
@@ -72,7 +82,14 @@ class ModalManager {
 
     // Fechar modal de editar conta
     closeEditAccountModal() {
+        const toggle = document.getElementById('editAccountModalToggle');
         const modal = document.getElementById('editAccountModal');
+        if (toggle) {
+            toggle.checked = false;
+            this.currentModal = null;
+            return;
+        }
+
         if (modal) {
             modal.style.display = 'none';
             this.currentModal = null;
@@ -83,7 +100,15 @@ class ModalManager {
 
     // Abrir modal de excluir conta
     openDeleteAccountModal() {
+        // Se existir o toggle do DaisyUI, use-o; caso contrário, fallback para método antigo
+        const toggle = document.getElementById('deleteAccountModalToggle');
         const modal = document.getElementById('deleteAccountModal');
+        if (toggle) {
+            toggle.checked = true;
+            this.currentModal = document.querySelector('.modal-box');
+            return;
+        }
+
         if (modal) {
             modal.style.display = 'flex';
             this.currentModal = modal;
@@ -92,7 +117,14 @@ class ModalManager {
 
     // Fechar modal de excluir conta
     closeDeleteAccountModal() {
+        const toggle = document.getElementById('deleteAccountModalToggle');
         const modal = document.getElementById('deleteAccountModal');
+        if (toggle) {
+            toggle.checked = false;
+            this.currentModal = null;
+            return;
+        }
+
         if (modal) {
             modal.style.display = 'none';
             this.currentModal = null;
@@ -121,13 +153,20 @@ class ModalManager {
     selectEditAccountType(button, type) {
         // Remove seleção anterior
         document.querySelectorAll('.edit-account-type-btn').forEach(btn => {
-            btn.classList.remove('!bg-red-500', '!border-red-500', '!text-white');
-            btn.classList.add('border-2', 'border-gray-300', 'text-gray-800');
+            // Restaurar estilos originais baseado no data-type
+            const btnType = btn.getAttribute('data-type');
+            if (btnType === 'CREDITO') {
+                btn.classList.remove('border-4', 'border-black');
+                btn.classList.add('border-2', 'border-gray-300');
+            } else if (btnType === 'DEBITO') {
+                btn.classList.remove('border-4', 'border-black');
+            } else if (btnType === 'CREDITO_DEBITO') {
+                btn.classList.remove('border-4', 'border-black');
+            }
         });
 
         // Adiciona seleção ao botão clicado
-        button.classList.remove('border-2', 'border-gray-300', 'text-gray-800');
-        button.classList.add('!bg-red-500', '!border-red-500', '!text-white');
+        button.classList.add('border-4', 'border-black');
 
         // Armazena o tipo selecionado
         document.getElementById('selectedEditAccountType').value = type;
@@ -218,10 +257,19 @@ class ModalManager {
     }
 
     // ==================== MODAL VISUALIZAR CONTA ====================
+    // ==================== MODAL VISUALIZAR CONTA ====================
 
     // Abrir modal de visualizar conta
     openViewAccountModal() {
+        // Se existir o toggle do DaisyUI, use-o; caso contrário, fallback para método antigo
+        const toggle = document.getElementById('viewAccountModalToggle');
         const modal = document.getElementById('viewAccountModal');
+        if (toggle) {
+            toggle.checked = true;
+            this.currentModal = document.querySelector('.modal-box');
+            return;
+        }
+
         if (modal) {
             modal.style.display = 'flex';
             this.currentModal = modal;
@@ -230,7 +278,14 @@ class ModalManager {
 
     // Fechar modal de visualizar conta
     closeViewAccountModal() {
+        const toggle = document.getElementById('viewAccountModalToggle');
         const modal = document.getElementById('viewAccountModal');
+        if (toggle) {
+            toggle.checked = false;
+            this.currentModal = null;
+            return;
+        }
+
         if (modal) {
             modal.style.display = 'none';
             this.currentModal = null;
@@ -295,14 +350,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Fechar modal ao clicar fora dele (Adicionar) - DaisyUI backdrop
-    const addModal = document.querySelector('.modal');
-    if (addModal) {
-        addModal.addEventListener('click', function (e) {
-            // Se clicou no backdrop (a área escura fora do modal-box)
-            if (e.target === this) {
-                modalManager.closeAddAccountModal();
-            }
-        });
+    const addAccountToggle = document.getElementById('addAccountModalToggle');
+    if (addAccountToggle) {
+        // Encontra o modal associado a este toggle
+        const addModalBackdrop = addAccountToggle.nextElementSibling;
+        if (addModalBackdrop) {
+            addModalBackdrop.addEventListener('click', function (e) {
+                // Se clicou no backdrop (a área escura fora do modal-box)
+                if (e.target === this) {
+                    modalManager.closeAddAccountModal();
+                }
+            });
+        }
     }
 
     // Formulário submit (Adicionar)
@@ -343,20 +402,19 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Fechar modal ao clicar no X (Editar)
-    const closeEditBtn = document.getElementById('closeEditAccountModal');
-    if (closeEditBtn) {
-        closeEditBtn.addEventListener('click', () => modalManager.closeEditAccountModal());
-    }
-
-    // Fechar modal ao clicar fora dele (Editar)
-    const editModal = document.getElementById('editAccountModal');
-    if (editModal) {
-        editModal.addEventListener('click', function (e) {
-            if (e.target === editModal) {
-                modalManager.closeEditAccountModal();
-            }
-        });
+    // Fechar modal ao clicar fora dele (Editar) - DaisyUI backdrop
+    const editAccountToggle = document.getElementById('editAccountModalToggle');
+    if (editAccountToggle) {
+        // Encontra o modal associado a este toggle
+        const editModalBackdrop = editAccountToggle.nextElementSibling;
+        if (editModalBackdrop) {
+            editModalBackdrop.addEventListener('click', function (e) {
+                // Se clicou no backdrop (a área escura fora do modal-box)
+                if (e.target === this) {
+                    modalManager.closeEditAccountModal();
+                }
+            });
+        }
     }
 
     // Formulário submit (Editar)
@@ -373,10 +431,17 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Botão cancelar (Editar)
-    const cancelEditBtn = document.getElementById('cancelEditAccountBtn');
-    if (cancelEditBtn) {
-        cancelEditBtn.addEventListener('click', () => modalManager.closeEditAccountModal());
+    // Listener para o X e botão Cancelar do modal de editar (usar o toggle diretamente via DaisyUI)
+    const editToggleCheckbox = document.getElementById('editAccountModalToggle');
+    if (editToggleCheckbox) {
+        editToggleCheckbox.addEventListener('change', function () {
+            if (!this.checked) {
+                // Quando o modal fecha, reseta o estado de seleção de tipo
+                document.querySelectorAll('.edit-account-type-btn').forEach(btn => {
+                    btn.classList.remove('!bg-red-500', '!border-red-500', '!text-white', 'border-4');
+                });
+            }
+        });
     }
 
     // ==================== MODAL EXCLUIR ====================
@@ -390,26 +455,30 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Fechar modal ao clicar no X (Excluir)
-    const closeDeleteBtn = document.getElementById('closeDeleteAccountModal');
-    if (closeDeleteBtn) {
-        closeDeleteBtn.addEventListener('click', () => modalManager.closeDeleteAccountModal());
+    // Fechar modal ao clicar fora dele (Excluir) - DaisyUI backdrop
+    const deleteAccountToggle = document.getElementById('deleteAccountModalToggle');
+    if (deleteAccountToggle) {
+        // Encontra o modal associado a este toggle
+        const deleteModalBackdrop = deleteAccountToggle.nextElementSibling;
+        if (deleteModalBackdrop) {
+            deleteModalBackdrop.addEventListener('click', function (e) {
+                // Se clicou no backdrop (a área escura fora do modal-box)
+                if (e.target === this) {
+                    modalManager.closeDeleteAccountModal();
+                }
+            });
+        }
     }
 
-    // Fechar modal ao clicar fora dele (Excluir)
-    const deleteModal = document.getElementById('deleteAccountModal');
-    if (deleteModal) {
-        deleteModal.addEventListener('click', function (e) {
-            if (e.target === deleteModal) {
-                modalManager.closeDeleteAccountModal();
+    // Listener para o X e botão Cancelar do modal de excluir (usar o toggle diretamente via DaisyUI)
+    const deleteToggleCheckbox = document.getElementById('deleteAccountModalToggle');
+    if (deleteToggleCheckbox) {
+        deleteToggleCheckbox.addEventListener('change', function () {
+            if (!this.checked) {
+                // Quando o modal fecha, reseta o estado
+                // (neste caso não há formulário, então não precisa fazer nada especial)
             }
         });
-    }
-
-    // Botão cancelar (Excluir)
-    const cancelDeleteBtn = document.getElementById('cancelDeleteAccountBtn');
-    if (cancelDeleteBtn) {
-        cancelDeleteBtn.addEventListener('click', () => modalManager.closeDeleteAccountModal());
     }
 
     // Botão confirmar exclusão
@@ -429,25 +498,29 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Fechar modal ao clicar no X (Visualizar)
-    const closeViewBtn = document.getElementById('closeViewAccountModal');
-    if (closeViewBtn) {
-        closeViewBtn.addEventListener('click', () => modalManager.closeViewAccountModal());
+    // Fechar modal ao clicar fora dele (Visualizar) - DaisyUI backdrop
+    const viewAccountToggle = document.getElementById('viewAccountModalToggle');
+    if (viewAccountToggle) {
+        // Encontra o modal associado a este toggle
+        const viewModalBackdrop = viewAccountToggle.nextElementSibling;
+        if (viewModalBackdrop) {
+            viewModalBackdrop.addEventListener('click', function (e) {
+                // Se clicou no backdrop (a área escura fora do modal-box)
+                if (e.target === this) {
+                    modalManager.closeViewAccountModal();
+                }
+            });
+        }
     }
 
-    // Fechar modal ao clicar fora dele (Visualizar)
-    const viewModal = document.getElementById('viewAccountModal');
-    if (viewModal) {
-        viewModal.addEventListener('click', function (e) {
-            if (e.target === viewModal) {
-                modalManager.closeViewAccountModal();
+    // Listener para o X e botão Fechar do modal de visualizar (usar o toggle diretamente via DaisyUI)
+    const viewToggleCheckbox = document.getElementById('viewAccountModalToggle');
+    if (viewToggleCheckbox) {
+        viewToggleCheckbox.addEventListener('change', function () {
+            if (!this.checked) {
+                // Quando o modal fecha, reseta o estado
+                // (neste caso é apenas leitura, então não precisa fazer nada especial)
             }
         });
-    }
-
-    // Botão fechar (Visualizar)
-    const closeViewAccountBtn = document.getElementById('closeViewAccountBtn');
-    if (closeViewAccountBtn) {
-        closeViewAccountBtn.addEventListener('click', () => modalManager.closeViewAccountModal());
     }
 });

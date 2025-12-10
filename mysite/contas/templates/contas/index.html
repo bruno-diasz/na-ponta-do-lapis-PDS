@@ -10,24 +10,136 @@
 
 {% block main %}
 <div class="w-full max-w-5xl mx-auto px-4">
-    <!-- Carousel de contas -->
+    <!-- Verificar se o usuário tem contas -->
+    {% if not tem_contas %}
+    <div class="min-h-[600px] flex items-center justify-center">
+        <div class="text-center">
+            <div class="mb-8">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 mx-auto text-gray-400" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M3 10h18M7 15h10m4-6v8a2 2 0 01-2 2H5a2 2 0 01-2-2V9m14-5H3a2 2 0 00-2 2v10a2 2 0 002 2h18a2 2 0 002-2V6a2 2 0 00-2-2z" />
+                </svg>
+            </div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-4">Nenhuma Conta Criada</h2>
+            <p class="text-xl text-gray-600 mb-8 max-w-md mx-auto">
+                Você ainda não tem nenhuma conta financeira. Crie sua primeira conta agora para começar a gerenciar suas
+                finanças!
+            </p>
+            <button class="btn btn-lg btn-primary addAccountBtn gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                Criar Primeira Conta
+            </button>
+        </div>
+    </div>
+    {% else %}
+
+    <!-- Carousel de contas - LAYOUT UMA CONTA -->
+    {% if uma_conta %}
     <div class="relative flex items-center justify-center mb-32">
-        <!-- Grupo de cartões -->
+        <div class="z-20">
+            <div class="card w-[500px] h-[285px] bg-gray-950 text-white shadow-2xl">
+                <div class="card-body p-10">
+                    <div class="flex flex-col h-full">
+                        <div class="flex justify-between mb-8">
+                            <input type="text" placeholder="Nome"
+                                class="input input-ghost text-xl placeholder-white w-1/2" readonly
+                                value="{{ contas.0.nome }}">
+                            <input type="text" placeholder="Tipo"
+                                class="input input-ghost text-xl text-right placeholder-white w-1/3" readonly
+                                value="{{ contas.0.tipo }}">
+                        </div>
+                        <div class="grow flex items-center justify-center">
+                            <input type="text" placeholder="Saldo"
+                                class="input input-ghost text-xl text-center placeholder-white w-2/3" readonly
+                                value="R$ {{ contas.0.saldo|floatformat:2 }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Carousel de contas - LAYOUT DUAS CONTAS -->
+    {% if duas_contas %}
+    <div class="relative flex items-center justify-center mb-32">
+        <div class="relative w-[900px] h-[285px] flex items-center justify-center gap-8">
+            <!-- Cartão 1 (esquerda) -->
+            <div class="z-10">
+                <div
+                    class="card w-[400px] h-[252px] bg-red-700 text-white shadow-xl opacity-80 hover:opacity-100 transition-opacity">
+                    <div class="card-body p-10">
+                        <div class="flex flex-col h-full">
+                            <div class="flex justify-between mb-8">
+                                <input type="text" placeholder="Nome"
+                                    class="input input-ghost text-xl placeholder-white w-1/2" readonly
+                                    value="{{ contas.0.nome }}">
+                                <input type="text" placeholder="Tipo"
+                                    class="input input-ghost text-xl text-right placeholder-white w-1/3" readonly
+                                    value="{{ contas.0.tipo }}">
+                            </div>
+                            <div class="grow flex items-center justify-center">
+                                <input type="text" placeholder="Saldo"
+                                    class="input input-ghost text-xl text-center placeholder-white w-2/3" readonly
+                                    value="R$ {{ contas.0.saldo|floatformat:2 }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cartão 2 (direita) -->
+            <div class="z-10">
+                <div
+                    class="card w-[400px] h-[252px] bg-gray-100 text-black shadow-xl opacity-80 hover:opacity-100 transition-opacity">
+                    <div class="card-body p-10">
+                        <div class="flex flex-col h-full">
+                            <div class="flex justify-between mb-8">
+                                <input type="text" placeholder="Nome"
+                                    class="input input-ghost text-xl placeholder-gray-950 w-1/2" readonly
+                                    value="{{ contas.1.nome }}">
+                                <input type="text" placeholder="Tipo"
+                                    class="input input-ghost text-xl text-right placeholder-gray-950 w-1/3" readonly
+                                    value="{{ contas.1.tipo }}">
+                            </div>
+                            <div class="grow flex items-center justify-center">
+                                <input type="text" placeholder="Saldo"
+                                    class="input input-ghost text-xl text-center placeholder-gray-950 w-2/3" readonly
+                                    value="R$ {{ contas.1.saldo|floatformat:2 }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Carousel de contas - LAYOUT TRÊS OU MAIS CONTAS -->
+    {% if tres_ou_mais %}
+    <div class="relative flex items-center justify-center mb-32">
         <div class="relative w-[400px] h-[252px] flex items-center justify-center">
-            <!-- Cartão da esquerda (vermelho) -->
+            <!-- Cartão da esquerda -->
             <div class="absolute left-0 z-10 transform -translate-x-40 scale-90">
                 <div class="card w-[500px] h-[252px] bg-red-700 text-white shadow-xl opacity-60">
                     <div class="card-body p-10">
                         <div class="flex flex-col h-full">
                             <div class="flex justify-between mb-8">
                                 <input type="text" placeholder="Nome"
-                                    class="input input-ghost text-xl placeholder-white w-1/2" readonly>
+                                    class="input input-ghost text-xl placeholder-white w-1/2" readonly
+                                    value="{{ contas.0.nome }}">
                                 <input type="text" placeholder="Tipo"
-                                    class="input input-ghost text-xl text-right placeholder-white w-1/3" readonly>
+                                    class="input input-ghost text-xl text-right placeholder-white w-1/3" readonly
+                                    value="{{ contas.0.tipo }}">
                             </div>
-                            <div class="flex-grow flex items-center justify-center">
+                            <div class="grow flex items-center justify-center">
                                 <input type="text" placeholder="Saldo"
-                                    class="input input-ghost text-xl text-center placeholder-white w-2/3" readonly>
+                                    class="input input-ghost text-xl text-center placeholder-white w-2/3" readonly
+                                    value="R$ {{ contas.0.saldo|floatformat:2 }}">
                             </div>
                         </div>
                     </div>
@@ -36,385 +148,151 @@
 
             <!-- Cartão principal (centro) -->
             <div class="z-20">
+                {% with contas.0 as conta_atual %}
                 <div class="card w-[500px] h-[285px] bg-gray-950 text-white shadow-2xl">
                     <div class="card-body p-10">
                         <div class="flex flex-col h-full">
                             <div class="flex justify-between mb-8">
                                 <input type="text" placeholder="Nome"
-                                    class="input input-ghost text-xl placeholder-white w-1/2" readonly>
+                                    class="input input-ghost text-xl placeholder-white w-1/2" readonly
+                                    value="{{ conta_atual.nome }}">
                                 <input type="text" placeholder="Tipo"
-                                    class="input input-ghost text-xl text-right placeholder-white w-1/3" readonly>
+                                    class="input input-ghost text-xl text-right placeholder-white w-1/3" readonly
+                                    value="{{ conta_atual.tipo }}">
                             </div>
-                            <div class="flex-grow flex items-center justify-center">
+                            <div class="grow flex items-center justify-center">
                                 <input type="text" placeholder="Saldo"
-                                    class="input input-ghost text-xl text-center placeholder-white w-2/3" readonly>
+                                    class="input input-ghost text-xl text-center placeholder-white w-2/3" readonly
+                                    value="R$ {{ conta_atual.saldo|floatformat:2 }}">
                             </div>
                         </div>
                     </div>
                 </div>
+                {% endwith %}
             </div>
 
             <!-- Cartão da direita (branco) -->
             <div class="absolute right-0 z-10 transform translate-x-40 scale-90">
+                {% with contas.1 as conta_direita %}
                 <div class="card w-[400px] h-[252px] bg-gray-100 text-black shadow-xl opacity-60">
                     <div class="card-body p-10">
                         <div class="flex flex-col h-full">
                             <div class="flex justify-between mb-8">
                                 <input type="text" placeholder="Nome"
-                                    class="input input-ghost text-xl placeholder-gray-950 w-1/2" readonly>
+                                    class="input input-ghost text-xl placeholder-gray-950 w-1/2" readonly
+                                    value="{{ conta_direita.nome }}">
                                 <input type="text" placeholder="Tipo"
-                                    class="input input-ghost text-xl text-right placeholder-gray-950 w-1/3" readonly>
+                                    class="input input-ghost text-xl text-right placeholder-gray-950 w-1/3" readonly
+                                    value="{{ conta_direita.tipo }}">
                             </div>
-                            <div class="flex-grow flex items-center justify-center">
+                            <div class="grow flex items-center justify-center">
                                 <input type="text" placeholder="Saldo"
-                                    class="input input-ghost text-xl text-center placeholder-gray-950 w-2/3" readonly>
+                                    class="input input-ghost text-xl text-center placeholder-gray-950 w-2/3" readonly
+                                    value="R$ {{ conta_direita.saldo|floatformat:2 }}">
                             </div>
                         </div>
                     </div>
                 </div>
+                {% endwith %}
             </div>
         </div>
-
-        <!-- Botões de navegação do carrossel -->
-        <button
-            class="btn btn-circle btn-ghost text-3xl absolute left-4 z-30 bg-white hover:bg-gray-800 backdrop-blur-sm border-2 border-black transition-colors duration-200">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-            </svg>
-        </button>
-
-        <button
-            class="btn btn-circle btn-ghost text-3xl absolute right-4 z-30 bg-white hover:bg-gray-800 backdrop-blur-sm border-2 border-black transition-colors duration-200">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-        </button>
-    </div>
-
-    <!-- Botões de ação em grid 2x2 -->
-    <div class="grid grid-cols-2 gap-6 px-24">
-        <a href="{% url 'contas:visualizar_conta' %}"
-            class="btn btn-ghost border-2 border-gray-600 hover:border-black hover:bg-white hover:text-black text-gray-600 font-medium h-28 text-xl transition-all duration-200 viewAccountBtn"
-            type="button">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                <path fill-rule="evenodd"
-                    d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                    clip-rule="evenodd" />
-            </svg>
-            Visualizar Conta
-        </a>
-        <button
-            class="btn btn-ghost border-2 border-gray-600 hover:border-black hover:bg-white hover:text-black text-gray-600 font-medium h-28 text-xl transition-all duration-200 addAccountBtn"
-            type="button">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd"
-                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                    clip-rule="evenodd" />
-            </svg>
-            Adicionar Conta
-        </button>
-        <a href="{% url 'contas:editar_conta' %}"
-            class="btn btn-ghost border-2 border-gray-600 hover:border-black hover:bg-white hover:text-black text-gray-600 font-medium h-28 text-xl transition-all duration-200 editAccountBtn"
-            type="button">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3" viewBox="0 0 20 20" fill="currentColor">
-                <path
-                    d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-            </svg>
-            Editar Conta
-        </a>
-        <a href="{% url 'contas:excluir_conta' %}"
-            class="btn btn-ghost border-2 border-gray-600 hover:border-black hover:bg-white hover:text-black text-gray-600 font-medium h-28 text-xl transition-all duration-200 deleteAccountBtn"
-            type="button">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd"
-                    d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                    clip-rule="evenodd" />
-            </svg>
-            Excluir Conta
-        </a>
     </div>
 </div>
-
-<!-- Modal de Adicionar Conta (DaisyUI) -->
-<!-- toggle input control (DaisyUI) -->
-<input type="checkbox" id="addAccountModalToggle" class="modal-toggle" style="display:none;" />
-<div class="modal">
-    <div class="modal-box relative bg-gray-300 rounded-xl max-w-3xl p-8">
-        <label for="addAccountModalToggle" id="closeAddAccountModal"
-            class="btn btn-sm btn-ghost absolute right-4 top-4">✕</label>
-        <h3 class="text-3xl font-bold text-black text-center mb-6">Nova Conta</h3>
-
-        <!-- Formulário -->
-        <form id="addAccountForm" class="space-y-6" method="post" action="{% url 'contas:add_conta' %}">
-            {% csrf_token %}
-            <div class="grid grid-cols-2 gap-6">
-                <div>
-                    <label class="block text-lg font-semibold text-black mb-2">Nome da Conta</label>
-                    <input type="text" id="accountName" name="nome" placeholder="Digite o nome da conta"
-                        class="w-full px-6 py-4 bg-white rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black text-xl" />
-                </div>
-                <div>
-                    <label class="block text-lg font-semibold text-black mb-2">Saldo da Conta</label>
-                    <input type="text" id="accountBalance" name="saldo" placeholder="R$ 0,00"
-                        class="w-full px-6 py-4 bg-white rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black text-xl text-right font-bold" />
-                </div>
-            </div>
-
-            <!-- Tipo de Conta -->
-            <div>
-                <label class="block text-lg font-semibold text-black mb-3">Selecione um tipo</label>
-                <div class="flex gap-6 justify-center">
-                    <button type="button" data-type="CREDITO"
-                        class="account-type-btn px-8 py-6 rounded-lg font-bold text-2xl bg-white text-black border-2 border-gray-300 shadow-md">CRÉDITO</button>
-                    <button type="button" data-type="DEBITO"
-                        class="account-type-btn px-8 py-6 rounded-lg font-bold text-2xl bg-gray-900 text-white shadow-md">DÉBITO</button>
-                    <button type="button" data-type="CREDITO_DEBITO"
-                        class="account-type-btn px-8 py-6 rounded-lg font-bold text-2xl bg-red-500 text-white shadow-md">CRÉDITO
-                        E<br />DÉBITO</button>
-                </div>
-                <input type="hidden" id="selectedAccountType" name="tipo" value="">
-            </div>
-
-            <!-- Botões de Ação -->
-            <div class="flex gap-8 justify-center mt-8">
-                <label for="addAccountModalToggle" id="cancelAddAccountBtn"
-                    class="flex items-center gap-3 px-8 py-4 bg-red-300 text-red-900 font-semibold rounded-lg cursor-pointer hover:bg-red-400">
-                    <span class="text-2xl">✕</span> Cancelar
-                </label>
-                <button type="submit"
-                    class="flex items-center gap-3 px-8 py-4 bg-green-400 text-green-900 font-semibold rounded-lg hover:bg-green-500">
-                    <span class="text-2xl">✓</span> Salvar
-                </button>
-            </div>
-        </form>
-    </div>
+{% endwith %}
 </div>
+</div>
+
+<!-- Botões de navegação do carrossel -->
+<button
+    class="btn btn-circle btn-ghost text-3xl absolute left-4 z-30 bg-white hover:bg-gray-800 backdrop-blur-sm border-2 border-black transition-colors duration-200">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+    </svg>
+</button>
+
+<button
+    class="btn btn-circle btn-ghost text-3xl absolute right-4 z-30 bg-white hover:bg-gray-800 backdrop-blur-sm border-2 border-black transition-colors duration-200">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+    </svg>
+</button>
+</div>
+{% endif %}
+
+{% endif %}
+
+<!-- Botões de ação em grid 2x2 -->
+<div class="grid grid-cols-2 gap-6 px-24 mt-12">
+    <!-- Botão Visualizar -->
+    <button
+        class="btn border-2 h-28 text-xl font-medium transition-all duration-200 viewAccountBtn {% if tem_contas %}btn-ghost border-gray-600 hover:border-black hover:bg-white hover:text-black text-gray-600{% else %}btn-disabled opacity-50 border-gray-300 text-gray-400{% endif %}"
+        type="button" {% if tem_contas
+        %}data-conta-id="{% if uma_conta %}{{ contas.0.id }}{% elif duas_contas %}{{ contas.0.id }}{% elif tres_ou_mais %}{{ contas.0.id }}{% endif %}"
+        {% endif %} {% if not tem_contas %}disabled{% endif %}>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+            <path fill-rule="evenodd"
+                d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                clip-rule="evenodd" />
+        </svg>
+        Visualizar Conta
+    </button>
+
+    <!-- Botão Adicionar -->
+    <button
+        class="btn btn-ghost border-2 border-gray-600 hover:border-black hover:bg-white hover:text-black text-gray-600 font-medium h-28 text-xl transition-all duration-200 addAccountBtn"
+        type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                clip-rule="evenodd" />
+        </svg>
+        Adicionar Conta
+    </button>
+
+    <!-- Botão Editar -->
+    <button
+        class="btn border-2 h-28 text-xl font-medium transition-all duration-200 editAccountBtn {% if tem_contas %}btn-ghost border-gray-600 hover:border-black hover:bg-white hover:text-black text-gray-600{% else %}btn-disabled opacity-50 border-gray-300 text-gray-400{% endif %}"
+        type="button" {% if tem_contas
+        %}data-conta-id="{% if uma_conta %}{{ contas.0.id }}{% elif duas_contas %}{{ contas.0.id }}{% elif tres_ou_mais %}{{ contas.0.id }}{% endif %}"
+        {% endif %} {% if not tem_contas %}disabled{% endif %}>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3" viewBox="0 0 20 20" fill="currentColor">
+            <path
+                d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+        </svg>
+        Editar Conta
+    </button>
+
+    <!-- Botão Excluir -->
+    <button
+        class="btn border-2 h-28 text-xl font-medium transition-all duration-200 deleteAccountBtn {% if tem_contas %}btn-ghost border-gray-600 hover:border-black hover:bg-white hover:text-black text-gray-600{% else %}btn-disabled opacity-50 border-gray-300 text-gray-400{% endif %}"
+        type="button" {% if tem_contas
+        %}data-conta-id="{% if uma_conta %}{{ contas.0.id }}{% elif duas_contas %}{{ contas.0.id }}{% elif tres_ou_mais %}{{ contas.0.id }}{% endif %}"
+        {% endif %} {% if not tem_contas %}disabled{% endif %}>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                clip-rule="evenodd" />
+        </svg>
+        Excluir Conta
+    </button>
+</div>
+</div>
+
+<!-- Modal de Adicionar Conta -->
+{% include 'contas/adicionar_conta.html' %}
 
 <!-- Modal de Editar Conta -->
-<div id="editAccountModal" class="hidden fixed inset-0 bg-black bg-opacity-50 justify-center items-center z-50"
-    style="display: none;">
-    <div class="bg-gray-300 rounded-lg shadow-2xl w-full max-w-2xl mx-4 p-8">
-        <!-- Cabeçalho do Modal -->
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-3xl font-bold text-black">Editar Conta</h2>
-            <button id="closeEditAccountModal" class="text-2xl text-black hover:text-gray-700" type="button">
-                ✕
-            </button>
-        </div>
+{% include 'contas/editar_conta.html' %}
 
-        <!-- Formulário -->
-        <form id="editAccountForm" class="space-y-6">
-            <!-- Nome e Saldo -->
-            <div class="grid grid-cols-2 gap-6">
-                <div>
-                    <label class="block text-lg font-semibold text-black mb-2">Nome da Conta</label>
-                    <input type="text" id="editAccountName" placeholder="Digite o nome da conta"
-                        class="w-full px-4 py-3 bg-white border-2 border-gray-400 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:border-blue-500"
-                        value="Conta de Fulano">
-                </div>
-                <div>
-                    <label class="block text-lg font-semibold text-black mb-2">Saldo da Conta</label>
-                    <input type="text" id="editAccountBalance" placeholder="R$ 0,00"
-                        class="w-full px-4 py-3 bg-white border-2 border-gray-400 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:border-blue-500"
-                        value="R$ 120,00">
-                </div>
-            </div>
-
-            <!-- Tipo de Conta -->
-            <div>
-                <label class="block text-lg font-semibold text-black mb-3">Selecione um tipo</label>
-                <div class="flex gap-4 justify-center">
-                    <button type="button"
-                        class="edit-account-type-btn border-2 border-gray-300 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-all"
-                        data-type="CREDITO">
-                        CRÉDITO
-                    </button>
-                    <button type="button"
-                        class="edit-account-type-btn border-2 border-gray-300 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-all"
-                        data-type="DEBITO">
-                        DÉBITO
-                    </button>
-                    <button type="button"
-                        class="edit-account-type-btn border-2 border-gray-300 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-all"
-                        data-type="CREDITO_DEBITO">
-                        CRÉDITO E DÉBITO
-                    </button>
-                </div>
-                <input type="hidden" id="selectedEditAccountType" value="CREDITO">
-            </div>
-
-            <!-- Botões de Ação -->
-            <div class="flex gap-4 justify-center mt-8">
-                <button type="button" id="cancelEditAccountBtn"
-                    class="flex items-center gap-2 px-6 py-3 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-all">
-                    <span>✕</span> Cancelar
-                </button>
-                <button type="submit"
-                    class="flex items-center gap-2 px-6 py-3 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition-all">
-                    <span>✓</span> Salvar Alterações
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- Modal de Confirmação de Exclusão -->
-<div id="deleteAccountModal" class="hidden fixed inset-0 bg-black bg-opacity-50 justify-center items-center z-50"
-    style="display: none;">
-    <div class="bg-gray-300 rounded-lg shadow-2xl w-full max-w-2xl mx-4 p-8">
-        <!-- Cabeçalho do Modal -->
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-3xl font-bold text-black">Excluir Conta</h2>
-            <button id="closeDeleteAccountModal" class="text-2xl text-black hover:text-gray-700" type="button">
-                ✕
-            </button>
-        </div>
-
-        <!-- Mensagem de Confirmação -->
-        <div class="text-center mb-8">
-            <p class="text-lg text-black font-semibold mb-3">
-                Você realmente deseja excluir esta conta?
-            </p>
-            <p class="text-base text-black mb-2">
-                Transações e metas que lhe estão relacionadas
-            </p>
-            <p class="text-base text-black mb-3">
-                também serão apagadas.
-            </p>
-            <p class="text-base text-black font-semibold">
-                Após confirmação essa ação será irreversível.
-            </p>
-        </div>
-
-        <!-- Botões de Ação -->
-        <div class="flex gap-4 justify-center">
-            <button type="button" id="cancelDeleteAccountBtn"
-                class="flex items-center gap-2 px-8 py-3 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-all">
-                <span>✕</span> Cancelar
-            </button>
-            <button type="button" id="confirmDeleteAccountBtn"
-                class="flex items-center gap-2 px-8 py-3 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition-all">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clip-rule="evenodd" />
-                </svg>
-                Sim, desejo excluí-la
-            </button>
-        </div>
-    </div>
-</div>
+<!-- Modal de Excluir Conta -->
+{% include 'contas/excluir_conta.html' %}
 
 <!-- Modal de Visualizar Conta -->
-<div id="viewAccountModal"
-    class="hidden fixed inset-0 bg-black bg-opacity-50 justify-center items-center z-50 overflow-y-auto"
-    style="display: none;">
-    <div class="bg-gray-300 rounded-lg shadow-2xl w-full max-w-4xl mx-4 my-8 p-8">
-        <!-- Cabeçalho do Modal -->
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-3xl font-bold text-black">Informações da Conta/<br>Histórico de transações</h2>
-            <button id="closeViewAccountModal" class="text-2xl text-black hover:text-gray-700" type="button">
-                ✕
-            </button>
-        </div>
-
-        <!-- Informações da Conta -->
-        <div class="grid grid-cols-3 gap-4 mb-8">
-            <div class="bg-white rounded-lg p-4">
-                <label class="block text-sm font-semibold text-gray-600 mb-1">Nome da Conta</label>
-                <p class="text-xl font-bold text-black text-center">Conta de Fulano</p>
-            </div>
-            <div class="bg-white rounded-lg p-4">
-                <label class="block text-sm font-semibold text-gray-600 mb-1">Saldo da Conta</label>
-                <p class="text-xl font-bold text-black text-center">R$ 120,00</p>
-            </div>
-            <div class="bg-white rounded-lg p-4">
-                <label class="block text-sm font-semibold text-gray-600 mb-1">Tipo da Conta</label>
-                <p class="text-xl font-bold text-black text-center">CRÉDITO</p>
-            </div>
-        </div>
-
-        <!-- Histórico -->
-        <div class="mb-4">
-            <h3 class="text-lg font-bold text-black bg-white p-3 rounded-lg">Histórico</h3>
-        </div>
-
-        <!-- Tabela de Transações -->
-        <div class="overflow-x-auto">
-            <table class="w-full bg-white rounded-lg overflow-hidden">
-                <thead class="bg-gray-400 text-black">
-                    <tr>
-                        <th class="px-4 py-3 text-left font-semibold">Estado</th>
-                        <th class="px-4 py-3 text-left font-semibold">Data/Hora</th>
-                        <th class="px-4 py-3 text-left font-semibold">Valor</th>
-                        <th class="px-4 py-3 text-left font-semibold">Descrição</th>
-                        <th class="px-4 py-3 text-left font-semibold">Tipo</th>
-                        <th class="px-4 py-3 text-left font-semibold">Categoria</th>
-                        <th class="px-4 py-3 text-left font-semibold">Conta</th>
-                    </tr>
-                </thead>
-                <tbody class="text-black">
-                    <!-- Transação 1 -->
-                    <tr class="border-b border-gray-200 hover:bg-gray-50">
-                        <td class="px-4 py-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </td>
-                        <td class="px-4 py-3">26/09 14:32</td>
-                        <td class="px-4 py-3 font-semibold text-red-500">R$ 44,90</td>
-                        <td class="px-4 py-3">Netflix</td>
-                        <td class="px-4 py-3">
-                            <span class="bg-red-200 text-red-800 px-2 py-1 rounded text-sm font-semibold">Despesa</span>
-                        </td>
-                        <td class="px-4 py-3">
-                            <span
-                                class="bg-blue-200 text-blue-800 px-2 py-1 rounded text-sm font-semibold">Streaming</span>
-                        </td>
-                        <td class="px-4 py-3">Fulano</td>
-                    </tr>
-                    <!-- Transação 2 -->
-                    <tr class="border-b border-gray-200 hover:bg-gray-50">
-                        <td class="px-4 py-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </td>
-                        <td class="px-4 py-3">22/09 03:00</td>
-                        <td class="px-4 py-3 font-semibold text-green-500">R$ 600,00</td>
-                        <td class="px-4 py-3">Salário</td>
-                        <td class="px-4 py-3">
-                            <span
-                                class="bg-green-200 text-green-800 px-2 py-1 rounded text-sm font-semibold">Receita</span>
-                        </td>
-                        <td class="px-4 py-3">
-                            <span class="bg-yellow-200 text-yellow-800 px-2 py-1 rounded text-sm font-semibold">Renda
-                                Fixa</span>
-                        </td>
-                        <td class="px-4 py-3">Fulano</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Botão de Fechar -->
-        <div class="flex gap-4 justify-end mt-6">
-            <button type="button" id="closeViewAccountBtn"
-                class="px-6 py-3 bg-gray-400 text-black font-semibold rounded-lg hover:bg-gray-500 transition-all">
-                Fechar
-            </button>
-        </div>
-    </div>
-</div>
+{% include 'contas/visualizar_conta.html' %}
 
 <script src="{% static 'contas/modals.js' %}"></script>
+<script src="{% static 'contas/carousel.js' %}"></script>
 {% endblock %}

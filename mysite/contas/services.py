@@ -13,12 +13,22 @@ class ContaService:
             return None
 
     @staticmethod
+    def obter_contas_usuario(usuario):
+        """
+        Retorna todas as contas financeiras de um usuário específico.
+        """
+        try:
+            return ContaFinanceira.objects.filter(id_usuario=usuario).order_by('id')
+        except:
+            return []
+
+    @staticmethod
     def VisualizarContaService(conta_id):
         pass
 
     @staticmethod
-    def AddContaService(nome, saldo, tipo):
-        conta = ContaFinanceira(nome=nome, saldo=saldo, tipo=tipo)
+    def AddContaService(nome, saldo, tipo, usuario=None):
+        conta = ContaFinanceira(nome=nome, saldo=saldo, tipo=tipo, id_usuario=usuario)
 
         try:
             conta.full_clean()
