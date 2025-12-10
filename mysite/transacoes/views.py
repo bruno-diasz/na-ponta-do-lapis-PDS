@@ -39,10 +39,17 @@ def adicionar_transacao_view(request):
     )
     return redirect(transacoes_index)
 
+def excluir_transacao(request, id):
+    ts.excluir_transacao(id)
+    return redirect(transacoes_index)
+
 def filtrar_transacao(request):
     filtro_categoria = request.GET.get("categoria")
     filtro_tipo = request.GET.get("tipo")
     filtro_conta = request.GET.get("conta")
+
+    if not (filtro_categoria or filtro_tipo or filtro_conta):
+         return redirect(transacoes_index)
 
     filtro = ts.filtrar_transacao(filtro_categoria, filtro_tipo, filtro_conta)
     context = {

@@ -25,6 +25,13 @@ class TransacaoService:
 
         except Exception as erro:
             raise Exception(f"erro: {erro}") 
+    
+    @staticmethod
+    def excluir_transacao(id_transacao):
+        try:
+            Transacao.objects.get(id=id_transacao).delete()
+        except Exception as e:
+            raise Exception("{e}")
         
     @staticmethod
     def filtrar_transacao( categoria,tipo, conta):

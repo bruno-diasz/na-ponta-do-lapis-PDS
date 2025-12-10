@@ -15,8 +15,8 @@ class Transacao(models.Model):
         OUTROS = "outros", "Outros"
 
     class EstadoTransacao(models.TextChoices):
-        PENDENTE = "pendente", "Pendente"
         REALIZADA = "realizada", "Realizada"
+        PENDENTE = "pendente", "Pendente"
 
     class TipoTransacao(models.TextChoices):
         RECEITA = "receita", "Receita"
