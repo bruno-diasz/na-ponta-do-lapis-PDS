@@ -56,13 +56,21 @@ def visualizar_conta(request, conta_id):
             messages.error(request, 'Você não tem permissão para acessar essa conta.')
             return redirect('contas:index')
         
-        contexto = {'conta': conta}
+        # Buscar transações da conta usando o serviço
+        transacoes = ContaService.VisualizarContaService(conta_id)
+
+        contexto = {
+            'conta': conta,
+            'transacoes': transacoes
+        }
         return render(request, 'contas/visualizar_conta.html', contexto)
+    
     except Http404:
         raise
     except Exception as e:
         messages.error(request, f'Erro ao visualizar conta: {str(e)}')
         return redirect('contas:index')
+
 
 @login_required(login_url='usuario:login')
 def add_conta(request):
