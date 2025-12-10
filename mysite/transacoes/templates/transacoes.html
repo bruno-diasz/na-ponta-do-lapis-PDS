@@ -3,7 +3,9 @@
 {% block title %} Transações {% endblock%}
 {% block main %}
     <div class="container flex mb-8">
+        <!-- Campos de busca e filtros -->
         <div class="cabecalho1 w-1/2">
+            <!-- Campo de Busca -->
             <div class="busca mb-8">
                 <label class="input w-full bg-white border border-gray-300">
                     <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -21,66 +23,92 @@
                     <input type="search" class="grow" placeholder="Buscar.." />
                 </label>
             </div>
+            <!-- Campos de Filtros -->
             <div class="filtros flex w-full">
-                <div class="filtro1">
-                    <details class="dropdown ">
-                        <summary class="btn m-1 bg-npl-roxo">
-                            <span>Periodo</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="10" viewBox="0 0 19 12" fill="none">
-                                <path d="M0 0C0 0 5.86713 6.00368 9.62652 11.1321L18.1591 0H16.0801L9.51525 7.90341L2.07897 0H0Z" fill="black"/>
-                            </svg>
-                        </summary>
-                        <ul class="menu dropdown-content bg-white rounded-box z-1 w-52 p-2 shadow-sm">
-                            <li><a>Item 1</a></li>
-                            <li><a>Item 2</a></li>
+                <div class="dropdown dropdown-hover">
+                    <div tabindex="0" class="btn m-1 bg-npl-roxo flex items-center gap-2">
+                        <span>Periodo</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="10" viewBox="0 0 19 12" fill="none">
+                            <path d="M0 0C0 0 5.86713 6.00368 9.62652 11.1321L18.1591 0H16.0801L9.51525 7.90341L2.07897 0H0Z"
+                                fill="black" />
+                        </svg>
+                    </div>
+                
+                    <form action="" method="post" tabindex="0">
+                        <ul class="dropdown-content menu bg-white rounded-box z-10 w-60 p-4 shadow-sm">
+                
+                            <li>
+                                <label class="input">
+                                    <span class="label">Início</span>
+                                    <input type="date" id="filtro-data-inicio"/>
+                                </label>
+                            </li>
+                
+                            <li class="my-3">
+                                <label class="input">
+                                    <span class="label">Fim</span>
+                                    <input type="date" id="filtro-data-fim" />
+                                </label>
+                            </li>
+                
+                            <li class="mt-2">
+                                <input type="submit" value="Filtrar" class="btn " />
+                            </li>
+                
                         </ul>
-                    </details>
+                    </form>
                 </div>
-                <div class="filtro1">
-                    <details class="dropdown">
-                        <summary class="btn m-1 bg-npl-roxo">
-                            <span>Tipo</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="10" viewBox="0 0 19 12" fill="none">
-                                <path d="M0 0C0 0 5.86713 6.00368 9.62652 11.1321L18.1591 0H16.0801L9.51525 7.90341L2.07897 0H0Z" fill="black"/>
-                            </svg>
-                        </summary>
-                        <ul class="menu dropdown-content bg-white rounded-box z-1 w-52 p-2 shadow-sm">
-                            <li><a>Item 1</a></li>
-                            <li><a>Item 2</a></li>
-                        </ul>
-                    </details>
+                <div class="dropdown dropdown-hover">
+                    <div tabindex="0" class="btn m-1 bg-npl-roxo flex items-center gap-2">
+                        <span>Tipo</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="10" viewBox="0 0 19 12" fill="none">
+                            <path d="M0 0C0 0 5.86713 6.00368 9.62652 11.1321L18.1591 0H16.0801L9.51525 7.90341L2.07897 0H0Z"
+                                fill="black" />
+                        </svg>
+                    </div>
+                
+                    <ul tabindex="0" class="dropdown-content menu bg-white rounded-box z-10 w-52 p-2 shadow-sm">
+                        {% for valor, label in tipos %}
+                        <li><a>{{ label }}</a></li>
+                        {% endfor %}
+                    </ul>
                 </div>
-                <div class="filtro1">
-                    <details class="dropdown">
-                        <summary class="btn m-1 bg-npl-roxo">
-                            <span> Categoria</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="10" viewBox="0 0 19 12" fill="none">
-                                <path d="M0 0C0 0 5.86713 6.00368 9.62652 11.1321L18.1591 0H16.0801L9.51525 7.90341L2.07897 0H0Z" fill="black"/>
-                            </svg>
-                        </summary>
-                        <ul class="menu dropdown-content bg-white rounded-box z-1 w-52 p-2 shadow-sm">
-                            <li><a>Item 1</a></li>
-                            <li><a>Item 2</a></li>
-                        </ul>
-                    </details>
+               
+                <div class="dropdown dropdown-hover">
+                    <div tabindex="0" class="btn m-1 bg-npl-roxo flex items-center gap-2">
+                        Categoria
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="10" viewBox="0 0 19 12" fill="none">
+                            <path d="M0 0C0 0 5.86713 6.00368 9.62652 11.1321L18.1591 0H16.0801L9.51525 7.90341L2.07897 0H0Z"
+                                fill="black" />
+                        </svg>
+                    </div>
+
+                    <ul tabindex="0" class="dropdown-content menu bg-white rounded-box z-10 w-52 p-2 shadow-sm">
+                        {% for valor, rotulo in categorias %}
+                        <li><a href="{% url 'filtrar_categoria' categoria=valor %}">{{ rotulo }}</a></li>
+                        {% endfor %}
+                    </ul>
                 </div>
-                <div class="filtro1">
-                    <details class="dropdown">
-                        <summary class="btn m-1 bg-npl-roxo">
-                            <span>Conta</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="10" viewBox="0 0 19 12" fill="none">
-                                <path d="M0 0C0 0 5.86713 6.00368 9.62652 11.1321L18.1591 0H16.0801L9.51525 7.90341L2.07897 0H0Z" fill="black"/>
-                            </svg>
-                        </summary>
-                        <ul class="menu dropdown-content bg-white rounded-box z-1 w-52 p-2 shadow-sm">
-                            <li><a>Item 1</a></li>
-                            <li><a>Item 2</a></li>
-                        </ul>
-                    </details>
+
+                <div class="dropdown dropdown-hover">
+                    <div tabindex="0" class="btn m-1 bg-npl-roxo flex items-center gap-2">
+                        <span>Conta</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="10" viewBox="0 0 19 12" fill="none">
+                            <path d="M0 0C0 0 5.86713 6.00368 9.62652 11.1321L18.1591 0H16.0801L9.51525 7.90341L2.07897 0H0Z"
+                                fill="black" />
+                        </svg>
+                    </div>
+                
+                    <ul tabindex="0" class="dropdown-content menu bg-white rounded-box z-10 w-52 p-2 shadow-sm">
+                        {% for conta in contas %}
+                        <li><a>{{ conta.nome }}</a></li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
     
         </div>
+        <!-- Botão de adicionar transação com modal -->
         <div class="cabecalho2 w-1/2 flex flex-col  items-center ">
             <a href="#" onclick="my_modal_3.showModal()" class=" flex flex-col h-full justify-between items-center ">
                 <svg width="74" height="74" viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -176,6 +204,7 @@
             
         </div>
     </div>
+    <!-- Listagem de  Transações  -->
     <div class="fieldset border border-gray-300 rounded-box bg-white">
         <h3 class="text-xl font-bold m-3">Historico</h3>
         
@@ -187,75 +216,59 @@
                         <th>Data/Hora</th>
                         <th>Valor</th>
                         <th>Descrição</th>
-                        <th>Tipo</th>
                         <th>Categoria</th>
                         <th>Conta</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="hover:bg-purple-50">
-                        <td>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path d="M17 3.33782C15.5291 2.48697 13.8214 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 11.3151 21.9311 10.6462 21.8 10" stroke="#4BCC63" stroke-width="1.5" stroke-linecap="round"/>
-                                <path d="M8 12.5C8 12.5 9.5 12.5 11.5 16C11.5 16 17.0588 6.83333 22 5" stroke="#4BCC63" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </td>
-                        <td>26/08 14:32</td>
-                        <td class="text-red-400">R$ 44,90</td>
-                        <td>Netflix</td>
-                        <td>Despesa</td>
-                        <td>Streaming</td>  
-                        <td>Nubank</td>
-                        <td class="flex">
-                            <a href="#">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                    <path d="M19.5 5.5L18.8803 15.5251C18.7219 18.0864 18.6428 19.3671 18.0008 20.2879C17.6833 20.7431 17.2747 21.1273 16.8007 21.416C15.8421 22 14.559 22 11.9927 22C9.42312 22 8.1383 22 7.17905 21.4149C6.7048 21.1257 6.296 20.7408 5.97868 20.2848C5.33688 19.3626 5.25945 18.0801 5.10461 15.5152L4.5 5.5" stroke="#8F8FCA" stroke-width="1.5" stroke-linecap="round"/>
-                                    <path d="M3 5.5H21M16.0557 5.5L15.3731 4.09173C14.9196 3.15626 14.6928 2.68852 14.3017 2.39681C14.215 2.3321 14.1231 2.27454 14.027 2.2247C13.5939 2 13.0741 2 12.0345 2C10.9688 2 10.436 2 9.99568 2.23412C9.8981 2.28601 9.80498 2.3459 9.71729 2.41317C9.32164 2.7167 9.10063 3.20155 8.65861 4.17126L8.05292 5.5" stroke="#8F8FCA" stroke-width="1.5" stroke-linecap="round"/>
-                                    <path d="M9.5 16.5V10.5" stroke="#8F8FCA" stroke-width="1.5" stroke-linecap="round"/>
-                                    <path d="M14.5 16.5V10.5" stroke="#8F8FCA" stroke-width="1.5" stroke-linecap="round"/>
-                                </svg>
-                            </a>
-                            <a href="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                    <path d="M16.4249 4.60509L17.4149 3.6151C18.2351 2.79497 19.5648 2.79497 20.3849 3.6151C21.205 4.43524 21.205 5.76493 20.3849 6.58507L19.3949 7.57506M16.4249 4.60509L9.76558 11.2644C9.25807 11.772 8.89804 12.4078 8.72397 13.1041L8 16L10.8959 15.276C11.5922 15.102 12.228 14.7419 12.7356 14.2344L19.3949 7.57506M16.4249 4.60509L19.3949 7.57506" stroke="#8F8FCA" stroke-width="1.5" stroke-linejoin="round"/>
-                                    <path d="M18.9999 13.5C18.9999 16.7875 18.9999 18.4312 18.092 19.5376C17.9258 19.7401 17.7401 19.9258 17.5375 20.092C16.4312 21 14.7874 21 11.4999 21H11C7.22876 21 5.34316 21 4.17159 19.8284C3.00003 18.6569 3 16.7712 3 13V12.5C3 9.21252 3 7.56879 3.90794 6.46244C4.07417 6.2599 4.2599 6.07417 4.46244 5.90794C5.56879 5 7.21252 5 10.5 5" stroke="#8F8FCA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
+                    {% for transacao in minhas_transacoes %}
+                        <tr class="hover:bg-purple-50">
+                            <td>
+                                {% if transacao.estado == "realizada" %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M17 3.33782C15.5291 2.48697 13.8214 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 11.3151 21.9311 10.6462 21.8 10" stroke="#4BCC63" stroke-width="1.5" stroke-linecap="round"/>
+                                        <path d="M8 12.5C8 12.5 9.5 12.5 11.5 16C11.5 16 17.0588 6.83333 22 5" stroke="#4BCC63" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                {% elif transacao.estado == "pendente" %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#DD3340" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 8V12.5" stroke="#DD3340" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 15.9883V15.9983" stroke="#DD3340" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                {% else %}
+                                    <span>Erro no estado da transacao</span>
+                                {% endif %}
+                            </td>
+                            <td class=" text-gray-600 font-medium">{{ transacao.data_hora|date:"d/m/Y" }} <br> <span class="text-xs">{{transacao.data_hora|time:"H:i"}} </span></td>
+                            {% if transacao.tipo == "receita" %}
+                                <td class="text-green-500 font-semibold">+ R$ {{ transacao.get_valor_display }} </td>
+                            {% elif transacao.tipo == "despesa" %}
+                                <td class="text-red-500 font-semibold">- R$ {{ transacao.get_valor_display }} </td>
+                            {% endif %}
+                            <td>{{ transacao.descricao }}</td>
+                            <td>{{ transacao.get_categoria_display }}</td>  
+                            <td>{{ transacao.conta_financeira.nome }}</td>
+                            <td class="flex">
+                                <a href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M19.5 5.5L18.8803 15.5251C18.7219 18.0864 18.6428 19.3671 18.0008 20.2879C17.6833 20.7431 17.2747 21.1273 16.8007 21.416C15.8421 22 14.559 22 11.9927 22C9.42312 22 8.1383 22 7.17905 21.4149C6.7048 21.1257 6.296 20.7408 5.97868 20.2848C5.33688 19.3626 5.25945 18.0801 5.10461 15.5152L4.5 5.5" stroke="#8F8FCA" stroke-width="1.5" stroke-linecap="round"/>
+                                        <path d="M3 5.5H21M16.0557 5.5L15.3731 4.09173C14.9196 3.15626 14.6928 2.68852 14.3017 2.39681C14.215 2.3321 14.1231 2.27454 14.027 2.2247C13.5939 2 13.0741 2 12.0345 2C10.9688 2 10.436 2 9.99568 2.23412C9.8981 2.28601 9.80498 2.3459 9.71729 2.41317C9.32164 2.7167 9.10063 3.20155 8.65861 4.17126L8.05292 5.5" stroke="#8F8FCA" stroke-width="1.5" stroke-linecap="round"/>
+                                        <path d="M9.5 16.5V10.5" stroke="#8F8FCA" stroke-width="1.5" stroke-linecap="round"/>
+                                        <path d="M14.5 16.5V10.5" stroke="#8F8FCA" stroke-width="1.5" stroke-linecap="round"/>
+                                    </svg>
+                                </a>
+                                <a href="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M16.4249 4.60509L17.4149 3.6151C18.2351 2.79497 19.5648 2.79497 20.3849 3.6151C21.205 4.43524 21.205 5.76493 20.3849 6.58507L19.3949 7.57506M16.4249 4.60509L9.76558 11.2644C9.25807 11.772 8.89804 12.4078 8.72397 13.1041L8 16L10.8959 15.276C11.5922 15.102 12.228 14.7419 12.7356 14.2344L19.3949 7.57506M16.4249 4.60509L19.3949 7.57506" stroke="#8F8FCA" stroke-width="1.5" stroke-linejoin="round"/>
+                                        <path d="M18.9999 13.5C18.9999 16.7875 18.9999 18.4312 18.092 19.5376C17.9258 19.7401 17.7401 19.9258 17.5375 20.092C16.4312 21 14.7874 21 11.4999 21H11C7.22876 21 5.34316 21 4.17159 19.8284C3.00003 18.6569 3 16.7712 3 13V12.5C3 9.21252 3 7.56879 3.90794 6.46244C4.07417 6.2599 4.2599 6.07417 4.46244 5.90794C5.56879 5 7.21252 5 10.5 5" stroke="#8F8FCA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
 
-                            </a>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-purple-50">
-                        <td>
-                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#DD3340" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M12 8V12.5" stroke="#DD3340" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M12 15.9883V15.9983" stroke="#DD3340" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </td>
-                        <td>22/08 03:00</td>
-                        <td class="text-green-400">R$ 600,90</td>
-                        <td>Salário</td>
-                        <td>Receita</td>
-                        <td>Renda Fixa</td>  
-                        <td>Inter</td>
-                        <td class="flex">
-                            <a href="#">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                    <path d="M19.5 5.5L18.8803 15.5251C18.7219 18.0864 18.6428 19.3671 18.0008 20.2879C17.6833 20.7431 17.2747 21.1273 16.8007 21.416C15.8421 22 14.559 22 11.9927 22C9.42312 22 8.1383 22 7.17905 21.4149C6.7048 21.1257 6.296 20.7408 5.97868 20.2848C5.33688 19.3626 5.25945 18.0801 5.10461 15.5152L4.5 5.5" stroke="#8F8FCA" stroke-width="1.5" stroke-linecap="round"/>
-                                    <path d="M3 5.5H21M16.0557 5.5L15.3731 4.09173C14.9196 3.15626 14.6928 2.68852 14.3017 2.39681C14.215 2.3321 14.1231 2.27454 14.027 2.2247C13.5939 2 13.0741 2 12.0345 2C10.9688 2 10.436 2 9.99568 2.23412C9.8981 2.28601 9.80498 2.3459 9.71729 2.41317C9.32164 2.7167 9.10063 3.20155 8.65861 4.17126L8.05292 5.5" stroke="#8F8FCA" stroke-width="1.5" stroke-linecap="round"/>
-                                    <path d="M9.5 16.5V10.5" stroke="#8F8FCA" stroke-width="1.5" stroke-linecap="round"/>
-                                    <path d="M14.5 16.5V10.5" stroke="#8F8FCA" stroke-width="1.5" stroke-linecap="round"/>
-                                </svg>
-                            </a>
-                            <a href="#">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                    <path d="M16.4249 4.60509L17.4149 3.6151C18.2351 2.79497 19.5648 2.79497 20.3849 3.6151C21.205 4.43524 21.205 5.76493 20.3849 6.58507L19.3949 7.57506M16.4249 4.60509L9.76558 11.2644C9.25807 11.772 8.89804 12.4078 8.72397 13.1041L8 16L10.8959 15.276C11.5922 15.102 12.228 14.7419 12.7356 14.2344L19.3949 7.57506M16.4249 4.60509L19.3949 7.57506" stroke="#8F8FCA" stroke-width="1.5" stroke-linejoin="round"/>
-                                    <path d="M18.9999 13.5C18.9999 16.7875 18.9999 18.4312 18.092 19.5376C17.9258 19.7401 17.7401 19.9258 17.5375 20.092C16.4312 21 14.7874 21 11.4999 21H11C7.22876 21 5.34316 21 4.17159 19.8284C3.00003 18.6569 3 16.7712 3 13V12.5C3 9.21252 3 7.56879 3.90794 6.46244C4.07417 6.2599 4.2599 6.07417 4.46244 5.90794C5.56879 5 7.21252 5 10.5 5" stroke="#8F8FCA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </a>
-                        </td>
-                    </tr>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                   
                 </tbody>
             </table>
         </div>

@@ -25,6 +25,14 @@ class TransacaoService:
 
         except Exception as erro:
             raise Exception(f"erro: {erro}") 
+        
+    @staticmethod
+    def obter_minhas_transacoes():
+        return Transacao.objects.all()
+    
+    @staticmethod
+    def obter_transacoes_categoria(categoria):
+        return Transacao.objects.filter(categoria=categoria)
     
     @staticmethod
     def obter_categorias():
@@ -37,3 +45,4 @@ class TransacaoService:
     @staticmethod
     def obter_tipos():
         return Transacao.TipoTransacao.choices
+    
