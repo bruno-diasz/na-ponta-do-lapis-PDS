@@ -38,7 +38,7 @@ def adicionar_transacao_view(request):
     )
     return redirect(transacoes_index)
 
-def filtrar_transacao_categoria(request, categoria):
+def filtrar_transacao(request, categoria):
     
     context = {
         'categorias':ts.obter_categorias,
