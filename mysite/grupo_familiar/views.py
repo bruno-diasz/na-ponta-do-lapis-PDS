@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .services import FamiliaServices
+from django.contrib import messages
 from .models import Familia
 from usuario import models
 from usuario.models import Usuario
@@ -9,17 +10,18 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 def is_familiadmin(user):
     return user.papel == Usuario.Papel.ADMIN_FAMILIA
 
-@login_required
+#@login_required
 def familia(request):
     return render(request, 'familia/familia_inicio.html', {'familia': False})
 
 
-@login_required
+#@login_required
 def criarfamilia(request):
     nome = request.POST.get('nome')
     familia = FamiliaServices.adicionarfamilia(nome)
     user = request.user
-    FamiliaServices.tornar_adminFamilia(user, familia.id)
+    #FamiliaServices.tornar_adminFamilia(user, familia.id)
+    messages.success(request, "Família criada com sucesso!")
     return render(request, 'familia/familia_inicio.html', {'familia' : True, 'nome' : nome})
 
 @login_required

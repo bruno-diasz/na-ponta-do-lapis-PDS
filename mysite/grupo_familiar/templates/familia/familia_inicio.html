@@ -13,6 +13,18 @@
             {% endif %}
         </div>
         <!-- Bloco 2 -->
+        {% if familia %}
+        <div>
+            <div class="grid grid-cols-1 gap-0 justify-items-center h-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="61" height="61" viewBox="0 0 61 61" fill="none">
+                        <path d="M30.1607 30.1607C38.4926 30.1607 45.241 23.4122 45.241 15.0803C45.241 6.74845 38.4926 0 30.1607 0C21.8288 0 15.0803 6.74845 15.0803 15.0803C15.0803 23.4122 21.8288 30.1607 30.1607 30.1607ZM30.1607 37.7008C20.0946 37.7008 0 42.7527 0 52.7812V60.3213H60.3214V52.7812C60.3214 42.7527 40.2268 37.7008 30.1607 37.7008Z" fill="black"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M8 1C4.1 1 1 4.1 1 8C1 11.9 4.1 15 8 15C11.9 15 15 11.9 15 8C15 4.1 11.9 1 8 1ZM8 14C4.7 14 2 11.3 2 8C2 4.7 4.7 2 8 2C11.3 2 14 4.7 14 8C14 11.3 11.3 14 8 14Z" fill="black"/>
+                        <path d="M10.7 11.5L8 8.8L5.3 11.5L4.5 10.7L7.2 8L4.5 5.3L5.3 4.5L8 7.2L10.7 4.5L11.5 5.3L8.8 8L11.5 10.7L10.7 11.5Z" fill="black"/>
+                    </svg>
+        </div>
+        {% endif %}
         <div class="flex-1 p-4 rounded-lg mt-20">
             <div class="grid grid-cols-3 gap-4 place-items-center w-150 h-44 rounded-2xl bg-white mx-auto p-4 shadow-lg">
                 <span></span>
@@ -42,6 +54,8 @@
                 {% endif %}
             </div>
         </div>
+        </div>
+        
         <!-- Linha 2 -->
         <div class=" p-4 rounded-lg col-span-2">
             <div class="fieldset border border-gray-300 rounded-box bg-white">
@@ -136,5 +150,34 @@
     </form>
   </div>
 </div>
-    
+
+<div id="popup-msg" class="hidden fixed bottom-4 right-4">
+    <div class="alert alert-success shadow-lg max-w-xs w-96">
+        <span class="font-bold" id="popup-text"></span>
+    </div>
+</div>
+
+{% if messages %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const popup = document.getElementById("popup-msg");
+    const popupText = document.getElementById("popup-text");
+
+    {% for message in messages %}
+        popupText.innerText = "{{ message }}";
+    {% endfor %}
+
+    // Mostra o popup
+    popup.classList.remove("hidden");
+
+    // Esconde depois de 3 segundos
+    setTimeout(() => {
+        popup.classList.add("hidden");
+    }, 3000);
+
+});
+</script>
+{% endif %}
+
 {% endblock %}
