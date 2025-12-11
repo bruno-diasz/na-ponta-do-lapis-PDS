@@ -22,7 +22,7 @@
 | :-----------------: |:-----------------: |
 | | 2.1 - O sistema retorna um fomulário para criar a família. |
 | 3.1 - O usuário preenche e aperta o botão "criar". | |
-| | 4.1 - O sistema persiste os dados de criação da família e o usuário recebe o papel admin família. |
+| | 4.1 - Aparece um pop-up confirmando a criação da família, o sistema persiste os dados de criação da família e o usuário recebe o papel admin família. |
 | 5.1 - (retorna para o passo 2 do fluxo principal) | |
 
 
