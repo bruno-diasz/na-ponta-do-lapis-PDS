@@ -7,6 +7,7 @@
 - **Pós-Condição**: O membro é desligado da família no banco da dados.
 
 ## Fluxo Principal
+
 | Ações do ator | Ações do sistema |
 | :-----------------: | :-----------------: | 
 | 1 - Aperta o botão "x" no membro. | |  
