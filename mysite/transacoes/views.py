@@ -28,7 +28,7 @@ def adicionar_transacao_view(request):
     tipo =  request.POST.get('tipo')
     data_hora =  request.POST.get('data_hora')
     conta_financeira =  request.POST.get('conta_financeira')
-    marcadores = request.POST.get('marcadores')
+    marcadores = request.POST.getlist('marcadores')
 
     ts.adicionar_transacao(
         descricao = descricao,

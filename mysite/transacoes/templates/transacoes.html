@@ -184,25 +184,34 @@
                             </label>
                  
                         </div>
-                        <div class="form-control w-full mt-3">
-                            <label class="select w-full">
-                                <span class="label">Estado</span>
-                                <select name="estado">
-                                      {% for valor, label in estados %}
-                                        <option value="{{ valor }}">{{ label }}</option>
-                                    {% endfor %}
-                                </select>
-                            </label>
-                        </div>
-                        <div class="form-control w-full mt-3">
-                            <label class="select w-full">
-                                <span class="label">Tipo</span>
-                                <select name="tipo">
-                                       {% for valor, label in tipos %}
-                                        <option value="{{ valor }}">{{ label }}</option>
-                                    {% endfor %}
-                                </select>
-                            </label>
+                        <div class="flex">
+                            <div class="form-control w-1/2 mt-3 input mr-3 ">
+                                <span class="label">Estado da Transação</span>
+                                <label class="toggle text-base-content">
+                                    <input type="checkbox" value=""/>
+                                    <svg aria-label="disabled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 6 6 18" />
+                                        <path d="m6 6 12 12" />
+                                    </svg>
+                                    <svg aria-label="enabled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <g stroke-linejoin="round" stroke-linecap="round" stroke-width="4" fill="none" stroke="currentColor">
+                                            <path d="M20 6 9 17l-5-5"></path>
+                                        </g>
+                                    </svg>
+                                </label>
+                            </div>
+                            <div class="form-control w-1/2 mt-3 ml-3">
+                                <label class="select">
+                                    <span class="label">Tipo</span>
+                                    <select name="tipo">
+                                           {% for valor, label in tipos %}
+                                            <option value="{{ valor }}">{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                            
                         </div>
                         <div class="form-control w-full mt-3">
                             <label class="input w-full">
@@ -221,18 +230,23 @@
                             </label>
                             
                         </div>
-                        <div class="form-control w-full mt-3">
-                            <label class="select w-full">
-                                <span class="label">Marcadores</span>
-                                <select name="marcadores">
-                                      {% for marcador in marcadores %}
-                                        <option value="{{ marcador.id }}">{{ marcador.nome }}</option>
-                                    {% endfor %}
-                                </select>
-                            </label>
-                            
+                        <div class="dropdown dropdown-right dropdown-center mt-3">
+                            <div tabindex="0" role="button" class="select ">
+                                <span class="text-gray-500">Marcadores</span>
+                            </div>
+                            <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                                {% for marcador in marcadores %}
+                                <li>
+                                    <input class="btn" type="checkbox" value="{{marcador.id}}" name="marcadores" aria-label="{{ marcador.nome}}">
+                                </li>
+                                {% endfor %}
+                        
+                            </ul>
                         </div>
-                        <input  type="submit" class="btn mt-6" value="Adicionar Transação">
+                        <div>
+                            <input  type="submit" class="btn mt-6" value="Adicionar Transação">
+
+                        </div>      
                     </form>
                 </div>
             </dialog>
@@ -366,20 +380,32 @@
                                                         {% endfor %}
                                                     </select>
                                                 </label>
-                                
+                                            <div class="dropdown dropdown-right dropdown-center mt-3">
+                                                <div tabindex="0" role="button" class="select ">
+                                                    <span class="text-gray-500">Marcadores</span>
+                                                </div>
+                                                <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                                                    {% for marcador in marcadores %}
+                                                    <li>
+                                                        <input
+                                                            class="btn"
+                                                            type="checkbox"
+                                                            name="marcadores"
+                                                            aria-label="{{ marcador.nome}}"
+                                                            {% for marcador_transacao in transacao.marcadores.all %}
+                                                                {% if marcador_transacao.id == marcador.id %} checked {% endif %}
+                                                            {% endfor %}
+                                                        >
+                                                        
+                                                    </li>
+                                                    {% endfor %}
+                                                    
+                                                </ul>
                                             </div>
-                                            <div class="form-control w-full mt-3">
-                                                <label class="select w-full">
-                                                    <span class="label">Marcadores</span>
-                                                    <select name="marcadores">
-                                                        {% for marcador in marcadores %}
-                                                        <option value="{{ marcador.id }}">{{ marcador.nome }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </label>
-                                
+                                            <div>
+                                                <input type="submit" class="btn mt-6" value="Adicionar Transação">
+
                                             </div>
-                                            <input type="submit" class="btn mt-6" value="Adicionar Transação">
                                         </form>
                                     </div>
                                 </dialog>
