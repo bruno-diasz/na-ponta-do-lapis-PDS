@@ -1,5 +1,5 @@
+from pyexpat.errors import messages
 from .models import Familia
-from usuario import models
 from usuario.models import Usuario
 
 class FamiliaServices:
@@ -12,14 +12,16 @@ class FamiliaServices:
         return familia
     
     @staticmethod
-    def adicionarmembro(email, id_familia):
-        user = Usuario.objects.filter(email=email).first()
+    def adicionarmembro(email, familia):
+        user = Usuario.objects.get(email=email)
+        if user.id_familia:
+            messages.error("Usuário já pertence a uma família.")
         if user:
-            user.id_familia = id_familia
+            user.id_familia = familia
             user.save()
     
     @staticmethod
-    def tornar_adminFamilia(user, id_familia):
-        user.papel = Usuario.Papel.ADMIN_FAMILIA
-        user.id_familia = id_familia
+    def tornar_adminFamilia(user, familia):
+        user.tornar_adminFamilia()
+        user.id_familia = familia
         user.save()

@@ -7,7 +7,7 @@ from categoria.models import Marcador
 
 # Create your views here.
 @login_required
-@papel_requerido('admin','usuario')
+#@papel_requerido('admin','usuario')
 def transacoes_index(request):
     context = {
         'categorias':ts.obter_categorias,

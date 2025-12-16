@@ -6,5 +6,5 @@ app_name = 'familia'
 urlpatterns = [
     path('', views.familia, name='familia'),
     path('criar', views.criarfamilia, name='criarFamilia'),
-    path('adicionar', views.adicionarmembro, name='adicionarMembro'),
+    path('adicionar/<int:id_familia>', views.adicionarmembro, name='adicionarMembro'),
 ]
