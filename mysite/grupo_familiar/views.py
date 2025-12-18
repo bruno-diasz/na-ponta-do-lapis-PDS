@@ -43,12 +43,7 @@ def criarfamilia(request):
                 messages.error(request, f"Erro ao criar família: {str(e)}")
         else:
             messages.error(request, "Nome da família é obrigatório.")
-    user = request.user
-    familia = Familia.objects.get(id=id_familia)
-    nome = familia.nome
-    membros = familia.membros
-    chefe = Usuario.objects.filter(id_familia=familia, papel=Usuario.Papel.ADMIN_FAMILIA).first()
-    return render(request, 'familia/familia_inicio.html', {'familia': True, 'nome': nome, 'membros': membros, 'chefe': chefe, 'user': user})
+    return render(request, 'familia/familia_inicio.html', {'familia': False, 'user' : request.user})
 
 @login_required
 @user_passes_test(is_familiadmin)
