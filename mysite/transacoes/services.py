@@ -90,8 +90,10 @@ class TransacaoService:
         return Transacao.objects.get(id=transacao_id)
     
     @staticmethod
-    def filtrar_transacao( categoria,tipo, conta):
+    def filtrar_transacao(busca, categoria, tipo, conta):
         transacoes = TransacaoService.obter_minhas_transacoes()
+        if busca:
+            transacoes = transacoes.filter(descricao__icontains=busca)
         if categoria:
             transacoes = transacoes.filter(categoria=categoria)
         if tipo:

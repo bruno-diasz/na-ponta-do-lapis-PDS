@@ -11,7 +11,6 @@ from categoria.models import Marcador
 def transacoes_index(request):
     context = {
         'categorias':ts.obter_categorias,
-        'estados':ts.obter_estados,
         'tipos':ts.obter_tipos,
         'contas': ContaFinanceira.objects.all,
         'marcadores':Marcador.objects.all,
@@ -76,14 +75,14 @@ def filtrar_transacao(request):
     filtro_categoria = request.GET.get("categoria")
     filtro_tipo = request.GET.get("tipo")
     filtro_conta = request.GET.get("conta")
+    filtro_busca = request.GET.get("busca")
 
-    if not (filtro_categoria or filtro_tipo or filtro_conta):
+    if not (filtro_busca or filtro_categoria or filtro_tipo or filtro_conta):
          return redirect(transacoes_index)
 
-    filtro = ts.filtrar_transacao(filtro_categoria, filtro_tipo, filtro_conta)
+    filtro = ts.filtrar_transacao(filtro_busca, filtro_categoria, filtro_tipo, filtro_conta)
     context = {
         'categorias':ts.obter_categorias,
-        'estados':ts.obter_estados,
         'tipos':ts.obter_tipos,
         'contas': ContaFinanceira.objects.all,
         'marcadores':Marcador.objects.all,

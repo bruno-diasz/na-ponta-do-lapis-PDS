@@ -5,27 +5,29 @@
     <div class="container flex mb-8">
         <!-- Campos de busca e filtros -->
         <div class="cabecalho1 w-1/2">
-            <!-- Campo de Busca -->
-            <div class="busca mb-8">
-                <label class="input w-full bg-white border border-gray-300">
-                    <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <g
-                        stroke-linejoin="round"
-                        stroke-linecap="round"
-                        stroke-width="2.5"
-                        fill="none"
-                        stroke="currentColor"
-                        >
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <path d="m21 21-4.3-4.3"></path>
-                        </g>
-                    </svg>
-                    <input type="search" class="grow" placeholder="Buscar.." />
-                </label>
-            </div>
-            <!-- Campos de Filtros -->
-            <div class="filtros flex w-full">
-                <form action="{% url 'filtrar_transacao' %}" method="get">
+            <form action="{% url 'filtrar_transacao' %}" method="get">
+                <!-- Campo de Busca -->
+                <div class="busca mb-8">
+                    <label class="input w-full bg-white border border-gray-300">
+                        <button type="submit" class="cursor-pointer inline-block p-2">
+                            <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <g
+                                stroke-linejoin="round"
+                                stroke-linecap="round"
+                                stroke-width="2.5"
+                                fill="none"
+                                stroke="currentColor"
+                                >
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.3-4.3"></path>
+                                </g>
+                            </svg>
+                        </button>
+                        <input type="search" class="grow" name="busca" placeholder="Buscar.." value="{{ request.GET.busca }}" />
+                    </label>
+                </div>
+                <!-- Campos de Filtros -->
+                <div class="filtros flex w-full">
                     <div class="dropdown dropdown-hover">
                         <div tabindex="0" class="btn m-1 bg-npl-roxo flex items-center gap-2">
                             <span>Periodo</span>
@@ -55,7 +57,7 @@
                             </li>
                 
                         </ul>
-                       
+                    
                     </div>
                     <div class="dropdown dropdown-hover">
                         <div tabindex="0" class="btn m-1 bg-npl-roxo flex items-center gap-2">
@@ -94,7 +96,7 @@
                         </div>
 
                         <ul tabindex="0" class="dropdown-content menu bg-white rounded-box z-10 w-52 p-2 shadow-sm">
-                             <li><input type="radio" class="btn" name="categoria" aria-label="Tudo" value="" onclick="this.form.submit()"/></li>
+                            <li><input type="radio" class="btn" name="categoria" aria-label="Tudo" value="" onclick="this.form.submit()"/></li>
                             {% for valor, rotulo in categorias %}
                             <li>
                                 <input
@@ -132,14 +134,13 @@
                                     onclick="this.form.submit()"
                                     {% if request.GET.conta == conta.id|stringformat:"s" %} checked {% endif %}
                                 />
-                              
+                            
                             </li>
                             {% endfor %}
                         </ul>
                     </div>
-                </form>
-            </div>
-    
+                </div>
+            </form>
         </div>
         <!-- Botão de adicionar transação com modal -->
         <div class="cabecalho2 w-1/2 flex flex-col  items-center ">
@@ -282,6 +283,21 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% if minhas_transacoes.count == 0 %}
+                        <tr>
+                            <td colspan="7">
+                                <div class="alert" role="alert">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info h-6 w-6 shrink-0">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span>
+                                        <strong>Nenhuma transação encontrada.</strong> 
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endif %}
                     {% for transacao in minhas_transacoes %}
                         <tr class="hover:bg-purple-50">
                             <td>
