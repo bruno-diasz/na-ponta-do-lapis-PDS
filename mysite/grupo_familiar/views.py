@@ -34,12 +34,21 @@ def criarfamilia(request):
                 FamiliaServices.tornar_adminFamilia(request.user, familia)
                 print(f"User papel: {request.user.papel}, id_familia: {request.user.id_familia}")
                 messages.success(request, "Família criada com sucesso!")
-                return render(request, 'familia/familia_inicio.html', {'familia': True, 'nome': nome})
+                user = request.user
+                nome = familia.nome
+                membros = familia.membros
+                chefe = Usuario.objects.filter(id_familia=familia, papel=Usuario.Papel.ADMIN_FAMILIA).first()
+                return render(request, 'familia/familia_inicio.html', {'familia': True, 'nome': nome, 'membros': membros, 'chefe': chefe, 'user': user})
             except Exception as e:
                 messages.error(request, f"Erro ao criar família: {str(e)}")
         else:
             messages.error(request, "Nome da família é obrigatório.")
-    return render(request, 'familia/familia_inicio.html', {'familia': False})
+    user = request.user
+    familia = Familia.objects.get(id=id_familia)
+    nome = familia.nome
+    membros = familia.membros
+    chefe = Usuario.objects.filter(id_familia=familia, papel=Usuario.Papel.ADMIN_FAMILIA).first()
+    return render(request, 'familia/familia_inicio.html', {'familia': True, 'nome': nome, 'membros': membros, 'chefe': chefe, 'user': user})
 
 @login_required
 @user_passes_test(is_familiadmin)
