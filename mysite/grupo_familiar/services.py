@@ -25,3 +25,11 @@ class FamiliaServices:
         user.tornar_adminFamilia()
         user.id_familia = familia
         user.save()
+    
+    @staticmethod
+    def tirarmembro(email, familia):
+        user = Usuario.objects.get(email=email)
+        if user and user.id_familia == familia:
+            user.id_familia = None
+            user.papel = Usuario.Papel.USUARIO
+            user.save()

@@ -70,3 +70,23 @@ def adicionarmembro(request, id_familia):
     membros = familia.membros
     chefe = Usuario.objects.filter(id_familia=familia, papel=Usuario.Papel.ADMIN_FAMILIA).first()
     return render(request, 'familia/familia_inicio.html', {'familia': True, 'nome': nome, 'membros': membros, 'chefe': chefe, 'user': user})
+
+def tirarmembro(request, email):
+    if request.method == 'POST':
+        try:
+            familia = request.user.id_familia
+            FamiliaServices.tirarmembro(email, familia)
+            messages.success(request, "Membro removido com sucesso!")
+            user = request.user
+            nome = familia.nome
+            membros = familia.membros
+            chefe = Usuario.objects.filter(id_familia=familia, papel=Usuario.Papel.ADMIN_FAMILIA).first()
+            return render(request, 'familia/familia_inicio.html', {'familia': True, 'nome': nome, 'membros': membros, 'chefe': chefe, 'user': user})
+        except Exception as e:
+            messages.error(request, f"Erro ao remover membro: {str(e)}")
+    user = request.user
+    familia = user.id_familia
+    nome = familia.nome
+    membros = familia.membros
+    chefe = Usuario.objects.filter(id_familia=familia, papel=Usuario.Papel.ADMIN_FAMILIA).first()
+    return render(request, 'familia/familia_inicio.html', {'familia': True, 'nome': nome, 'membros': membros, 'chefe': chefe, 'user': user})

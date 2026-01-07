@@ -7,4 +7,5 @@ urlpatterns = [
     path('', views.familia, name='familia'),
     path('criar', views.criarfamilia, name='criarFamilia'),
     path('adicionar/<int:id_familia>', views.adicionarmembro, name='adicionarMembro'),
+    path('remover/<str:email>', views.tirarmembro, name='tirarMembro'),
 ]
