@@ -52,3 +52,4 @@ class Usuario(AbstractUser):
     def tornar_usuario(self):
         self.papel = self.Papel.USUARIO
         self.save()
+
