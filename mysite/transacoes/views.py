@@ -8,13 +8,8 @@ from contas.models import ContaFinanceira
 from categoria.models import Marcador
 
 # Create your views here.
-<<<<<<< HEAD
-@login_required(login_url='usuario:login')
-@papel_requerido('admin','usuario')
-=======
 #@login_required
 #@papel_requerido('admin','usuario')
->>>>>>> origin
 def transacoes_index(request):
     context = {
         'categorias':ts.obter_categorias,
