@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .services import FamiliaServices
 from django.contrib import messages
 from .models import Familia
@@ -20,7 +22,25 @@ def familia(request):
         chefe = Usuario.objects.filter(id_familia=familia_obj, papel=Usuario.Papel.ADMIN_FAMILIA).first()
         return render(request, 'familia/familia_inicio.html', {'familia': True, 'nome': nome, 'membros': membros, 'chefe': chefe, 'user': user})
     return render(request, 'familia/familia_inicio.html', {'familia': False, 'user': user})
-
+class FamiliaView(LoginRequiredMixin, View):
+    def get(self, request):
+        user = request.user
+        if user.id_familia:
+            familia_obj = user.id_familia
+            nome = familia_obj.nome
+            membros = familia_obj.membros
+            chefe = Usuario.objects.filter(id_familia=familia_obj, papel=Usuario.Papel.ADMIN_FAMILIA).first()
+            return render(request, 'familia/familia_inicio.html', {'familia': True, 'nome': nome, 'membros': membros, 'chefe': chefe, 'user': user})
+        return render(request, 'familia/familia_inicio.html', {'familia': False, 'user': user})
+    def post(self, request):
+        user = request.user
+        if user.id_familia:
+            familia_obj = user.id_familia
+            nome = familia_obj.nome
+            membros = familia_obj.membros
+            chefe = Usuario.objects.filter(id_familia=familia_obj, papel=Usuario.Papel.ADMIN_FAMILIA).first()
+            return render(request, 'familia/familia_inicio.html', {'familia': True, 'nome': nome, 'membros': membros, 'chefe': chefe, 'user': user})
+        return render(request, 'familia/familia_inicio.html', {'familia': False, 'user': user})
 
 @login_required
 def criarfamilia(request):
@@ -44,7 +64,27 @@ def criarfamilia(request):
         else:
             messages.error(request, "Nome da família é obrigatório.")
     return render(request, 'familia/familia_inicio.html', {'familia': False, 'user' : request.user})
-
+class CriarFamiliaView(LoginRequiredMixin, View):
+    def post(self, request):
+        nome = request.POST.get('nome')
+        print(f"Nome: {nome}")
+        if nome:
+            try:
+                familia = FamiliaServices.adicionarfamilia(nome)
+                print(f"Familia criada: {familia}")
+                FamiliaServices.tornar_adminFamilia(request.user, familia)
+                print(f"User papel: {request.user.papel}, id_familia: {request.user.id_familia}")
+                messages.success(request, "Família criada com sucesso!")
+                user = request.user
+                nome = familia.nome
+                membros = familia.membros
+                chefe = Usuario.objects.filter(id_familia=familia, papel=Usuario.Papel.ADMIN_FAMILIA).first()
+                return render(request, 'familia/familia_inicio.html', {'familia': True, 'nome': nome, 'membros': membros, 'chefe': chefe, 'user': user})
+            except Exception as e:
+                messages.error(request, f"Erro ao criar família: {str(e)}")
+        else:
+            messages.error(request, "Nome da família é obrigatório.")
+        return render(request, 'familia/familia_inicio.html', {'familia': False, 'user' : request.user})
 @login_required
 @user_passes_test(is_familiadmin)
 def adicionarmembro(request, id_familia):
@@ -70,7 +110,35 @@ def adicionarmembro(request, id_familia):
     membros = familia.membros
     chefe = Usuario.objects.filter(id_familia=familia, papel=Usuario.Papel.ADMIN_FAMILIA).first()
     return render(request, 'familia/familia_inicio.html', {'familia': True, 'nome': nome, 'membros': membros, 'chefe': chefe, 'user': user})
+class AdicionarMembroView(LoginRequiredMixin, UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.papel == Usuario.Papel.ADMIN_FAMILIA
+    def post(self, request, id_familia):
+        email = request.POST.get('email')
+        if email:
+            try:
+                familia = Familia.objects.get(id=id_familia)
+                FamiliaServices.adicionarmembro(email, familia)
+                messages.success(request, "Membro adicionado com sucesso!")
+                user = request.user
+                nome = familia.nome
+                membros = familia.membros
+                chefe = Usuario.objects.filter(id_familia=familia, papel=Usuario.Papel.ADMIN_FAMILIA).first()
+                return render(request, 'familia/familia_inicio.html', {'familia': True, 'nome': nome, 'membros': membros, 'chefe': chefe, 'user': user})
+            except Exception as e:
+                messages.error(request, f"Erro ao adicionar membro: {str(e)}")
+        else:
+            messages.error(request, "Email é obrigatório para adicionar um membro.")
+    def get(self, request, id_familia):
+        user = request.user
+        familia = Familia.objects.get(id=id_familia)
+        nome = familia.nome
+        membros = familia.membros
+        chefe = Usuario.objects.filter(id_familia=familia, papel=Usuario.Papel.ADMIN_FAMILIA).first()
+        return render(request, 'familia/familia_inicio.html', {'familia': True, 'nome': nome, 'membros': membros, 'chefe': chefe, 'user': user})
 
+@login_required
+@user_passes_test(is_familiadmin)
 def tirarmembro(request, email):
     if request.method == 'POST':
         try:
@@ -90,3 +158,25 @@ def tirarmembro(request, email):
     membros = familia.membros
     chefe = Usuario.objects.filter(id_familia=familia, papel=Usuario.Papel.ADMIN_FAMILIA).first()
     return render(request, 'familia/familia_inicio.html', {'familia': True, 'nome': nome, 'membros': membros, 'chefe': chefe, 'user': user})
+class TirarMembroView(LoginRequiredMixin, UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.papel == Usuario.Papel.ADMIN_FAMILIA
+    def post(self, request, email):
+        try:
+            familia = request.user.id_familia
+            FamiliaServices.tirarmembro(email, familia)
+            messages.success(request, "Membro removido com sucesso!")
+            user = request.user
+            nome = familia.nome
+            membros = familia.membros
+            chefe = Usuario.objects.filter(id_familia=familia, papel=Usuario.Papel.ADMIN_FAMILIA).first()
+            return render(request, 'familia/familia_inicio.html', {'familia': True, 'nome': nome, 'membros': membros, 'chefe': chefe, 'user': user})
+        except Exception as e:
+            messages.error(request, f"Erro ao remover membro: {str(e)}")
+    def get(self, request, email):
+        user = request.user
+        familia = user.id_familia
+        nome = familia.nome
+        membros = familia.membros
+        chefe = Usuario.objects.filter(id_familia=familia, papel=Usuario.Papel.ADMIN_FAMILIA).first()
+        return render(request, 'familia/familia_inicio.html', {'familia': True, 'nome': nome, 'membros': membros, 'chefe': chefe, 'user': user})

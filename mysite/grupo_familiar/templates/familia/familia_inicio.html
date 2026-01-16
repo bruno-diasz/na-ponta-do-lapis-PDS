@@ -46,15 +46,14 @@
                             </svg>
                             {% endif %}
                             {% if user.is_adminFamilia %}
-                            <form action="{% url 'familia:tirarMembro' membro.email %}" method="POST" class="inline">
-                                {% csrf_token %}
-                                <button class="remove-btn absolute top-0 right-0 hover:cursor-pointer bg-white rounded-full p-1" data-email="{{ membro.email }}">
+                            
+                                <label for="remove-form" class="remove-btn absolute top-0 right-0 hover:cursor-pointer bg-white rounded-full p-1" data-email="{{ membro.email }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                                         <path d="M8 1C4.1 1 1 4.1 1 8C1 11.9 4.1 15 8 15C11.9 15 15 11.9 15 8C15 4.1 11.9 1 8 1ZM8 14C4.7 14 2 11.3 2 8C2 4.7 4.7 2 8 2C11.3 2 14 4.7 14 8C14 11.3 11.3 14 8 14Z" fill="black"/>
                                         <path d="M10.7 11.5L8 8.8L5.3 11.5L4.5 10.7L7.2 8L4.5 5.3L5.3 4.5L8 7.2L10.7 4.5L11.5 5.3L8.8 8L11.5 10.7L10.7 11.5Z" fill="black"/>
                                     </svg>
-                                </button>
-                            </form>
+                                </label>
+                            
                             {% endif %}
                         </div>
                         <p class="text-sm font-semibold text-center">{{ membro.nome_completo }}</p>
@@ -187,6 +186,31 @@
     </form>
   </div>
 </div>
+
+<input type="checkbox" id="remove-form" class="modal-toggle" />
+
+<div class="modal" role="dialog">
+  <div class="modal-box w-90 bg-white">
+    <h3 class="font-bold text-lg">Remover Membro</h3>
+
+    <form method="POST" class="inline" id="remove-member-form" action="">
+      {% csrf_token %}
+
+      <div class="form-control mt-4">
+        <label class="label block">
+          <span class="label-text text-black">Confirmar remoção do membro</span>
+        </label>
+      </div>
+
+      <div class="modal-action">
+        <button type="submit" class="btn btn-success">Confirmar</button>
+
+        <!-- Fecha o modal -->
+        <label for="remove-form" class="btn">Cancelar</label>
+      </div>
+    </form>
+  </div>
+</div>
         
 
 <div id="popup-msg" class="hidden fixed bottom-4 right-4">
@@ -218,6 +242,21 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 {% endif %}
+
+<script>
+// Handle remove member modal
+document.addEventListener("DOMContentLoaded", function () {
+    const removeButtons = document.querySelectorAll('.remove-btn');
+
+    removeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const email = this.getAttribute('data-email');
+            const form = document.getElementById('remove-member-form');
+            form.action = `/familia/remover/${email}`;
+        });
+    });
+});
+</script>
 
 
 {% endblock %}
