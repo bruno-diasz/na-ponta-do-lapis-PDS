@@ -50,11 +50,20 @@ class ModalManager {
     }
 
     loadAccountData(accountId) {
+        console.log('Carregando dados da conta:', accountId);
+
         // Buscar dados da conta via API JSON
         fetch(`/contas/api/obter/${accountId}/`)
-            .then(response => response.json())
+            .then(response => {
+                console.log('Response status:', response.status);
+                return response.json();
+            })
             .then(data => {
+                console.log('Dados recebidos:', data);
+
                 if (data.sucesso) {
+                    console.log('Preenchendo formulário com:', data);
+
                     // Preencher formulário com dados da conta
                     document.getElementById('editAccountName').value = data.nome;
                     document.getElementById('editAccountBalance').value = data.saldo.toFixed(2);
@@ -68,13 +77,15 @@ class ModalManager {
                         }
                     });
                     document.getElementById('selectedEditAccountType').value = data.tipo;
+                    console.log('Formulário preenchido com sucesso');
                 } else {
+                    console.error('Erro da API:', data.erro);
                     alert('Erro ao carregar dados da conta: ' + data.erro);
                 }
             })
             .catch(error => {
-                console.error('Erro ao carregar conta:', error);
-                alert('Erro ao carregar dados da conta');
+                console.error('Erro na requisição fetch:', error);
+                alert('Erro ao carregar dados da conta: ' + error.message);
             });
     }
 
