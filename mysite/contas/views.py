@@ -9,7 +9,7 @@ from .services import ContaService
 
 # Create your views here.
 
-@login_required(login_url='usuario:login')
+@login_required(login_url='login')
 def index(request):
     """
     View principal que exibe as contas do usuário logado.
@@ -34,7 +34,7 @@ def index(request):
         return render(request, 'contas/index.html', contexto)
     except Exception as e:
         messages.error(request, f'Erro ao carregar contas: {str(e)}')
-        return redirect('usuario:login')
+        return redirect('login')
 
 @login_required(login_url='usuario:login')
 def visualizar_conta(request, conta_id):
@@ -50,7 +50,7 @@ def visualizar_conta(request, conta_id):
             raise Http404('Conta não encontrada')
         
         # Verificar se o usuário é o proprietário
-        if conta.id_usuario != request.user:
+        if conta.usuario != request.user:
             messages.error(request, 'Você não tem permissão para acessar essa conta.')
             return redirect('contas:index')
         
@@ -62,7 +62,7 @@ def visualizar_conta(request, conta_id):
         messages.error(request, f'Erro ao visualizar conta: {str(e)}')
         return redirect('contas:index')
 
-@login_required(login_url='usuario:login')
+@login_required(login_url='login')
 def add_conta(request):
     """
     View para adicionar uma nova conta financeira.
@@ -103,7 +103,7 @@ def add_conta(request):
         messages.error(request, f'Erro ao criar conta: {str(e)}')
         return redirect('contas:index')
 
-@login_required(login_url='usuario:login')
+@login_required(login_url='login')
 def editar_conta(request, conta_id):
     """
     View para editar uma conta específica.
@@ -117,7 +117,7 @@ def editar_conta(request, conta_id):
             raise Http404('Conta não encontrada')
         
         # Verificar se o usuário é o proprietário
-        if conta.id_usuario != request.user:
+        if conta.usuario != request.user:
             messages.error(request, 'Você não tem permissão para editar essa conta.')
             return redirect('contas:index')
         
@@ -157,8 +157,7 @@ def editar_conta(request, conta_id):
         messages.error(request, f'Erro ao editar conta: {str(e)}')
         return redirect('contas:index')
 
-@login_required(login_url='usuario:login')
-@login_required(login_url='usuario:login')
+@login_required(login_url='login')
 @require_http_methods(['POST'])
 @never_cache
 def excluir_conta(request, conta_id):
@@ -174,7 +173,7 @@ def excluir_conta(request, conta_id):
             return JsonResponse({'sucesso': False, 'erro': 'Conta não encontrada'}, status=404)
         
         # Verificar se o usuário é o proprietário
-        if conta.id_usuario != request.user:
+        if conta.usuario != request.user:
             return JsonResponse({'sucesso': False, 'erro': 'Sem permissão para excluir essa conta'}, status=403)
         
         # Excluir a conta
@@ -199,11 +198,11 @@ def obter_conta_json(request, conta_id):
         conta = ContaService.obter_conta_por_id(conta_id)
         
         if not conta:
-            return JsonResponse({'erro': 'Conta não encontrada'}, status=404)
+            return JsonResponse({'sucesso': False, 'erro': 'Conta não encontrada'}, status=404)
         
         # Verificar se o usuário é o proprietário
-        if conta.id_usuario != request.user:
-            return JsonResponse({'erro': 'Permissão negada'}, status=403)
+        if conta.usuario != request.user:
+            return JsonResponse({'sucesso': False, 'erro': 'Permissão negada'}, status=403)
         
         # Retornar dados da conta em JSON
         return JsonResponse({
@@ -214,4 +213,42 @@ def obter_conta_json(request, conta_id):
             'sucesso': True
         })
     except Exception as e:
-        return JsonResponse({'erro': str(e)}, status=500)
+        return JsonResponse({'sucesso': False, 'erro': str(e)}, status=500)
+
+@login_required(login_url='usuario:login')
+def obter_transacoes_conta(request, conta_id):
+    """
+    API que retorna as transações de uma conta em JSON.
+    Usado pelo modal de visualização de conta.
+    """
+    try:
+        conta = ContaService.obter_conta_por_id(conta_id)
+        
+        if not conta:
+            return JsonResponse({'sucesso': False, 'erro': 'Conta não encontrada'}, status=404)
+        
+        # Verificar se o usuário é o proprietário
+        if conta.usuario != request.user:
+            return JsonResponse({'sucesso': False, 'erro': 'Permissão negada'}, status=403)
+        
+        # Obter transações da conta (tenta importar do serviço de contas)
+        transacoes = ContaService.VisualizarContaService(conta_id)
+        
+        # Se houver erro ao buscar transações (app ainda não finalizada)
+        if transacoes is None:
+            transacoes = []
+        
+        # Montar resposta com dados da conta e transações
+        return JsonResponse({
+            'sucesso': True,
+            'conta': {
+                'id': conta.id,
+                'nome': conta.nome,
+                'saldo': float(conta.saldo),
+                'tipo': conta.tipo,
+            },
+            'transacoes': transacoes if isinstance(transacoes, list) and len(transacoes) > 0 else [],
+            'tem_transacoes': isinstance(transacoes, list) and len(transacoes) > 0
+        })
+    except Exception as e:
+        return JsonResponse({'sucesso': False, 'erro': str(e)}, status=500)
