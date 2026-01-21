@@ -13,9 +13,7 @@
 | 1 - Aperta o botão "visualizar relatório". | |  
 | | 2 - O sistema retorna um modal com 3 opções, 7, 15 e 30 dias. |
 | 3 - Seleciona, entre as caixas de escolha, o tempo do relatório e aperta "visualizar". | |
-| | 4 - Retorna o relatório e um botão "baixar". |
-| 5 - Aperta o botão "baixar". | |
-| | 6 - Baixa o arquivo. |
+| | 4 - Retorna o relatório. |
 
 > Obs. as seções a seguir apenas serão utilizadas na segunda unidade do PDSWeb (segundo orientações do gerente do projeto).
 
