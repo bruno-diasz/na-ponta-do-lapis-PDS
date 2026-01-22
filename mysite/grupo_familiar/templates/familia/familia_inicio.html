@@ -120,43 +120,81 @@
         </div>
         
         <!-- Linha 2 -->
-        <div class=" p-4 rounded-lg col-span-2">
-            <div class="fieldset border border-gray-300 rounded-box bg-white">
-            <h3 class="text-xl font-bold m-3">Histórico</h3>
+        <div class="fieldset border border-gray-300 rounded-box bg-white col-span-2">
+        <h3 class="text-xl font-bold m-3">Historico</h3>
         
-            <div class="overflow-x-auto">
-                <div class="overflow-x-auto">
-                <table class="table ml-0 mr-0">
-                    <thead>
-                        <tr class="bg-gray-200 text-gray-700">
-                            <th>Data/Hora</th>
-                            <th>Valor</th>
-                            <th>Descrição</th>
-                            <th>Tipo</th>
-                            <th>Categoria</th>
-                            <th>Conta</th>
-                            <th>Membro</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="hover:bg-purple-50">
-                            <td></td>
-                            <td class="text-red-400"></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>  
-                            <td></td>
-                            <td></td>
-                            <td class="flex justify-center">
+        <div class="overflow-x-auto">
+            <table class="table">
+                <thead>
+                    <tr class="bg-gray-200 text-gray-700">
+                        <th>Estado</th>
+                        <th>Data/Hora</th>
+                        <th>Valor</th>
+                        <th>Descrição</th>
+                        <th>Categoria</th>
+                        <th>Conta</th>
+                        <th>Membro</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if minhas_transacoes.count == 0 %}
+                        <tr>
+                            <td colspan="7">
+                                <div class="alert" role="alert">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info h-6 w-6 shrink-0">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span>
+                                        <strong>Nenhuma transação encontrada.</strong> 
+                                    </span>
+                                </div>
                             </td>
                         </tr>
-                        
-                    </tbody>
-                </table>
-                </div>
-            </div>
+                    {% endif %}
+                    {% for transacao in minhas_transacoes %}
+                        <tr class="hover:bg-purple-50">
+                            <td>
+                                {% if transacao.estado == "realizada" %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M17 3.33782C15.5291 2.48697 13.8214 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 11.3151 21.9311 10.6462 21.8 10" stroke="#4BCC63" stroke-width="1.5" stroke-linecap="round"/>
+                                        <path d="M8 12.5C8 12.5 9.5 12.5 11.5 16C11.5 16 17.0588 6.83333 22 5" stroke="#4BCC63" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                {% elif transacao.estado == "pendente" %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#DD3340" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 8V12.5" stroke="#DD3340" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 15.9883V15.9983" stroke="#DD3340" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                {% else %}
+                                    <span>Erro no estado da transacao</span>
+                                {% endif %}
+                            </td>
+                            <td class=" text-gray-600 font-medium">{{ transacao.data_hora|date:"d/m/Y" }} <br> <span class="text-xs">{{transacao.data_hora|time:"H:i"}} </span></td>
+                            {% if transacao.tipo == "receita" %}
+                                <td class="text-green-500 font-semibold">+ R$ {{ transacao.get_valor_display }} </td>
+                            {% elif transacao.tipo == "despesa" %}
+                                <td class="text-red-500 font-semibold">- R$ {{ transacao.get_valor_display }} </td>
+                            {% endif %}
+                            <td>{{ transacao.descricao }}</td>
+                            <td>{{ transacao.get_categoria_display }}</td>  
+                            <td>{{ transacao.conta_financeira.nome }}</td>
+
+                            <td> {{transacao.conta_financeira.usuario.nome_completo}} </td>
+                            
+                        </tr>
+                    {% endfor %}
+                   
+                </tbody>
+            </table>
         </div>
+    <!-- linha 3 -->
+        <div class="flex justify-center mt-4">
+            <label for="modal-relatorio" type="submit" class="btn btn-success">
+                Visualizar Relatório
+            </label>
+        </div>
+    </div>
     </div>
 
 
@@ -219,6 +257,64 @@
     </div>
 </div>
 
+
+<input type="checkbox" id="modal-relatorio" class="modal-toggle" />
+
+<div class="modal" role="dialog">
+  <div class="modal-box w-110 bg-white">
+    <h3 class="font-bold text-lg">Relatório</h3>
+
+      <div class="form-control mt-4">
+        <label class="label block">
+          <span class="label-text text-black">Relatório de Transações da Família</span>
+        </label>
+      </div>
+
+      <!-- Gráfico -->
+        <div class="bg-white rounded-lg p-6 shadow">
+            <h3 class="text-lg font-semibold mb-4">Gastos da Família</h3>
+            <div class="flex items-center justify-center">
+                <div style="width: 250px; height: 250px;">
+                    <canvas id="gastosChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Legenda -->
+            <div class="mt-4 space-y-2">
+                
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <span class="w-3 h-3 rounded-full mr-2" style="background-color: blue"></span>
+                        <span class="text-sm">{{ chefe.nome_completo }}</span>
+                    </div>
+                    <span class="text-sm font-semibold">R$ {{ item.total|floatformat:2 }}</span>
+                </div>
+                
+                {% for membro in membros %}
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <span class="w-3 h-3 rounded-full mr-2" style="background-color: blue"></span>
+                        <span class="text-sm">{{ membro.nome_completo }}</span>
+                    </div>
+                    <span class="text-sm font-semibold">R$ {{ item.total|floatformat:2 }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+      <div class="modal-action">
+        <!-- Fecha o modal -->
+        <label for="modal-relatorio" class="btn">Fechar</label>
+      </div>
+  </div>
+</div>
+        
+
+<div id="popup-msg" class="hidden fixed bottom-4 right-4">
+    <div class="alert alert-success shadow-lg max-w-xs w-96">
+        <span class="font-bold" id="popup-text"></span>
+    </div>
+</div>
 
 
 
