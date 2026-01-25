@@ -6,14 +6,15 @@
 | :--: | :----: | :-------: | :-----: |
 | 30/10/2025 | 1.0 | Diagrama | Bruno Dias, Eduardo Medeiros, Lucas Henrique, Pedro Ricardo, Wagner Souza |
 | 05/12/2025 | 2.0 | Diagrama atualizado | Bruno Dias, Eduardo Medeiros, Lucas Henrique, Pedro Ricardo, Wagner Souza |
+| 25/01/2025 | 3.0 | Diagrama atualizado | Bruno Dias, Eduardo Medeiros, Lucas Henrique, Pedro Ricardo, Wagner Souza |
 
 ## 1. Diagrama ER
 
-![Diagrama Entidade-Relacionamento Intermediário](./DERIntermediario2.png)
+![Diagrama Entidade-Relacionamento Intermediário](./DERIntermediario3.png)
 
 ## 2. Modelo Relacional
 
-![Diagrama Relacional](./DR-NPL2.png)
+![Diagrama Relacional](./DR-NPL3.png)
 
 ## 3. Dicionário de Dados
 
@@ -66,17 +67,17 @@ Tabela : [nome da tabela 1]
 *Descrição* : Armazena os dados das transações financeiras criadas pelo usuário
 *Observações* : ...
 
-| Colunas                  | Descrição                           | Tipo de Dado | Tamanho | Null | PK | FK | Unique | Identity | Default    | Constraints                      |
-| ------------------------ | ----------------------------------- | ------------ | ------- | ---- | -- | -- | ------ | -------- | ---------- | -------------------------------- |
-| **id**                   | Identificação da transação          | INTEGER      |    –    |  []  |[X] | [] |   []   |   [X]    |      –     | `id >= 1`                        |
-| **descricao**            | Descrição da transação              | VARCHAR      | 254     |  []  | [] | [] |   []   |    []    |      –     |                –                 |
-| **valor**                | Valor da transação                  | REAL         | 255     |  []  | [] | [] |   []   |    []    |      –     |                –                 |
+| Colunas                  | Descrição                           | Tipo de Dado | Tamanho | Null | PK | FK | Unique | Identity | Default    | Constraints                           |
+| ------------------------ | ----------------------------------- | ------------ | ------- | ---- | -- | -- | ------ | -------- | ---------- | ------------------------------------- |
+| **id**                   | Identificação da transação          | INTEGER      |    –    |  []  |[X] | [] |   []   |   [X]    |      –     | `id >= 1`                             |
+| **descricao**            | Descrição da transação              | VARCHAR      | 254     |  []  | [] | [] |   []   |    []    |      –     |                    –                  |
+| **valor**                | Valor da transação                  | REAL         | 255     |  []  | [] | [] |   []   |    []    |      –     |                    –                  |
 | **categoria**            | Categoria da transação              | VARCHAR      | 50      |  []  | [] | [] |   []   |    []    |      –     | `categoria IN ('ALIMENTACAO', 'EDUCACAO', 'ENTRETENIMENTO', 'FINANCEIRO', 'IMPREVISTOS', 'SAUDE', 'TRABALHO', 'TRANSPORTE', 'OUTROS')` |
-| **estado**               | Estado da transação                 | VARCHAR      | 50      |  []  | [] | [] |   []   |    []    | 'Pendente' | `estado IN ('Pendente', 'Realizada')` |
-| **tipo**                 | Tipo da transação                   | VARCHAR      | 50      |  []  | [] | [] |   []   |    []    |      –     | `tipo IN ('Receita', 'Despesa')` |
-| **data_hora**            | Data e hora da transação            | TIMESTAMP    |    –    |  []  | [] | [] |   []   |    []    |      –     |                –                 |
-| **id_marcadortransacao** | ID dos marcadores da transação      | INTEGER      |    –    | [X]  | [] |[X] |   []   |    []    |      –     |                –                 |
-| **id_conta_financeira**  | ID associado à conta financeira     | INTEGER      |    –    |  []  | [] |[X] |   []   |    []    |      –     |                –                 |
+| **estado**               | Estado da transação                 | VARCHAR      | 50      |  []  | [] | [] |   []   |    []    | 'Realizada'| `estado IN ('Pendente', 'Realizada')` |
+| **tipo**                 | Tipo da transação                   | VARCHAR      | 50      |  []  | [] | [] |   []   |    []    |      –     |   `tipo IN ('Receita', 'Despesa')`    |
+| **data_hora**            | Data e hora da transação            | TIMESTAMP    |    –    |  []  | [] | [] |   []   |    []    |      –     |                    –                  |
+| **id_marcador**          | ID dos marcadores da transação      | INTEGER      |    –    | [X]  | [] |[X] |   []   |    []    |      –     |                    –                  |
+| **id_conta_financeira**  | ID associado à conta financeira     | INTEGER      |    –    |  []  | [] |[X] |   []   |    []    |      –     |                    –                  |
 
 ### Tabela: **Marcador**
 
@@ -122,15 +123,15 @@ Tabela : [nome da tabela 1]
 
 *Observações* : ...
 
-| Colunas        | Descrição                      | Tipo de Dado | Tamanho | Null | PK | FK | Unique | Identity | Default | Constraints       |
-| -------------- | ------------------------------ | ------------ | ------- | ---- | -- | -- | ------ | -------- | ------- | ----------------- |
-| **id**         | Identificação da meta criada   | INTEGER      |    –    |  []  |[X] | [] |   []   |   [X]    |    –    | `id >= 1`         |
-| **nome**       | Nome da meta                   | VARCHAR      | 254     |  []  | [] | [] |   []   |    []    |    –    |         –         |
-| **descricao**  | Descrição da meta              | VARCHAR      | 500     | [X]  | [] | [] |   []   |    []    |    –    |         –         |
-| **tipo**       | Tipo da meta                   | VARCHAR      | 50      |  []  | [] | [] |   []   |    []    |    –    |         –         |
-| **valor**      | Valor de objetivo para a meta  | REAL         | 255     |  []  | [] | [] |   []   |    []    |    –    |         –         |
-| **data_hora**  | Data e hora de criação da meta | TIMESTAMP    | 10      |  []  | [] | [] |   []   |    []    |    –    |         –         |
-| **id_usuario** | ID do usuário que criou a meta | INTEGER      |    –    |  []  | [] |[X] |   []   |    []    |    –    | `id_usuario >= 1` |
+| Colunas                 | Descrição                      | Tipo de Dado | Tamanho | Null | PK | FK | Unique | Identity | Default | Constraints       |
+| ----------------------- | ------------------------------ | ------------ | ------- | ---- | -- | -- | ------ | -------- | ------- | ----------------- |
+| **id**                  | Identificação da meta criada   | INTEGER      |    –    |  []  |[X] | [] |   []   |   [X]    |    –    | `id >= 1`         |
+| **nome**                | Nome da meta                   | VARCHAR      | 254     |  []  | [] | [] |   []   |    []    |    –    |         –         |
+| **descricao**           | Descrição da meta              | VARCHAR      | 500     | [X]  | [] | [] |   []   |    []    |    –    |         –         |
+| **tipo**                | Tipo da meta                   | VARCHAR      | 50      |  []  | [] | [] |   []   |    []    |    –    |         –         |
+| **valor**               | Valor de objetivo para a meta  | REAL         | 255     |  []  | [] | [] |   []   |    []    |    –    |         –         |
+| **data_hora**           | Data e hora de criação da meta | TIMESTAMP    | 10      |  []  | [] | [] |   []   |    []    |    –    |         –         |
+| **id_conta_financeira** | ID do usuário que criou a meta | INTEGER      |    –    |  []  | [] |[X] |   []   |    []    |    –    | `id_usuario >= 1` |
 
 ### Tabela: **Cotação**
 
@@ -144,4 +145,3 @@ Tabela : [nome da tabela 1]
 | **nome**  | Nome da moeda            | VARCHAR      | 120     |  []  | [] | [] |  [X]   |    []    |    –    |      –      |
 | **valor** | Valor da moeda           | FLOAT        | 10      |  []  | [] | [] |   []   |    []    |    –    | `valor > 0` |
 | **data**  | Data da cotação          | TIMESTAMP    | 14      |  []  | [] | [] |   []   |    []    |    –    |      –      |
- 
