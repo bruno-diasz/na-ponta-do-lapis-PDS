@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'config',
     'grupo_familiar',
     'categoria',
+    'dashboard',
 ]
 
 MIDDLEWARE = [
@@ -63,7 +64,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['mysite/templates'],
+        'DIRS': [BASE_DIR / 'mysite/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -112,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'UTC'
 
@@ -138,6 +139,10 @@ MEDIA_ROOT = '/home/pdsweb/mysite/media'
 MEDIA_URL = '/media/'
 STATIC_ROOT = '/home/pdsweb/mysite/static'
 STATIC_URL = '/static/'
+
+
+#Sessão encerra ao fechar o navegador
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 if 'CODESPACE_NAME' in os.environ:
     codespace_name = os.getenv("CODESPACE_NAME")

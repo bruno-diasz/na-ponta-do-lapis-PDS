@@ -5,7 +5,7 @@
 - **Atores secundários**: Não existe.
 - **Resumo**:  Na página “Grupo Familiar” o usuário aperta o botão “adicionar” para adicionar um novo membro à sua família, caso ainda não tenha membros a família será criada.
 - **Pré-condição**: Usuário deve estar cadastrado e autenticado no sistema.
-- **Pós-Condição**: Um membro é adicionado na sua família.
+- **Pós-Condição**: Um membro é adicionado na sua família; uma família é criada e o usuário criador recebe o papel admin família.
 
 ## Fluxo Principal
 
@@ -22,7 +22,7 @@
 | :-----------------: |:-----------------: |
 | | 2.1 - O sistema retorna um fomulário para criar a família. |
 | 3.1 - O usuário preenche e aperta o botão "criar". | |
-| | 4.1 - O sistema persiste os dados de criação da família. |
+| | 4.1 - Aparece um pop-up confirmando a criação da família, o sistema persiste os dados de criação da família e o usuário recebe o papel admin família. |
 | 5.1 - (retorna para o passo 2 do fluxo principal) | |
 
 
@@ -37,8 +37,8 @@
 
 ## Diagrama de Interação (Sequência ou Comunicação)
 
-> Substituir pela imagem correspondente...
+![diagrama de sequencia cdu 22](sequencia_cdu22.png)
 
 ## Diagrama de Classes de Projeto
 
-> Substituir pela imagem contendo as classes (modelo, visão e templates) que implementam o respectivo CDU...
+![diagram de classes cdu 22](classes_cdu22.png)
