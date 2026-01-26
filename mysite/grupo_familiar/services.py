@@ -1,10 +1,7 @@
-from pyexpat.errors import messages
-
 from contas.models import ContaFinanceira
 from transacoes.models import Transacao
 from .models import Familia
 from usuario.models import Usuario
-from django.contrib import messages
 from django.db.models import Sum
 
 class FamiliaServices:
@@ -18,12 +15,16 @@ class FamiliaServices:
     
     @staticmethod
     def adicionarmembro(email, familia):
-        user = Usuario.objects.get(email=email)
+        try:
+            user = Usuario.objects.get(email=email)
+        except Usuario.DoesNotExist:
+            raise ValueError(f"Usuário com email '{email}' não encontrado.")
+        
         if user.id_familia:
-            messages.error("Usuário já pertence a uma família.")
-        if user:
-            user.id_familia = familia
-            user.save()
+            raise ValueError("Este usuário já pertence a uma família.")
+        
+        user.id_familia = familia
+        user.save()
     
     @staticmethod
     def tornar_adminFamilia(user, familia):
