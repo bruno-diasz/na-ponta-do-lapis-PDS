@@ -27,8 +27,11 @@ class ContaFinanceira(Model):
         if len(self.nome) < 3:
             erros['nome'] = 'O nome da conta deve ter pelo menos 3 caracteres.'
         
-        if not self.saldo:
-            erros['saldo'] = 'O saldo da conta é obrigatório.'
+        if self.saldo is None or self.saldo < 0:
+            if self.saldo is not None and self.saldo < 0:
+                erros['saldo'] = 'O saldo da conta não pode ser negativo.'
+            else:
+                erros['saldo'] = 'O saldo da conta é obrigatório.'
         
         # Validar tipo de conta
         tipos_validos = [tipo[0] for tipo in self.TIPOS_CONTA]
