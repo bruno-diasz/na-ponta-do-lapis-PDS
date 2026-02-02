@@ -2,6 +2,7 @@
 {% block page_title %} Transações {% endblock%}
 {% block title %} Transações {% endblock%}
 {% block main %}
+{% load l10n %}
     <!-- Alerta -->
     
     {% if messages %}
@@ -401,9 +402,10 @@
                                                 </label>
                                             </div>
                                             <div class="form-control w-full mt-4">
+
                                                 <label class="input w-full">
                                                     <span class="label">Valor*</span>
-                                                    <input type="number" step="0.01" min="0.01" required name="valor" placeholder="Ex: 9,99" value="{{transacao.valor}}"/>
+                                                    <input type="number" step="0.01" min="0.01" required name="valor" placeholder="Ex: 9,99" value="{{ transacao.valor|unlocalize }}"" />
                                                 </label>
                                             </div>
                                             <div class="form-control w-full mt-4">

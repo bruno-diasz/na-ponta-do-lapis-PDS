@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db.models import Q
+from django.db import transaction
 from datetime import datetime
 from .models import Transacao
 from contas.models import ContaFinanceira
@@ -10,32 +11,43 @@ class TransacaoService:
 
     @staticmethod
     def salvar_transacao_db(descricao, valor, categoria, estado, tipo, data_hora, conta_financeira_id, marcadores_ids = None ):
+
         try:
-            conta = ContaFinanceira.objects.get(id=conta_financeira_id)
+            with transaction.atomic():
+                conta = ContaFinanceira.objects.get(id=conta_financeira_id)
 
-            transacao = Transacao(
-                descricao = descricao,
-                valor= valor,
-                categoria= categoria,
-                estado = estado,
-                tipo = tipo,
-                data_hora = data_hora,
-                conta_financeira = conta
-            )
-            transacao.full_clean()
-            transacao.save()
+                transacao = Transacao(
+                    descricao = descricao,
+                    valor= valor,
+                    categoria= categoria,
+                    estado = estado,
+                    tipo = tipo,
+                    data_hora = data_hora,
+                    conta_financeira = conta
+                )
+                transacao.full_clean()
+                transacao.save()
 
-            if marcadores_ids:
-                marcadores = Marcador.objects.filter(id__in=marcadores_ids)
+                if marcadores_ids:
+                    marcadores = Marcador.objects.filter(id__in=marcadores_ids)
 
-                if marcadores.count() > 3:
-                    raise ValidationError({'marcadores':'So é permitido no maximo 3 marcadores por transação.'})
-                
-                if marcadores.count() != len(marcadores_ids):
-                    raise ValidationError({'marcadores':'1 ou mais marcadores não foram estão invalidos'})
-                transacao.marcadores.set(marcadores)
+                    if marcadores.count() > 1:
+                        raise ValidationError({'marcadores':'So é permitido no maximo 1 marcadores por transação.'})
+                    
+                    if marcadores.count() != len(marcadores_ids):
+                        raise ValidationError({'marcadores':'1 ou mais marcadores não foram estão invalidos'})
+                    transacao.marcadores.set(marcadores)
 
-            return transacao
+                if tipo == "receita" and estado == "realizada":
+                    ContaService.aumentar_saldo(conta_id=conta_financeira_id, valor_transacao= float(valor))
+                elif tipo == "despesa" and estado == "realizada":
+                    ContaService.diminuir_saldo(conta_id=conta_financeira_id, valor_transacao= float(valor))
+                elif estado == "pendente":
+                    pass
+                else:
+                    raise ValidationError({'tipo': "Tipo de transação não registrada."})
+
+                return transacao
         
         except ContaFinanceira.DoesNotExist:
             raise ValidationError({'conta_financeira':'Conta Financeira Inexistente.'})
@@ -78,31 +90,44 @@ class TransacaoService:
     def editar_transacao_db(id_transacao, descricao, valor, categoria, estado, tipo, data_hora, conta_financeira_id, marcadores_ids):
 
         try:
-            transacao = TransacaoService.obter_transacoes_id(id_transacao)
-            conta =  ContaFinanceira.objects.get(id=conta_financeira_id)
+            with transaction.atomic():
+                transacao = TransacaoService.obter_transacoes_id(id_transacao)
+                conta =  ContaFinanceira.objects.get(id=conta_financeira_id)
 
-            transacao.descricao = descricao
-            transacao.valor = valor
-            transacao.categoria = categoria
-            transacao.estado = estado
-            transacao.tipo = tipo
-            transacao.data_hora = data_hora
-            transacao.conta_financeira = conta
-            
-            transacao.full_clean()
-            transacao.save()
-
-            if marcadores_ids is not None:
-                marcadores = Marcador.objects.filter(id__in=marcadores_ids)
-
-                if marcadores.count() > 3:
-                    raise ValidationError({'marcadores':'So é permitido no máximo 3 marcadores por transação.'})
+                if not transacao.estado == "pendente":
+                    if transacao.tipo == "despesa":
+                        ContaService.aumentar_saldo(conta_financeira_id, float(transacao.valor))
+                    elif transacao.tipo == "receita":
+                        ContaService.diminuir_saldo(conta_financeira_id, float(transacao.valor))
+                 
+        
+                transacao.descricao = descricao
+                transacao.valor = valor
+                transacao.categoria = categoria
+                transacao.estado = estado
+                transacao.tipo = tipo
+                transacao.data_hora = data_hora
+                transacao.conta_financeira = conta
                 
-                if marcadores.count() != len(marcadores_ids):
-                    raise ValidationError({'marcadores':'1 ou mais marcadores não foram estão invalidos'})
-                transacao.marcadores.set(marcadores)
-      
-            return transacao
+                transacao.full_clean()
+                transacao.save()
+
+                if marcadores_ids is not None:
+                    marcadores = Marcador.objects.filter(id__in=marcadores_ids)
+
+                    if marcadores.count() > 3:
+                        raise ValidationError({'marcadores':'So é permitido no máximo 3 marcadores por transação.'})
+                    
+                    if marcadores.count() != len(marcadores_ids):
+                        raise ValidationError({'marcadores':'1 ou mais marcadores não foram estão invalidos'})
+                    transacao.marcadores.set(marcadores)
+
+                if tipo == "receita" and estado == "realizada":
+                    ContaService.aumentar_saldo(conta_id=conta_financeira_id, valor_transacao= float(valor))
+                elif tipo == "despesa" and estado == "realizada":
+                    ContaService.diminuir_saldo(conta_id=conta_financeira_id, valor_transacao= float(valor))
+             
+                return transacao
         
         except Transacao.DoesNotExist:
             raise ValidationError({'transacao':'Transação não encontrada'})
@@ -140,7 +165,19 @@ class TransacaoService:
     @staticmethod
     def excluir_transacao_db(id_transacao):
         try:
-           TransacaoService.obter_transacoes_id(id_transacao).delete()
+           with transaction.atomic():
+                t = TransacaoService.obter_transacoes_id(id_transacao)
+
+                if t.estado == "realizada":
+                    if t.tipo == "receita":
+                        ContaService.diminuir_saldo(t.conta_financeira.id, float(t.valor))
+                    elif t.tipo == "despesa":
+                        ContaService.aumentar_saldo(t.conta_financeira.id, float(t.valor))
+                    else:
+                        raise ValidationError()
+                    
+                t.delete()
+
         except Transacao.DoesNotExist:
             raise ValidationError({'transacao':'Transação não encontrada'})
         
