@@ -44,7 +44,17 @@
 
 ## Diagrama de Interação (Sequência ou Comunicação)
 
-> Substituir pela imagem correspondente...
+### Criar Marcador
+![Diagrama de sequência](./imgs/CDU16-1.png)
+
+### Excluir Marcador
+![Diagrama de sequência](./imgs/CDU16-2.png)
+
+### Editar Marcador
+![Diagrama de sequência](./imgs/CDU16-3.png)
+
+### Listar Marcador
+![Diagrama de sequência](./imgs/CDU16-4.png)
 
 ## Diagrama de Classes de Projeto
 

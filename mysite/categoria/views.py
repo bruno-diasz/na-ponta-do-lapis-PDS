@@ -24,8 +24,7 @@ class CriarMarcadorView(View):
             marcador = MarcadorService.criar_marcador(
             nome=nome,
             cor=cor,
-            usuario=request.user
-)
+            usuario=request.user)
 
         except ValueError as e:
             return JsonResponse({"erro": str(e)}, status=400)
@@ -36,6 +35,7 @@ class CriarMarcadorView(View):
         }, status=201)
 
 
+# Já foi
 class ListarMarcadoresView(View):
     def get(self, request, *args, **kwargs):
         marcadores = MarcadorService.listar_marcadores(request.user)
@@ -43,9 +43,6 @@ class ListarMarcadoresView(View):
 
 
 
-# Create your views here.
-# def categoria(request):
-#     return render(request, "categoria/categoria.html")
 
 class ExcluirMarcadorView(View):
     def delete(self, request, id, *args, **kwargs):
