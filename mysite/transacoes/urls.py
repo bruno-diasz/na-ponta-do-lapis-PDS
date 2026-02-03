@@ -1,5 +1,5 @@
 from django.urls import path
-from transacoes.views  import TransacaoIndex, TransacaoSalvar, TransacaoEditar, TransacaoExcluir, TransacaoFiltrar 
+from transacoes.views  import TransacaoIndex, TransacaoSalvar, TransacaoEditar, TransacaoExcluir, TransacaoFiltrar,TransacaoOrdenar
 
 app_name= "transacoes"
 
@@ -8,6 +8,6 @@ urlpatterns = [
     path('adicionar_transacao/', TransacaoSalvar.as_view(), name='adicionar'),
     path('editar_transacao/<int:id>', TransacaoEditar.as_view(), name="editar"),
     path('excluir_transacao/<int:id>', TransacaoExcluir.as_view(), name="excluir"),
-    path('filtro/', TransacaoFiltrar.as_view(), name='filtrar')
-
+    path('filtro/', TransacaoFiltrar.as_view(), name='filtrar'),
+    path('api/listar', TransacaoOrdenar.as_view(), name='api_listar')
 ]

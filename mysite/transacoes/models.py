@@ -20,8 +20,8 @@ class Transacao(models.Model):
         PENDENTE = "pendente", "Pendente"
 
     class TipoTransacao(models.TextChoices):
-        RECEITA = "receita", "Receita"
         DESPESA = "despesa", "Despesa"
+        RECEITA = "receita", "Receita"
 
     #=== Campos do modelo Transacao ===#
     descricao = models.CharField(max_length=50, null=False, blank=False, verbose_name="Descrição")
@@ -54,4 +54,4 @@ class Transacao(models.Model):
     class Meta:
         verbose_name = 'Transação'
         verbose_name_plural = 'Transações'
-        #ordering = ['-data_hora']
+        ordering = ['-data_hora']
