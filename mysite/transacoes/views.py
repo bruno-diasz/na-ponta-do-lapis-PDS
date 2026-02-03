@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.views.generic import View
@@ -11,7 +12,9 @@ class TransacaoIndex(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            transacoes = ts.obter_minhas_transacoes(request.user)
+
+            page = request.GET.get("page")
+            transacoes = ts.obter_minhas_transacoes(request.user, numero_pag=page)
             contas = ContaService.obter_contas_usuario(request.user)
             marcadores = MarcadorService.listar_marcadores(request.user)
         else:
@@ -48,24 +51,29 @@ class TransacaoSalvar(View):
 
         if request.user.is_authenticated:
             try:
-                ts.salvar_transacao_db(
-                    descricao = descricao,
-                    valor= valor,
-                    categoria= categoria,
-                    estado = estado,
-                    tipo = tipo,
-                    data_hora = data_hora,
-                    conta_financeira_id = conta_financeira,
-                    marcadores_ids = marcadores
-
+                t = ts.salvar_transacao_db(
+                        descricao = descricao,
+                        valor= valor,
+                        categoria= categoria,
+                        estado = estado,
+                        tipo = tipo,
+                        data_hora = data_hora,
+                        conta_financeira_id = conta_financeira,
+                        marcadores_ids = marcadores
                 )
+
             except ValidationError as e:
                 messages.error(request,e)
                 return redirect('transacoes:index')
 
             else:
                 messages.success(request, "Transação salva com sucesso." )
-                return redirect('transacoes:index')
+
+                return JsonResponse({
+                    "success": True,
+                    "message": "Transação salva com sucesso.",
+                    "id": t.id
+                })
         else:
             ts.salvar_transacao_sessao(
                 request = request,
@@ -157,11 +165,18 @@ class TransacaoFiltrar(View):
     
 
 class TransacaoOrdenar(View):
+    
     def get(self, request):
         if request.user.is_authenticated:
             order = request.GET.get("order")
-            transacoes = ts.obter_minhas_transacoes(request.user, order)
+            direcao= request.GET.get("direcao")
+            transacoes = ts.obter_minhas_transacoes(request.user, order, direcao)
+            contas = ContaService.obter_contas_usuario(request.user)
+            marcadores = MarcadorService.listar_marcadores(request.user)
+
         else:
+            contas = None
+            marcadores = None
             transacoes = request.session.get("transacoes",[])
             for t in transacoes:
                 t["data_hora"] = datetime.strptime(
@@ -170,8 +185,13 @@ class TransacaoOrdenar(View):
                 )
 
         context = {
+            'categorias':ts.obter_categorias,
+            'tipos':ts.obter_tipos,
+            'contas': contas,
+            'marcadores':marcadores,
             'minhas_transacoes': transacoes
         }
+          
 
         return render(request, "tabela_parcial.html", context=context)
 
