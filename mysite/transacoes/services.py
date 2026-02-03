@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.db.models.functions import Lower
 from django.db.models import Q
 from django.db import transaction
 from datetime import datetime
@@ -194,9 +195,14 @@ class TransacaoService:
 
         
     @staticmethod
-    def obter_minhas_transacoes(usuario):
+    def obter_minhas_transacoes(usuario, order=None):
         contas = ContaService.obter_contas_usuario(usuario.id)
-        return Transacao.objects.filter(conta_financeira__in=contas)
+        return Transacao.objects.filter(conta_financeira__in=contas).order_by(Lower(order))
+    
+    @staticmethod
+    def ordenar_transacoes(usuario, order=None):
+        transacoes = TransacaoService.obter_minhas_transacoes(usuario)
+        return transacoes.values()
    
     @staticmethod
     def obter_transacoes_id(transacao_id):
@@ -256,6 +262,7 @@ class TransacaoService:
                     "%Y-%m-%d %H:%M:%S"
                 )
         return transacoes
+    
         
     @staticmethod
     def obter_categorias():

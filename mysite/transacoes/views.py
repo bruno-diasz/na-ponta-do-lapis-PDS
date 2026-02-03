@@ -5,13 +5,15 @@ from django.views.generic import View
 from datetime import datetime
 from .services import TransacaoService as ts
 from contas.services import ContaService
-from categoria.models import Marcador
+from categoria.services import MarcadorService
 
 class TransacaoIndex(View):
 
     def get(self, request):
         if request.user.is_authenticated:
             transacoes = ts.obter_minhas_transacoes(request.user)
+            contas = ContaService.obter_contas_usuario(request.user)
+            marcadores = MarcadorService.listar_marcadores(request.user)
         else:
             transacoes = request.session.get("transacoes",[])
             for t in transacoes:
@@ -19,12 +21,14 @@ class TransacaoIndex(View):
                     t["data_hora"],
                     "%Y-%m-%d %H:%M:%S"
                 )
+            contas = None
+            marcadores = None
 
         context = {
             'categorias':ts.obter_categorias,
             'tipos':ts.obter_tipos,
-            'contas': ContaService.obter_contas_usuario(request.user),
-            'marcadores':Marcador.objects.all,
+            'contas': contas,
+            'marcadores':marcadores,
             'minhas_transacoes': transacoes
         }
 
@@ -146,7 +150,29 @@ class TransacaoFiltrar(View):
             'categorias':ts.obter_categorias,
             'tipos':ts.obter_tipos,
             'contas': ContaService.obter_contas_usuario(request.user),
-            'marcadores':Marcador.objects.all,
+            'marcadores':MarcadorService.listar_marcadores(request.user),
             'minhas_transacoes': filtro
         }
         return render(request, "transacoes.html", context=context)
+    
+
+class TransacaoOrdenar(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            order = request.GET.get("order")
+            transacoes = ts.obter_minhas_transacoes(request.user, order)
+        else:
+            transacoes = request.session.get("transacoes",[])
+            for t in transacoes:
+                t["data_hora"] = datetime.strptime(
+                    t["data_hora"],
+                    "%Y-%m-%d %H:%M:%S"
+                )
+
+        context = {
+            'minhas_transacoes': transacoes
+        }
+
+        return render(request, "tabela_parcial.html", context=context)
+
+
