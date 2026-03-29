@@ -1,4 +1,4 @@
-# Glossário de Termos — Na Ponta do Lápis
+# Glossário de Termos
 
 ## Termos Gerais
 
