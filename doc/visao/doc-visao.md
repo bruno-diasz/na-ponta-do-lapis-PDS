@@ -4,7 +4,9 @@
 
 |    Data    | Versão |   Descrição    |               Autores                |
 | :--------: | :----: | :------------: | :----------------------------------: |
-| 24/09/2025 |  0.1   | Versão inicial | Bruno, Eduardo, Lucas, Pedro, Wagner |
+| 24/09/2025 |  1.0   | Versão inicial | Bruno, Eduardo, Lucas, Pedro, Wagner |
+| 25/01/2026 |  2.0   | Segunda versão  | Bruno, Eduardo, Lucas, Pedro, Wagner |
+| 28/03/2026 |  3.0   | Terceira versão | Bruno, Eduardo, Eric, Lucas, Pedro, Vinicius, Wagner |
 
 ## 1. Visão Geral do Sistema Proposto
 
@@ -15,9 +17,9 @@ Criar um ambiente acolhedor para jovens iniciando a vida adulta, onde os mesmos 
 |              |                                                             |
 | :----------: | :---------------------------------------------------------: |
 | **Problema** |         Dificuldade em organizar os gastos pessoais         |
-|  **Afeta**   | Todos que não tiveram uma adequada administração financeira |
+|  **Afeta**   | Todos que almejam ter uma boa gestão financeira |
 | **Impacta**  |                    Liberdade financeira                     |
-| **Solução**  |        Criar uma ferramenta que auxilia as despesas         |
+| **Solução**  |        Criar uma ferramenta que auxilia a organização das finanças         |
 
 ## 3. Descrição dos Usuários
 
@@ -25,11 +27,11 @@ Criar um ambiente acolhedor para jovens iniciando a vida adulta, onde os mesmos 
 | :-----------: | :-----------------------------------------------: | :---------------------------------------: |
 |  Estudantes   |           Jovens no início da carreira            | Planejar e controlar seus gastos pessoais |
 | Trabalhadores |              Trabalhadores no geral               | Planejar finanças pessoais ou familiares  |
-| Administrador | Usuário que irá gerenciar partes estatica do site | Criar posts para o site/Atualizar cotação |
+| Administrador | Usuário que irá gerenciar partes estatica do site | Criar posts para o site |
 
 ## 4. Descrição do Ambiente dos Usuários
 
-Os usuários utilizarão o sistema através de um Navegador (Sistema Web), onde ficará acessível tanto a desktops indiferente de seu SO quanto também a dispositivos moveis.
+Os usuários utilizarão o sistema através de um Navegador (Sistema Web), onde ficará acessível, indiferente de seu sistema operacional, tanto em desktop quanto também em dispositivo móvel.
 
 ## 5. Principais Necessidades dos Usuários
 
@@ -42,18 +44,18 @@ Os usuários utilizarão o sistema através de um Navegador (Sistema Web), onde 
 - Entender conceitos básicos de finanças pessoais (entrada, saída, economia).
 - Criar hábitos financeiros saudáveis desde cedo.
 
-1. **Trabalhadores no Geral**
+2. **Trabalhadores no Geral**
 
 - Controlar despesas mensais com aluguel, transporte, alimentação, etc.
 
 - Estabelecer metas de economia ou investimentos.
 - Integrar finanças pessoais e familiares.
 
-1. **Administrador**
+3. **Administrador**
 
 - Realizar a inclusão de posts sobre educação financeira de forma prática.
 
-- Atualizar dados estáticos do sites como por exemplo a contação atual de cada moeda.
+- Atribuir o papel de Administrador a outro usuário.
 
 ## 6. Alternativas Concorrentes
 
@@ -64,7 +66,7 @@ Os usuários utilizarão o sistema através de um Navegador (Sistema Web), onde 
 - Paleta de cores harmônica, alinhada com o conteúdo apresentado;
 - Gráficos para saldo, entrada, despesa e etc.
 
-1. **Excel**
+2. **Excel**
 
 - Quantidade de recurso;
 
@@ -72,13 +74,13 @@ Os usuários utilizarão o sistema através de um Navegador (Sistema Web), onde 
 - Ícones para funcionalidades;
 - Personalização de planilha.
 
-1. **Minhas Economias**
+3. **Minhas Economias**
 
 - Curso em vídeo ensinando sobre o dinheiro, com dicas e exemplos práticos;
 
 - Integração com vários bancos;
 
-1. **Mobills**
+4. **Mobills**
 
 - Dashboard personalizável;
 
@@ -117,9 +119,30 @@ Os usuários utilizarão o sistema através de um Navegador (Sistema Web), onde 
 |  NF01  |  Linguagens/Frameworks  | Utilização de Java, Spring Boot,Typescript e Angular para desenvolver o projeto | Restrição de projeto |   Desejável   |
 |  NF02  |     Banco de Dados      |                                   PostgreSQL                                    | Restrição de projeto |  Obrigatório  |
 |  NF03  |      Criptografia       |               As senhas deve ser armazenadas usando criptografia                |      Segurança       |  Obrigatório  |
-|  NF04  |     Renponsividade      |                    O sistema deve ter o interface responsiva                    |      Interface       |   Desejável   |
-|  NF05  |     Acessibilidade      |          O sistema deverá ter algumas funcionalidades a acessibilidade          |     Usabilidade      |   Desejável   |
+|  NF04  |     Responsividade      |                    O sistema deve ter a interface responsiva                    |      Interface       |   Desejável   |
+|  NF05  |     Acessibilidade      |          O sistema deverá ter algumas funcionalidades de acessibilidade          |     Usabilidade      |   Desejável   |
 |  NF06  | Facilidade de Navegação |      Todas as funcionalidades devem poder ser acessadas com poucos clicks       |     Usabilidade      |  Obrigatório  |
+
+## 10. Riscos ⚠️
+Possíveis Riscos:
+
+- Má comunicação entre os membros do projeto durante o desenvolvimento e tomada de decisões.
+
+- Baixo conhecimento de desenvolvimento utilizando os frameworks Angular, Spring Boot e Deploy do sistema.
+
+- Interface ser confusa ou não resolver o problema do usuário final.
+
+- Baixa escalabilidade, sistema funcionar para 10 usuários, mas não suportar uma carga de 1.000 clientes simultâneos.
+
+- Vazamento de dados, autenticação frágil ou falta de conformidade com Lei LGPD
+
+- Incoerência em relação ao projeto proposto com o que foi desenvolvido.
+
+- Projeto demorar tanto que, quando for lançado já vai estar fora do prazo estipulado pelos Stakeholders.
+
+- Baixa confiabilidade e disponibilidade do sistema (abaixo de 99% ao ano), causando perda de reputação da marca.
+
+
 
 > **Categoria** Usabilidade, confiabilidade, performance, suportabilidade, restrição de projeto, implementação, interface e requisito físico - segundo classificação [FURP+](https://pt.wikipedia.org/wiki/FURPS).
 > **Classificação**: desejável ou obrigatório.
