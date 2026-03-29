@@ -123,6 +123,8 @@ Os usuários utilizarão o sistema através de um Navegador (Sistema Web), onde 
 |  NF05  |     Acessibilidade      |          O sistema deverá ter algumas funcionalidades de acessibilidade          |     Usabilidade      |   Desejável   |
 |  NF06  | Facilidade de Navegação |      Todas as funcionalidades devem poder ser acessadas com poucos clicks       |     Usabilidade      |  Obrigatório  |
 
+> **Categoria** Usabilidade, confiabilidade, performance, suportabilidade, restrição de projeto, implementação, interface e requisito físico - segundo classificação [FURP+](https://pt.wikipedia.org/wiki/FURPS).
+> **Classificação**: desejável ou obrigatório.
 
 ## 10. Riscos ⚠️
 
@@ -138,5 +140,4 @@ Os usuários utilizarão o sistema através de um Navegador (Sistema Web), onde 
 - Projeto demorar tanto que, quando for lançado já vai estar fora do prazo estipulado pelos Stakeholders.
 - Baixa confiabilidade e disponibilidade do sistema (abaixo de 99% ao ano), causando perda de reputação da marca. 
 
-> **Categoria** Usabilidade, confiabilidade, performance, suportabilidade, restrição de projeto, implementação, interface e requisito físico - segundo classificação [FURP+](https://pt.wikipedia.org/wiki/FURPS).
-> **Classificação**: desejável ou obrigatório.
+
