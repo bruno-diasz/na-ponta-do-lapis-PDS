@@ -119,10 +119,31 @@ Os usuários utilizarão o sistema através de um Navegador (Sistema Web), onde 
 |  NF01  |  Linguagens/Frameworks  | Utilização de Java, Spring Boot,Typescript e Angular para desenvolver o projeto | Restrição de projeto |   Desejável   |
 |  NF02  |     Banco de Dados      |                                   PostgreSQL                                    | Restrição de projeto |  Obrigatório  |
 |  NF03  |      Criptografia       |               As senhas deve ser armazenadas usando criptografia                |      Segurança       |  Obrigatório  |
-|  NF04  |     Responsividade      |                    O sistema deve ter a interface responsiva                   |      Interface       |   Desejável   |
-|  NF05  |     Acessibilidade      |          O sistema deverá ter algumas funcionalidades de acessibilidade como HTML semântico, botões grandes e chamativo.          |     Usabilidade      |   Desejável   |
+|  NF04  |     Responsividade      |                    O sistema deve ter a interface responsiva                    |      Interface       |   Desejável   |
+|  NF05  |     Acessibilidade      |          O sistema deverá ter algumas funcionalidades de acessibilidade          |     Usabilidade      |   Desejável   |
 |  NF06  | Facilidade de Navegação |      Todas as funcionalidades devem poder ser acessadas com poucos clicks       |     Usabilidade      |  Obrigatório  |
 |  RF07  |                     Seleção de tema visual                     |                                        Permitir o usuário alternar entre o tema claro e o escuro.                                        |   Baixa    |
+
+## 10. Riscos ⚠️
+Possíveis Riscos:
+
+- Má comunicação entre os membros do projeto durante o desenvolvimento e tomada de decisões.
+
+- Baixo conhecimento de desenvolvimento utilizando os frameworks Angular, Spring Boot e Deploy do sistema.
+
+- Interface ser confusa ou não resolver o problema do usuário final.
+
+- Baixa escalabilidade, sistema funcionar para 10 usuários, mas não suportar uma carga de 1.000 clientes simultâneos.
+
+- Vazamento de dados, autenticação frágil ou falta de conformidade com Lei LGPD
+
+- Incoerência em relação ao projeto proposto com o que foi desenvolvido.
+
+- Projeto demorar tanto que, quando for lançado já vai estar fora do prazo estipulado pelos Stakeholders.
+
+- Baixa confiabilidade e disponibilidade do sistema (abaixo de 99% ao ano), causando perda de reputação da marca.
+
+
 
 ## 10. Riscos ⚠️
 Possíveis Riscos:
