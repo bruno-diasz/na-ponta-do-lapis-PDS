@@ -1,5 +1,6 @@
 package com.npl.na_ponta_do_lapis.entity;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 import com.npl.na_ponta_do_lapis.entity.Enums.TipoConta;
@@ -29,8 +30,8 @@ public class ContaFinanceira {
     private String nome;
 
     @NotNull(message = "O saldo é obrigatório")
-    @Column(name = "saldo", nullable = false, columnDefinition = "DEFAULT 0.0")
-    private Double saldo;
+    @Column(name = "saldo", precision = 19, scale = 2, nullable = false, columnDefinition = "DEFAULT 0.0")
+    private BigDecimal saldo;
 
     @NotNull(message = "O tipo é obrigatório")
     @Enumerated(EnumType.STRING)
@@ -70,11 +71,11 @@ public class ContaFinanceira {
         this.nome = nome;
     }
 
-    public Double getSaldo() {
+    public BigDecimal getSaldo() {
         return this.saldo;
     }
 
-    public void setSaldo(Double saldo) {
+    public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
     }
 
