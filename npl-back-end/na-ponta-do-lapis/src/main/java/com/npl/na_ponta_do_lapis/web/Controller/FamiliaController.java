@@ -41,7 +41,7 @@ public class FamiliaController {
 
     @Operation(summary = "Excluir Família")
     @DeleteMapping("/{id}")
-    private ResponseEntity<FamiliaResponseDTO> excluirFamilia(@PathVariable Long id){
+    private ResponseEntity<Void> excluirFamilia(@PathVariable Long id){
         familiaService.excluirFamilia(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
