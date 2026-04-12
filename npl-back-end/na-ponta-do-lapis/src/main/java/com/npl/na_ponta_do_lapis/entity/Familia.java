@@ -16,9 +16,8 @@ public class Familia {
     @Column(name = "nome", length = 100, nullable = false)
     private String nome;
 
-    @Lob
-    @Column(name = "fotoFamilia", columnDefinition = "LONGLOB", nullable = false)
-    private byte[] fotoFamilia;
+    @Column(name = "fotoFamilia", columnDefinition = "TEXT", nullable = true)
+    private String fotoFamilia;
 
     @Override
     public boolean equals(Object o) {
@@ -40,11 +39,11 @@ public class Familia {
         this.id = id;
     }
 
-    public byte[] getFotoFamilia() {
+    public String getFotoFamilia() {
         return fotoFamilia;
     }
 
-    public void setFotoFamilia(byte[] fotoFamilia) {
+    public void setFotoFamilia(String fotoFamilia) {
         this.fotoFamilia = fotoFamilia;
     }
 
