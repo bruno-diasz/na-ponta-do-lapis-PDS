@@ -35,8 +35,8 @@ public class FamiliaController {
 
     @Operation(summary = "Cadastrar Família")
     @PostMapping
-    private ResponseEntity<FamiliaResponseDTO> cadastrarFamilia(FamiliaDTO usuarioDTO){
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(familiaService.criarFamilia(usuarioDTO));
+    private ResponseEntity<FamiliaResponseDTO> cadastrarFamilia(@RequestBody FamiliaDTO familiaDTO){
+        return ResponseEntity.status(HttpStatus.CREATED).body(familiaService.criarFamilia(familiaDTO));
     }
 
     @Operation(summary = "Excluir Família")
