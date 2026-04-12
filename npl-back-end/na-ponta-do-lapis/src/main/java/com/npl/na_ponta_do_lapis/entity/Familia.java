@@ -11,7 +11,7 @@ public class Familia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "nome", length = 100, nullable = false)
     private String nome;
@@ -23,7 +23,7 @@ public class Familia {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Familia familia = (Familia) o;
-        return id == familia.id;
+        return id.equals(familia.id);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class Familia {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
