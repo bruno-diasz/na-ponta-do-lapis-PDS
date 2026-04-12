@@ -1,4 +1,4 @@
-package com.npl.na_ponta_do_lapis.controller;
+package com.npl.na_ponta_do_lapis.web.Controller;
 
 import java.util.List;
 
