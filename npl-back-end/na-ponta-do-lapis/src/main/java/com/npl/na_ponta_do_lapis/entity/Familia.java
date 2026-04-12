@@ -2,7 +2,6 @@ package com.npl.na_ponta_do_lapis.entity;
 
 import jakarta.persistence.*;
 
-import java.awt.*;
 import java.util.Objects;
 
 @Entity
