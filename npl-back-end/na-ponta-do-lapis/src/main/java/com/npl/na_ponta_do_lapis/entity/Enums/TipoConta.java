@@ -4,7 +4,7 @@ public enum TipoConta {
 
     CREDITO("Credito"),
     DEBITO("Debito"),
-    CREDITO_DEBITO("Credito_Debito");
+    CREDITO_DEBITO("Credito Debito");
 
     private String tipo;
 
@@ -13,6 +13,6 @@ public enum TipoConta {
     }
 
     public String getTipo() {
-        return "ROLE_"+this.tipo;
+        return this.tipo;
     }
 }
