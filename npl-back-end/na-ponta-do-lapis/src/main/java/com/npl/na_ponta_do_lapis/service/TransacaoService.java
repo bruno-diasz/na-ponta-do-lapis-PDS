@@ -2,6 +2,7 @@ package com.npl.na_ponta_do_lapis.service;
 
 import com.npl.na_ponta_do_lapis.entity.Transacao;
 import com.npl.na_ponta_do_lapis.repository.TransacaoRepository;
+import com.npl.na_ponta_do_lapis.web.Controller.Exception.TransacaoNaoExisteException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class TransacaoService {
 
     public Transacao buscarPorId(Long id) {
         return transacaoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Transação não encontrada"));
+                .orElseThrow(() -> new TransacaoNaoExisteException("Transação com ID:"+ id + " não encontrada"));
     }
 
     public Transacao atualizarTransacao(Long id, Transacao novaTransacao) {
