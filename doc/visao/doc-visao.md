@@ -138,6 +138,4 @@ Os usuários utilizarão o sistema através de um Navegador (Sistema Web), onde 
 - Vazamento de dados, autenticação frágil ou falta de conformidade com Lei LGPD
 - Incoerência em relação ao projeto proposto com o que foi desenvolvido.
 - Projeto demorar tanto que, quando for lançado já vai estar fora do prazo estipulado pelos Stakeholders.
-- Baixa confiabilidade e disponibilidade do sistema (abaixo de 99% ao ano), causando perda de reputação da marca. 
-
-
+- Baixa confiabilidade e disponibilidade do sistema (abaixo de 99% ao ano), causando perda de reputação da marca.
