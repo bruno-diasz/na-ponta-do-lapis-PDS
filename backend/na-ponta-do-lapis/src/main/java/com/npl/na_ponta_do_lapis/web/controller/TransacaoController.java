@@ -4,8 +4,11 @@ import com.npl.na_ponta_do_lapis.entity.Transacao;
 import com.npl.na_ponta_do_lapis.service.TransacaoService;
 import com.npl.na_ponta_do_lapis.web.dto.TransacaoRequestDTO;
 import com.npl.na_ponta_do_lapis.web.dto.TransacoesResponseDTO;
+<<<<<<< HEAD
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+=======
+>>>>>>> e4f88b5 (refactor:corrigindo POST criaTransacoes e implementando regra de negorcio ao criar transacao)
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +31,11 @@ public class TransacaoController {
     @PostMapping
     public ResponseEntity<TransacoesResponseDTO> criarTransacao(@Valid @RequestBody TransacaoRequestDTO transacao) {
         Transacao novaTransacao = transacaoService.criarTransacao(transacao);
+<<<<<<< HEAD
         TransacoesResponseDTO responseDTO = new TransacoesResponseDTO(novaTransacao);
+=======
+        TransacoesResponseDTO responseDTO = transacao.toTransacoesResponseDTO();
+>>>>>>> e4f88b5 (refactor:corrigindo POST criaTransacoes e implementando regra de negorcio ao criar transacao)
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 

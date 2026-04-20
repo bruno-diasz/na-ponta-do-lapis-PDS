@@ -3,7 +3,10 @@ package com.npl.na_ponta_do_lapis.service;
 import com.npl.na_ponta_do_lapis.entity.ContaFinanceira;
 import com.npl.na_ponta_do_lapis.entity.TipoCategoria;
 import com.npl.na_ponta_do_lapis.entity.Transacao;
+<<<<<<< HEAD
 import com.npl.na_ponta_do_lapis.entity.enums.EstadoTransacao;
+=======
+>>>>>>> e4f88b5 (refactor:corrigindo POST criaTransacoes e implementando regra de negorcio ao criar transacao)
 import com.npl.na_ponta_do_lapis.entity.enums.TipoTransacao;
 import com.npl.na_ponta_do_lapis.repository.TransacaoRepository;
 import com.npl.na_ponta_do_lapis.web.dto.TransacaoRequestDTO;
@@ -35,6 +38,7 @@ public class TransacaoService {
         novaTrasacao.setValor(transacao.valor());
         novaTrasacao.setTipo(transacao.tipo());
         novaTrasacao.setDataHora(transacao.dataHora());
+<<<<<<< HEAD
         novaTrasacao.setEstado(EstadoTransacao.PENDENTE);
 
         TipoCategoria categoria = tipoCategoriaService.buscarPorId(transacao.idCategoria());
@@ -56,6 +60,21 @@ public class TransacaoService {
 
         } else {
             // Se for uma RECEITA, apenas soma o valor ao saldo atual da conta.
+=======
+
+        TipoCategoria categoria = tipoCategoriaService.buscarPorId(transacao.idCategoria());
+        ContaFinanceira conta = contaFinanceiraService.buscarEntidadePorId(transacao.idContaFinanceira());
+
+        novaTrasacao.setCategoria(categoria);
+        novaTrasacao.setContaFinanceira(conta);
+
+        if (novaTrasacao.getTipo() == TipoTransacao.DESPESA){
+            if (conta.getSaldo().compareTo(novaTrasacao.getValor()) < 0){
+                throw new SaldoInsuficienteException("Saldo insuficiente na conta: " + conta.getNome());
+            }
+            conta.setSaldo(conta.getSaldo().subtract(novaTrasacao.getValor()));
+        } else {
+>>>>>>> e4f88b5 (refactor:corrigindo POST criaTransacoes e implementando regra de negorcio ao criar transacao)
             conta.setSaldo(conta.getSaldo().add(novaTrasacao.getValor()));
         }
         return transacaoRepository.save(novaTrasacao);
