@@ -1,6 +1,7 @@
 # ==========================================
 # GERAL / SISTEMA OPERACIONAL
 # ==========================================
+
 .DS_Store
 Thumbs.db
 *.log
@@ -8,6 +9,7 @@ Thumbs.db
 # ==========================================
 # BACKEND: SPRING BOOT (Java / Maven / Gradle)
 # ==========================================
+
 # Arquivos compilados
 target/
 build/
@@ -26,19 +28,13 @@ classes/
 logs/
 
 # Maven 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 .mvn/
->>>>>>> ccf3bb4 (chore: aplica regras do gitigore)
-=======
->>>>>>> 34a34a5 (chore: adiciona manuais e configura banco)
 !/.mvn/wrapper/maven-wrapper.jar
-
 
 # ==========================================
 # FRONTEND: ANGULAR (Node.js / npm)
 # ==========================================
+
 # Dependências do Node (MUITO IMPORTANTE ignorar)
 node_modules/
 
@@ -68,6 +64,7 @@ yarn-debug.log*
 # ==========================================
 # IDEs E EDITOR DE TEXTO
 # ==========================================
+
 # IntelliJ IDEA
 .idea/
 *.iml
@@ -81,18 +78,7 @@ yarn-debug.log*
 .settings/
 .classpath
 .project
-<<<<<<< HEAD
-<<<<<<< HEAD
 .metadata/
 
 # Arquivos de rascunho do SQLTools
 *.session.sql
-=======
-.metadata/
->>>>>>> ccf3bb4 (chore: aplica regras do gitigore)
-=======
-.metadata/
-
-# Arquivos de rascunho do SQLTools
-*.session.sql
->>>>>>> 34a34a5 (chore: adiciona manuais e configura banco)
