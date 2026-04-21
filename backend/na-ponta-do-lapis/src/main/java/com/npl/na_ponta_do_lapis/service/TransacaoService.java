@@ -4,15 +4,20 @@ import com.npl.na_ponta_do_lapis.entity.ContaFinanceira;
 import com.npl.na_ponta_do_lapis.entity.TipoCategoria;
 import com.npl.na_ponta_do_lapis.entity.Transacao;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import com.npl.na_ponta_do_lapis.entity.enums.EstadoTransacao;
 =======
 >>>>>>> e4f88b5 (refactor:corrigindo POST criaTransacoes e implementando regra de negorcio ao criar transacao)
+=======
+import com.npl.na_ponta_do_lapis.entity.enums.EstadoTransacao;
+>>>>>>> f2c067a (refactor(Transacoes ): corrigindo endpoint transacao, add regra de negocio no atualizar Transacao e melhorando resposta dos endpoits transacoes)
 import com.npl.na_ponta_do_lapis.entity.enums.TipoTransacao;
 import com.npl.na_ponta_do_lapis.repository.TransacaoRepository;
 import com.npl.na_ponta_do_lapis.web.dto.TransacaoRequestDTO;
 import com.npl.na_ponta_do_lapis.web.exception.SaldoInsuficienteException;
 import com.npl.na_ponta_do_lapis.web.exception.TransacaoNaoExisteException;
 import jakarta.transaction.Transactional;
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,6 +44,7 @@ public class TransacaoService {
         novaTrasacao.setTipo(transacao.tipo());
         novaTrasacao.setDataHora(transacao.dataHora());
 <<<<<<< HEAD
+<<<<<<< HEAD
         novaTrasacao.setEstado(EstadoTransacao.PENDENTE);
 
         TipoCategoria categoria = tipoCategoriaService.buscarPorId(transacao.idCategoria());
@@ -61,11 +67,15 @@ public class TransacaoService {
         } else {
             // Se for uma RECEITA, apenas soma o valor ao saldo atual da conta.
 =======
+=======
+        novaTrasacao.setEstado(EstadoTransacao.PENDENTE);
+>>>>>>> f2c067a (refactor(Transacoes ): corrigindo endpoint transacao, add regra de negocio no atualizar Transacao e melhorando resposta dos endpoits transacoes)
 
         TipoCategoria categoria = tipoCategoriaService.buscarPorId(transacao.idCategoria());
-        ContaFinanceira conta = contaFinanceiraService.buscarEntidadePorId(transacao.idContaFinanceira());
+        ContaFinanceira conta = contaFinanceiraService.buscarContaPorIdObject(transacao.idContaFinanceira());
 
         novaTrasacao.setCategoria(categoria);
+<<<<<<< HEAD
         novaTrasacao.setContaFinanceira(conta);
 
         if (novaTrasacao.getTipo() == TipoTransacao.DESPESA){
@@ -78,6 +88,9 @@ public class TransacaoService {
             conta.setSaldo(conta.getSaldo().add(novaTrasacao.getValor()));
         }
         return transacaoRepository.save(novaTrasacao);
+=======
+        return validarTransacaoESalvar(novaTrasacao, conta);
+>>>>>>> f2c067a (refactor(Transacoes ): corrigindo endpoint transacao, add regra de negocio no atualizar Transacao e melhorando resposta dos endpoits transacoes)
 
     }
 
@@ -93,17 +106,30 @@ public class TransacaoService {
     @Transactional
     public Transacao atualizarTransacao(Long id, TransacaoRequestDTO dto) {
         // Busca a transação original no banco antes de qualquer mudança.
+<<<<<<< HEAD
         Transacao transacaoExistente = buscarPorId(id);
         // Identifica a conta onde a transação ocorreu originalmente para realizar o estorno.
         ContaFinanceira contaFinanceiraAntiga = transacaoExistente.getContaFinanceira();
+=======
+        // Se o ID não existir, a exceção personalizada será lançada aqui.
+        Transacao transacaoExistente = buscarPorId(id);
+        // Identifica a conta onde a transação ocorreu originalmente para realizar o estorno.
+        ContaFinanceira contaFinanceira = transacaoExistente.getContaFinanceira();
+>>>>>>> f2c067a (refactor(Transacoes ): corrigindo endpoint transacao, add regra de negocio no atualizar Transacao e melhorando resposta dos endpoits transacoes)
 
         // Antes de editar, precisa "anular" o impacto que essa transação teve no saldo.
         // Se era uma saída (DESPESA), devolvemos o valor ao saldo.
         // Se era uma entrada (RECEITA), retiramos o valor do saldo.
         if (transacaoExistente.getTipo() == TipoTransacao.DESPESA){
+<<<<<<< HEAD
             contaFinanceiraAntiga.setSaldo(contaFinanceiraAntiga.getSaldo().add(transacaoExistente.getValor()));
         } else {
             contaFinanceiraAntiga.setSaldo(contaFinanceiraAntiga.getSaldo().subtract(transacaoExistente.getValor()));
+=======
+            contaFinanceira.setSaldo(contaFinanceira.getSaldo().add(transacaoExistente.getValor()));
+        } else {
+            contaFinanceira.setSaldo(contaFinanceira.getSaldo().subtract(transacaoExistente.getValor()));
+>>>>>>> f2c067a (refactor(Transacoes ): corrigindo endpoint transacao, add regra de negocio no atualizar Transacao e melhorando resposta dos endpoits transacoes)
         }
 
         // Seta os novos dados do DTO na entidade
@@ -116,6 +142,7 @@ public class TransacaoService {
         // Busca a nova Categoria e a nova Conta Financeira (caso o usuário tenha trocado a conta da transação).
         transacaoExistente.setCategoria(tipoCategoriaService.buscarPorId(dto.idCategoria()));
         ContaFinanceira novaContaFinanceira = contaFinanceiraService.buscarContaPorIdObject(dto.idContaFinanceira());
+<<<<<<< HEAD
 
 
         // Associa a transação à conta financeira específica
@@ -132,11 +159,37 @@ public class TransacaoService {
         }
 
         return transacaoRepository.save(transacaoExistente);
+=======
+        // método que verifica se a (nova) conta tem saldo e aplica o (novo) valor.
+        return validarTransacaoESalvar(transacaoExistente, novaContaFinanceira);
+>>>>>>> f2c067a (refactor(Transacoes ): corrigindo endpoint transacao, add regra de negocio no atualizar Transacao e melhorando resposta dos endpoits transacoes)
     }
 
     public void removerTransacao(Long id) {
         Transacao transacao = buscarPorId(id);
         transacaoRepository.delete(transacao);
+    }
+
+    @NonNull
+    private Transacao validarTransacaoESalvar(Transacao novaTrasacao, ContaFinanceira conta) {
+        // Associa a transação à conta financeira específica
+        novaTrasacao.setContaFinanceira(conta);
+        // VERIFICAÇÃO DE TIPO: O sistema precisa saber se tira ou coloca dinheiro
+        if (novaTrasacao.getTipo() == TipoTransacao.DESPESA) {
+            // Compara o saldo da conta com o valor da transação.
+            // Se o saldo < valor, o compareTo retorna -1.
+            if (conta.getSaldo().compareTo(novaTrasacao.getValor()) < 0) {
+                // Se não tem dinheiro, para tudo aqui e lança a exceção!
+                throw new SaldoInsuficienteException("Saldo insuficiente na conta: " + conta.getNome());
+            }
+            // Se passou na validação, subtrai o valor do saldo da conta.
+            conta.setSaldo(conta.getSaldo().subtract(novaTrasacao.getValor()));
+
+        } else {
+            // Se for uma RECEITA, apenas soma o valor ao saldo atual da conta.
+            conta.setSaldo(conta.getSaldo().add(novaTrasacao.getValor()));
+        }
+        return transacaoRepository.save(novaTrasacao);
     }
 
 }
