@@ -3,7 +3,6 @@ package com.npl.na_ponta_do_lapis.web.dto;
 import java.math.BigDecimal;
 import java.util.Optional;
 
-import com.npl.na_ponta_do_lapis.entity.Usuario;
 import com.npl.na_ponta_do_lapis.entity.enums.TipoConta;
 
 public record ContaFinanceiraPatchDTO(
