@@ -1,9 +1,11 @@
 package com.npl.na_ponta_do_lapis.web.controller;
 
 
+import com.npl.na_ponta_do_lapis.entity.Usuario;
 import com.npl.na_ponta_do_lapis.service.FamiliaService;
 import com.npl.na_ponta_do_lapis.web.dto.FamiliaDTO;
 import com.npl.na_ponta_do_lapis.web.dto.FamiliaResponseDTO;
+import com.npl.na_ponta_do_lapis.web.dto.UsuarioResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
@@ -54,7 +56,7 @@ public class FamiliaController {
         return ResponseEntity.status(HttpStatus.OK).body(familiaService.editarFamilia(id, new FamiliaDTO(nome, foto)));
     }
 
-    @Operaion(summary = "Adicionar usuário na família")
+    @Operation(summary = "Adicionar usuário na família")
     @PostMapping("/{id}/adicionar-usuario")
     private ResponseEntity<FamiliaResponseDTO> adicionarUsuarioNaFamilia(@PathVariable Long id, @RequestParam String username){
         return ResponseEntity.status(HttpStatus.OK).body(familiaService.adicionarUsuarioNaFamilia(username, id));
@@ -68,8 +70,8 @@ public class FamiliaController {
 
     @Operation(summary= "Promover membro a administrador da família")
     @PostMapping("/{id}/promover-administrador-familia")
-    private ResponseEntity<FamiliaResponseDTO> promoverAdministrador(@PathVariable Long id, @RequestParam String username){
-        return ResponseEntity.status(HttpStatus.OK).body(familiaService.promoverAdministrador(username, id));
+    private ResponseEntity<UsuarioResponseDTO> promoverAdministrador(@PathVariable Long userId, @RequestParam Usuario usuario){
+        return ResponseEntity.status(HttpStatus.OK).body(familiaService.promoverParaAdmin(userId, usuario));
     }
 
 }

@@ -84,7 +84,6 @@ public class FamiliaService {
         return new FamiliaResponseDTO(familia);
     }
 
-    // 🔹 Promover para admin
     @Transactional
     public UsuarioResponseDTO promoverParaAdmin(Long userId, Usuario solicitante) {
 
