@@ -28,3 +28,8 @@ VALUES
     (6, 'BB', 10, 'CREDITO', 2),
     (7, 'PicPay', 1, 'CREDITO', 1)
 ON CONFLICT (id) DO NOTHING;
+
+-- Resetar sequências para evitar conflito de chave primária
+SELECT setval('usuario_id_seq', (SELECT MAX(id) FROM usuario) + 1, false);
+SELECT setval('tipo_categoria_id_seq', (SELECT MAX(id) FROM tipo_categoria) + 1, false);
+SELECT setval('conta_financeira_id_seq', (SELECT MAX(id) FROM conta_financeira) + 1, false);
