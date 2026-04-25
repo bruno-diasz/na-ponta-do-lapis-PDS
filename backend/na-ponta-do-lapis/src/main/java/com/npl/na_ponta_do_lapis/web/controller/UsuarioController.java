@@ -56,6 +56,8 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @Operation(summary = "Atualizar Usuário (Passe apenas os campos que for atualizar)")
+    //@PreAuthorize("hasRole('ADMIN_SITE') or #id == authentication.principal.id")
     @PatchMapping("/{id}")
     public ResponseEntity<UsuarioResponseDTO> atualizarUsuario(@PathVariable Long id, @RequestBody @Valid UsuarioUpdateDTO usuarioDTO){
         Usuario usuarioAtualizado = usuarioService.AtualizarUsuario(id,usuarioDTO);
@@ -63,11 +65,19 @@ public class UsuarioController {
     }
 
     @Operation(summary = "Deletar Usuário")
+    //   @PreAuthorize("hasRole('ADMIN_SITE') or #id == authentication.principal.id")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluirUsuario(@PathVariable Long id){
         usuarioService.excluirUsuario(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @Operation(summary = "Tornar Usuário Admin do Site")
+//    @PreAuthorize("hasRole('ADMIN_SITE'))
+    @PatchMapping("/{id}/admin")
+    public ResponseEntity<Void> tornarAdminSite(@PathVariable Long id){
+        usuarioService.tornarUsuarioAdminSite(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 
 }
