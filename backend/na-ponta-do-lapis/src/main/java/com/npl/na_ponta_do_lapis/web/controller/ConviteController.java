@@ -32,50 +32,50 @@ public class ConviteController {
         this.conviteService = conviteService;
         this.usuarioRepository = usuarioRepository;
     }
-
-    @Operation(summary = "Listar convites pendentes para o usuário autenticado")
-    @GetMapping("/pendentes")
-    public ResponseEntity<List<ConviteResponseDTO>> listarPendentes(Principal principal) {
-        Usuario usuarioAutenticado = buscarUsuarioAutenticado(principal);
-        return ResponseEntity.ok(conviteService.listarPendentes(usuarioAutenticado));
-    }
-
-    @Operation(summary = "Enviar convite para usuário")
-    @PostMapping("/convidar")
-    public ResponseEntity<ConviteResponseDTO> enviarConvite(
-            @RequestBody ConviteDTO conviteDTO,
-            Principal principal
-    ) {
-        Usuario solicitante = buscarUsuarioAutenticado(principal);
-        return ResponseEntity.ok(conviteService.enviarConvite(conviteDTO, solicitante));
-    }
-
-    @Operation(summary = "Aceitar convite para familia")
-    @PostMapping("/{conviteId}/aceitar")
-    public ResponseEntity<ConviteResponseDTO> aceitarConvite(
-            @PathVariable Long conviteId,
-            Principal principal
-    ) {
-        Usuario usuarioAutenticado = buscarUsuarioAutenticado(principal);
-        return ResponseEntity.ok(conviteService.aceitarConvite(conviteId, usuarioAutenticado));
-    }
-
-    @Operation(summary = "Recusar convite para familia")
-    @PostMapping("/{conviteId}/recusar")
-    public ResponseEntity<ConviteResponseDTO> recusarConvite(
-            @PathVariable Long conviteId,
-            Principal principal
-    ) {
-        Usuario usuarioAutenticado = buscarUsuarioAutenticado(principal);
-        return ResponseEntity.ok(conviteService.recusarConvite(conviteId, usuarioAutenticado));
-    }
-
-    private Usuario buscarUsuarioAutenticado(Principal principal) {
-        if (principal == null || principal.getName() == null || principal.getName().isBlank()) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não autenticado");
-        }
-
-        return usuarioRepository.findByUsername(principal.getName())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário autenticado não encontrado"));
-    }
+//
+//    @Operation(summary = "Listar convites pendentes para o usuário autenticado")
+//    @GetMapping("/pendentes")
+//    public ResponseEntity<List<ConviteResponseDTO>> listarPendentes(Principal principal) {
+//        Usuario usuarioAutenticado = buscarUsuarioAutenticado(principal);
+//        return ResponseEntity.ok(conviteService.listarPendentes(usuarioAutenticado));
+//    }
+//
+//    @Operation(summary = "Enviar convite para usuário")
+//    @PostMapping("/convidar")
+//    public ResponseEntity<ConviteResponseDTO> enviarConvite(
+//            @RequestBody ConviteDTO conviteDTO,
+//            Principal principal
+//    ) {
+//        Usuario solicitante = buscarUsuarioAutenticado(principal);
+//        return ResponseEntity.ok(conviteService.enviarConvite(conviteDTO, solicitante));
+//    }
+//
+//    @Operation(summary = "Aceitar convite para familia")
+//    @PostMapping("/{conviteId}/aceitar")
+//    public ResponseEntity<ConviteResponseDTO> aceitarConvite(
+//            @PathVariable Long conviteId,
+//            Principal principal
+//    ) {
+//        Usuario usuarioAutenticado = buscarUsuarioAutenticado(principal);
+//        return ResponseEntity.ok(conviteService.aceitarConvite(conviteId, usuarioAutenticado));
+//    }
+//
+//    @Operation(summary = "Recusar convite para familia")
+//    @PostMapping("/{conviteId}/recusar")
+//    public ResponseEntity<ConviteResponseDTO> recusarConvite(
+//            @PathVariable Long conviteId,
+//            Principal principal
+//    ) {
+//        Usuario usuarioAutenticado = buscarUsuarioAutenticado(principal);
+//        return ResponseEntity.ok(conviteService.recusarConvite(conviteId, usuarioAutenticado));
+//    }
+//
+//    private Usuario buscarUsuarioAutenticado(Principal principal) {
+//        if (principal == null || principal.getName() == null || principal.getName().isBlank()) {
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não autenticado");
+//        }
+//
+//        return usuarioRepository.findByUsername(principal.getName())
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário autenticado não encontrado"));
+//    }
 }

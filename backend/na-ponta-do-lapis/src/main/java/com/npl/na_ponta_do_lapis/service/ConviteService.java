@@ -49,8 +49,7 @@ public class ConviteService {
             throw new RuntimeException("Família do convite não corresponde à família do solicitante");
         }
 
-        Usuario destinatario = usuarioRepository.findByUsername(conviteDTO.destinatarioUsername())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        Usuario destinatario = usuarioRepository.findByUsername(conviteDTO.destinatarioUsername());
 
         if (destinatario.equals(solicitante)) {
             throw new RuntimeException("Não pode convidar a si mesmo");
