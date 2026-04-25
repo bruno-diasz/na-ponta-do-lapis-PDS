@@ -1,11 +1,8 @@
 package com.npl.na_ponta_do_lapis.service;
-
-import com.npl.na_ponta_do_lapis.entity.Convite;
 import com.npl.na_ponta_do_lapis.entity.Familia;
 import com.npl.na_ponta_do_lapis.entity.Usuario;
 import com.npl.na_ponta_do_lapis.entity.enums.Papel;
-import com.npl.na_ponta_do_lapis.entity.enums.StatusConvite;
-import com.npl.na_ponta_do_lapis.repository.ConviteRepository;
+
 import com.npl.na_ponta_do_lapis.repository.FamiliaRepository;
 
 import com.npl.na_ponta_do_lapis.repository.UsuarioRepository;
@@ -13,7 +10,7 @@ import com.npl.na_ponta_do_lapis.web.dto.FamiliaDTO;
 import com.npl.na_ponta_do_lapis.web.dto.FamiliaResponseDTO;
 import com.npl.na_ponta_do_lapis.web.dto.UsuarioResponseDTO;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -59,33 +56,33 @@ public class FamiliaService {
         return new FamiliaResponseDTO(familia);
     }
 
-    @Transactional
-    public FamiliaResponseDTO adicionarUsuarioNaFamilia(String username, Long id_familia){
-        Familia familia = familiaRepository.findById(id_familia)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Família não foi encontrada."));
-        Usuario usuario = usuarioRepository.findByUsername(username)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não foi encontrado."));
-        if (usuario.getFamilia() != null){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário já pertence a uma família.");
-        }
-        usuario.setFamilia(familia);
-        usuarioRepository.save(usuario);
-        return new FamiliaResponseDTO(familia);
-    }
+//    @Transactional
+//    public FamiliaResponseDTO adicionarUsuarioNaFamilia(String username, Long id_familia){
+//        Familia familia = familiaRepository.findById(id_familia)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Família não foi encontrada."));
+//        Usuario usuario = usuarioRepository.findByUsername(username)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não foi encontrado."));
+//        if (usuario.getFamilia() != null){
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário já pertence a uma família.");
+//        }
+//        usuario.setFamilia(familia);
+//        usuarioRepository.save(usuario);
+//        return new FamiliaResponseDTO(familia);
+//    }
 
-    @Transactional
-    public FamiliaResponseDTO removerUsuarioNaFamilia(String username, Long id_familia){
-        Familia familia = familiaRepository.findById(id_familia)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Família não foi encontrada."));
-        Usuario usuario = usuarioRepository.findByUsername(username)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não foi encontrado."));
-        if (usuario.getFamilia() == null || !usuario.getFamilia().equals(familia)){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário não pertence a essa família.");
-        }
-        usuario.setFamilia(null);
-        usuarioRepository.save(usuario);
-        return new FamiliaResponseDTO(familia);
-    }
+//    @Transactional
+//    public FamiliaResponseDTO removerUsuarioNaFamilia(String username, Long id_familia){
+//        Familia familia = familiaRepository.findById(id_familia)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Família não foi encontrada."));
+//        Usuario usuario = usuarioRepository.findByUsername(username)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não foi encontrado."));
+//        if (usuario.getFamilia() == null || !usuario.getFamilia().equals(familia)){
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário não pertence a essa família.");
+//        }
+//        usuario.setFamilia(null);
+//        usuarioRepository.save(usuario);
+//        return new FamiliaResponseDTO(familia);
+//    }
 
     @Transactional
     public UsuarioResponseDTO promoverParaAdmin(Long userId, Usuario solicitante) {

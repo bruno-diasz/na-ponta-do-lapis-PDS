@@ -63,32 +63,32 @@ public class FamiliaController {
         return ResponseEntity.status(HttpStatus.OK).body(familiaService.editarFamilia(id, new FamiliaDTO(nome, foto)));
     }
 
-    @Operation(summary = "Adicionar usuário na família")
-    @PostMapping("/{id}/adicionar-usuario")
-    private ResponseEntity<FamiliaResponseDTO> adicionarUsuarioNaFamilia(@PathVariable Long id, @RequestParam String username){
-        return ResponseEntity.status(HttpStatus.OK).body(familiaService.adicionarUsuarioNaFamilia(username, id));
+//    @Operation(summary = "Adicionar usuário na família")
+//    @PostMapping("/{id}/adicionar-usuario")
+//    private ResponseEntity<FamiliaResponseDTO> adicionarUsuarioNaFamilia(@PathVariable Long id, @RequestParam String username){
+//        return ResponseEntity.status(HttpStatus.OK).body(familiaService.adicionarUsuarioNaFamilia(username, id));
+//    }
+//
+//    @Operation(summary = "Remover usuário da família")
+//    @PostMapping("/{id}/remover-usuario")
+//    private ResponseEntity<FamiliaResponseDTO> removerUsuarioDaFamilia(@PathVariable Long id, @RequestParam String username){
+//        return ResponseEntity.status(HttpStatus.OK).body(familiaService.removerUsuarioNaFamilia(username, id));
     }
 
-    @Operation(summary = "Remover usuário da família")
-    @PostMapping("/{id}/remover-usuario")
-    private ResponseEntity<FamiliaResponseDTO> removerUsuarioDaFamilia(@PathVariable Long id, @RequestParam String username){
-        return ResponseEntity.status(HttpStatus.OK).body(familiaService.removerUsuarioNaFamilia(username, id));
-    }
+//    @Operation(summary= "Promover membro a administrador da família")
+//    @PostMapping("/{userId}/promover-administrador-familia")
+//    private ResponseEntity<UsuarioResponseDTO> promoverAdministrador(@PathVariable Long userId, Principal principal){
+//        Usuario solicitante = buscarUsuarioAutenticado(principal);
+//        return ResponseEntity.status(HttpStatus.OK).body(familiaService.promoverParaAdmin(userId, solicitante));
+//    }
 
-    @Operation(summary= "Promover membro a administrador da família")
-    @PostMapping("/{userId}/promover-administrador-familia")
-    private ResponseEntity<UsuarioResponseDTO> promoverAdministrador(@PathVariable Long userId, Principal principal){
-        Usuario solicitante = buscarUsuarioAutenticado(principal);
-        return ResponseEntity.status(HttpStatus.OK).body(familiaService.promoverParaAdmin(userId, solicitante));
-    }
+//    private Usuario buscarUsuarioAutenticado(Principal principal) {
+//        if (principal == null || principal.getName() == null || principal.getName().isBlank()) {
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não autenticado");
+//        }
+//
+//        return usuarioRepository.findByUsername(principal.getName())
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário autenticado não encontrado"));
+//    }
 
-    private Usuario buscarUsuarioAutenticado(Principal principal) {
-        if (principal == null || principal.getName() == null || principal.getName().isBlank()) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não autenticado");
-        }
 
-        return usuarioRepository.findByUsername(principal.getName())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário autenticado não encontrado"));
-    }
-
-}
