@@ -56,33 +56,37 @@ public class FamiliaService {
         return new FamiliaResponseDTO(familia);
     }
 
-//    @Transactional
-//    public FamiliaResponseDTO adicionarUsuarioNaFamilia(String username, Long id_familia){
-//        Familia familia = familiaRepository.findById(id_familia)
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Família não foi encontrada."));
-//        Usuario usuario = usuarioRepository.findByUsername(username)
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não foi encontrado."));
-//        if (usuario.getFamilia() != null){
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário já pertence a uma família.");
-//        }
-//        usuario.setFamilia(familia);
-//        usuarioRepository.save(usuario);
-//        return new FamiliaResponseDTO(familia);
-//    }
+    @Transactional
+    public FamiliaResponseDTO adicionarUsuarioNaFamilia(String username, Long id_familia){
+        Familia familia = familiaRepository.findById(id_familia)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Família não foi encontrada."));
+        if (usuarioRepository.findByUsername(username) == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não foi encontrado.");
+        }
+        Usuario usuario = usuarioRepository.findByUsername(username);
+        if (usuario.getFamilia() != null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário já pertence a uma família.");
+        }
+        usuario.setFamilia(familia);
+        usuarioRepository.save(usuario);
+        return new FamiliaResponseDTO(familia);
+    }
 
-//    @Transactional
-//    public FamiliaResponseDTO removerUsuarioNaFamilia(String username, Long id_familia){
-//        Familia familia = familiaRepository.findById(id_familia)
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Família não foi encontrada."));
-//        Usuario usuario = usuarioRepository.findByUsername(username)
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não foi encontrado."));
-//        if (usuario.getFamilia() == null || !usuario.getFamilia().equals(familia)){
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário não pertence a essa família.");
-//        }
-//        usuario.setFamilia(null);
-//        usuarioRepository.save(usuario);
-//        return new FamiliaResponseDTO(familia);
-//    }
+    @Transactional
+    public FamiliaResponseDTO removerUsuarioNaFamilia(String username, Long id_familia){
+        Familia familia = familiaRepository.findById(id_familia)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Família não foi encontrada."));
+        if (usuarioRepository.findByUsername(username) == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não foi encontrado.");
+        }
+        Usuario usuario = usuarioRepository.findByUsername(username);
+        if (usuario.getFamilia() == null || !usuario.getFamilia().equals(familia)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário não pertence a essa família.");
+        }
+        usuario.setFamilia(null);
+        usuarioRepository.save(usuario);
+        return new FamiliaResponseDTO(familia);
+    }
 
     @Transactional
     public UsuarioResponseDTO promoverParaAdmin(Long userId, Usuario solicitante) {
@@ -106,14 +110,21 @@ public class FamiliaService {
     public List<FamiliaResponseDTO> listarFamilias(){
         return familiaRepository.findAll()
                 .stream()
-                .map(familia -> new FamiliaResponseDTO(familia))
+                .map(FamiliaResponseDTO::new)
                 .toList();
     }
 
     public FamiliaResponseDTO buscarFamiliaPorID(Long id){
         return familiaRepository.findById(id)
-                .map(familia -> new FamiliaResponseDTO(familia))
+                .map(FamiliaResponseDTO::new)
                 .orElseThrow(() -> new RuntimeException("Família de ID " + id + " não existe!"));
     }
 
+    public List<UsuarioResponseDTO> listarMembrosDaFamilia(Long familiaId) {
+        Familia familia = familiaRepository.findById(familiaId)
+                .orElseThrow();
+        return familia.getMembros()                .stream()
+                .map(UsuarioResponseDTO::new)
+                .toList();
+    }
 }
