@@ -89,7 +89,10 @@ public class FamiliaController {
     @Operation(summary = "Promover membro a administrador da família")
     @PatchMapping("/{familiaId}/membros/{userId}")
     private ResponseEntity<UsuarioResponseDTO> promoverAdministrador(@PathVariable Long userId, Principal principal) {
-        Usuario solicitante = usuarioService.buscarUsuarioAutenticado(principal);
-        return ResponseEntity.status(HttpStatus.OK).body(familiaService.promoverParaAdmin(userId, solicitante));
+        Usuario solicitante = buscarUsuarioAutenticado(principal);
+        return ResponseEntity.status(HttpStatus.OK).body(familiaService.promoverParaAdminFamilia(userId, solicitante.getId()));
+    }
+    private Usuario buscarUsuarioAutenticado(Principal principal) {
+        return usuarioService.buscarUsuarioAutenticado(principal);
     }
 }
