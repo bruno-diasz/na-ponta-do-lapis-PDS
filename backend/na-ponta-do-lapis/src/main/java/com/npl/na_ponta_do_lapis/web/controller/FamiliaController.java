@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
@@ -88,11 +89,18 @@ public class FamiliaController {
 
     @Operation(summary = "Promover membro a administrador da família")
     @PatchMapping("/{familiaId}/membros/{userId}")
-    private ResponseEntity<UsuarioResponseDTO> promoverAdministrador(@PathVariable Long userId, Principal principal) {
-        Usuario solicitante = buscarUsuarioAutenticado(principal);
+    private ResponseEntity<UsuarioResponseDTO> promoverAdministrador(
+            @PathVariable Long familiaId,
+            @PathVariable Long userId,
+            Principal principal,
+            @RequestParam(required = false) String username
+    ) {
+        Usuario solicitante = usuarioService.buscarUsuarioAutenticado(principal, username);
+
+        if (solicitante.getFamilia() == null || !familiaId.equals(solicitante.getFamilia().getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "familiaId da rota não corresponde à família do solicitante");
+        }
+
         return ResponseEntity.status(HttpStatus.OK).body(familiaService.promoverParaAdminFamilia(userId, solicitante.getId()));
-    }
-    private Usuario buscarUsuarioAutenticado(Principal principal) {
-        return usuarioService.buscarUsuarioAutenticado(principal);
     }
 }

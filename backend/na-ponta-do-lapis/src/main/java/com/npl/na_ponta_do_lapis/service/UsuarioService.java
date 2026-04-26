@@ -51,10 +51,28 @@ public class UsuarioService {
     @Transactional
     public void tornarAdminFamilia(Long id){}
 
-    public Usuario buscarUsuarioAutenticado(Principal principal) {
-        if (principal == null || principal.getName() == null) {
-            throw new RuntimeException("Usuário não autenticado");
+//    public Usuario buscarUsuarioAutenticado(Principal principal) {
+//        return buscarUsuarioAutenticado(principal, null);
+//    }
+
+    public Usuario buscarUsuarioAutenticado(Principal principal, String usernameFallback) {
+        if (principal != null && principal.getName() != null && !principal.getName().isBlank()) {
+            Usuario usuarioAutenticado = usuarioRepository.findByUsername(principal.getName());
+            if (usuarioAutenticado == null) {
+                throw new RuntimeException("Usuário autenticado não encontrado");
+            }
+            return usuarioAutenticado;
         }
-        return usuarioRepository.findByUsername(principal.getName());
+
+        // Temporario: permite operar sem autenticacao formal enquanto o fluxo de login nao existe.
+        if (usernameFallback == null || usernameFallback.isBlank()) {
+            throw new RuntimeException("Usuário não autenticado. Informe o parâmetro 'username' temporariamente.");
+        }
+
+        Usuario usuarioFallback = usuarioRepository.findByUsername(usernameFallback);
+        if (usuarioFallback == null) {
+            throw new RuntimeException("Usuário informado não encontrado");
+        }
+        return usuarioFallback;
     }
 }
