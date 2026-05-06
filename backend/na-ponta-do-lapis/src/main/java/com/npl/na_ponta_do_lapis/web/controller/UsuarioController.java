@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class UsuarioController {
 
     @Operation(summary = "Listar Usuários")
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN_SITE')")
     public ResponseEntity<List<UsuarioResponseDTO>> listUsuarios(){
         List<Usuario> usuario = usuarioService.listarUsuarios();
         List<UsuarioResponseDTO> response = usuario.stream()
@@ -36,6 +38,7 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PreAuthorize("hasRole('ADMIN_SITE') or (hasRole('USUARIO') and #id == authentication.principal.id)")
     @Operation(summary = "Buscar por ID")
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioResponseDTO> buscarPorId(@PathVariable Long id){
@@ -44,6 +47,7 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioResponseDTO);
     }
 
+    @PreAuthorize("hasRole('ADMIN_SITE')")
     @Operation(summary = "Cadastrar Usuário")
     @PostMapping()
     public ResponseEntity<UsuarioResponseDTO> criarUsuario(@RequestBody @Valid UsuarioDTO usuarioDTO){
@@ -63,21 +67,13 @@ public class UsuarioController {
 //        Usuario usuarioAtualizado = usuarioService.atualizarUsuario(id,usuarioDTO);
 //        return ResponseEntity.status(HttpStatus.OK).body(new UsuarioResponseDTO(usuarioAtualizado));
 //    }
-
+    @PreAuthorize("hasRole('ADMIN_SITE')")
     @Operation(summary = "Deletar Usuário")
-    //   @PreAuthorize("hasRole('ADMIN_SITE') or #id == authentication.principal.id")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluirUsuario(@PathVariable Long id){
         usuarioService.excluirUsuario(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @Operation(summary = "Tornar Usuário Admin do Site")
-//    @PreAuthorize("hasRole('ADMIN_SITE'))
-    @PatchMapping("/{id}/admin")
-    public ResponseEntity<Void> tornarAdminSite(@PathVariable Long id){
-        usuarioService.tornarUsuarioAdminSite(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
 
 }

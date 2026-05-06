@@ -18,10 +18,6 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public void login(){}
-
-    public void logout(){}
-
     public List<Usuario> listarUsuarios(){
         return usuarioRepository.findAll();
     }
@@ -45,8 +41,12 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    @Transactional
-    public void tornarUsuarioAdminSite(Long id){}
+    public Usuario buscarUsuarioPorEmail(String email){
+        return usuarioRepository.findByEmail(email).orElseThrow(
+                () -> new RuntimeException("Usuário de email " + email + " não encontrado!")
+        );
+    }
+
 
     @Transactional
     public void tornarAdminFamilia(Long id){}

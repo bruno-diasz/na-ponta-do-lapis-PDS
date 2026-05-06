@@ -1,17 +1,17 @@
 package com.npl.na_ponta_do_lapis.entity.enums;
 
-public enum Papel {
-    USUARIO("Usuario"),
-    ADMIN_FAMILIA("Admin_Familia"),
-    ADMIN_SITE("Admin_Site");
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Papel implements GrantedAuthority {
+    USUARIO,
+    ADMIN_FAMILIA,
+    ADMIN_SITE;
 
     private String autoridade;
 
-    Papel(String autoridade){
-        this.autoridade = autoridade;
-    }
 
-    public String getAutoridade() {
-        return "ROLE_"+autoridade;
+    @Override
+    public String getAuthority() {
+        return "ROLE_"+this.name();
     }
 }
