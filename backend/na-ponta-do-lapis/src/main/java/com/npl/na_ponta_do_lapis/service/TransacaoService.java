@@ -81,11 +81,16 @@ public class TransacaoService {
     }
 
     @Transactional
-    public Transacao atualizarTransacao(Long id, TransacaoRequestDTO dto) {
+    public Transacao atualizarTransacao(Long id, TransacaoRequestDTO dto) throws AccessDeniedException {
         // Busca a transação original no banco antes de qualquer mudança.
         Transacao transacaoExistente = buscarPorId(id);
         // Identifica a conta onde a transação ocorreu originalmente para realizar o estorno.
         ContaFinanceira contaFinanceiraAntiga = transacaoExistente.getContaFinanceira();
+
+        String emailUsuarioLogado = getEmailUsuarioLogado();
+        if (!contaFinanceiraAntiga.getUsuario().getEmail().equals(emailUsuarioLogado)){
+            throw new AccessDeniedException("Você não tem permissão para remover uma transação nessa conta financeira.");
+        }
 
         // Antes de editar, precisa "anular" o impacto que essa transação teve no saldo.
         // Se era uma saída (DESPESA), devolvemos o valor ao saldo.
@@ -120,9 +125,14 @@ public class TransacaoService {
         return transacaoRepository.save(transacaoExistente);
     }
 
-    public void removerTransacao(Long id) {
+    public void removerTransacao(Long id) throws AccessDeniedException {
         Transacao transacao = buscarPorId(id);
         ContaFinanceira conta = transacao.getContaFinanceira();
+
+        String emailUsuarioLogado = getEmailUsuarioLogado();
+        if (!conta.getUsuario().getEmail().equals(emailUsuarioLogado)){
+            throw new AccessDeniedException("Você não tem permissão para remover uma transação nessa conta financeira.");
+        }
 
         if (transacao.getTipo() == TipoTransacao.DESPESA){
             conta.setSaldo(conta.getSaldo().add(transacao.getValor()));
