@@ -88,7 +88,6 @@ export class TransacoesComponent {
     })
   }
 
-
   opcoesEstado:string[] = ['RECEITA', 'DESPESA']
 
 
