@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { PrimeNGModuleModule } from '../../shared/primeNg.module';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -7,7 +7,6 @@ import { Categoria, ITransacaoRequest, ITransacoes, Tipo } from '../../model/ITr
 import { IContasRequest } from '../../model/IContas.models';
 import { Marcador } from '../../model/IMarcador.models';
 import { Popover } from 'primeng/popover';
-import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-transacoes',
@@ -122,12 +121,12 @@ export class TransacoesComponent {
   }
 
   marcadorSelecionado: any = null
-  opcoesMarcador: Marcador[] = []
+  opcoesMarcador:Marcador[] = []
   @ViewChild('op') op!: Popover;
-  toggle(event: any) {
+  toggle(event:any){
     this.op.toggle(event);
   }
-  selecionarMarcador(marcador: Marcador) {
+  selecionarMarcador(marcador:Marcador){
     this.marcadorSelecionado = marcador
     this.formTransacao.patchValue({
       marcadorId: marcador.id
@@ -136,7 +135,7 @@ export class TransacoesComponent {
     this.formTransacao.get('marcadorId')?.markAsDirty();
   }
 
-  public listarMarcadores() {
+  public listarMarcadores(){
     this.transacoesService.listarMarcadores().subscribe({
       next: (res: Marcador[]) => {
         this.opcoesMarcador = res
@@ -182,23 +181,22 @@ export class TransacoesComponent {
     this.exibirDialog = true;
   }
 
-  public prepararEdicao(transacao: ITransacoes) {
-    this.id = transacao.id;
-    this.exibirDialog = true;
+  salvar() {
+    if(this.formTransacao.valid){
+      const dadosParaEnviar = this.formTransacao.value
+      console.log(dadosParaEnviar)
 
-    // Preenche o formulário com os dados da linha selecionada
-    this.formTransacao.patchValue({
-      descricao: transacao.descricao,
-      valor: transacao.valor,
-      idCategoria: transacao.categoria?.id,
-      idContaFinanceira: transacao.conta?.id,
-      dataHora: new Date(transacao.dataHora),
-      estado: transacao.estado,
-      tipo: transacao.tipo,
-      marcadorId: transacao.marcador?.id
-    });
-
-    this.marcadorSelecionado = transacao.marcador;
+      this.transacoesService.adicionarTransacao(dadosParaEnviar).subscribe({
+        next: (res:ITransacoes) => {
+          console.log(res)
+          alert("Lembrar de colocar um feedback melhor. TRANSACAO ENVIADA COM SUCESSO")
+        },
+        error: (error:Error) => {
+          alert("Errro ao enviar Transacao LEMBRAR DE COLOCAR UM FEEDBACK MELHOR" )
+          console.error(error)
+        }
+      })
+    }
   }
 
   salvar() {
