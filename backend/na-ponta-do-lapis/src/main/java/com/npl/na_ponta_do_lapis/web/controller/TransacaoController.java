@@ -36,7 +36,7 @@ public class TransacaoController {
     }
 
     @Operation(summary = "Listar Transacoe do Usuário Logado")
-    @PreAuthorize("hasRole('USUARIO') OR hasRole('ADMIN_FAMILIA') OR hasRole('ADMIN_SITE')")
+    @PreAuthorize("hasRole('USUARIO') OR hasRole('ADMIN_FAMILIA')")
     @GetMapping("/me")
     public ResponseEntity<List<TransacoesResponseDTO>> listarTransacoesUsuarioLogado() {
         List<Transacao> transacoes = transacaoService.listarTransacoesUsuarioNaSessao();
