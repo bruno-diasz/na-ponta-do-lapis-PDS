@@ -1,12 +1,10 @@
 package com.npl.na_ponta_do_lapis.service;
 
-import com.npl.na_ponta_do_lapis.entity.ContaFinanceira;
-import com.npl.na_ponta_do_lapis.entity.TipoCategoria;
-import com.npl.na_ponta_do_lapis.entity.Transacao;
-import com.npl.na_ponta_do_lapis.entity.Usuario;
+import com.npl.na_ponta_do_lapis.entity.*;
 import com.npl.na_ponta_do_lapis.entity.enums.EstadoTransacao;
 import com.npl.na_ponta_do_lapis.entity.enums.TipoTransacao;
 import com.npl.na_ponta_do_lapis.repository.TransacaoRepository;
+import com.npl.na_ponta_do_lapis.security.jwt.JwtUtil;
 import com.npl.na_ponta_do_lapis.web.dto.TransacaoRequestDTO;
 import com.npl.na_ponta_do_lapis.web.exception.TransacaoNaoExisteException;
 import jakarta.transaction.Transactional;
@@ -21,16 +19,18 @@ import static com.npl.na_ponta_do_lapis.security.jwt.JwtAuthFilter.getEmailUsuar
 public class TransacaoService {
     private final TransacaoRepository transacaoRepository;
     private final UsuarioService usuarioService;
+    private final MarcadorService marcadorService;
 
     private TipoCategoraService tipoCategoriaService;
 
     private ContaFinanceiraService contaFinanceiraService;
 
-    public TransacaoService(TransacaoRepository transacaoRepository, TipoCategoraService tipoCategoriaService, ContaFinanceiraService contaFinanceiraService, UsuarioService usuarioService) {
+    public TransacaoService(TransacaoRepository transacaoRepository, TipoCategoraService tipoCategoriaService, ContaFinanceiraService contaFinanceiraService, UsuarioService usuarioService, MarcadorService marcadorService) {
         this.transacaoRepository = transacaoRepository;
         this.contaFinanceiraService = contaFinanceiraService;
         this.tipoCategoriaService = tipoCategoriaService;
         this.usuarioService = usuarioService;
+        this.marcadorService = marcadorService;
     }
 
     @Transactional
@@ -56,6 +56,14 @@ public class TransacaoService {
         // Associa a transação à conta financeira específica
         novaTrasacao.setContaFinanceira(conta);
         // VERIFICAÇÃO DE TIPO: O sistema precisa saber se tira ou coloca dinheiro
+        if (transacao.marcadorId() != null){
+            Marcador marcador = marcadorService.buscarMarcadorPorIdObject(transacao.marcadorId());
+
+            if (!marcador.getUsuario().getEmail().equals(email)){
+                throw new AccessDeniedException("Você não tem permissão para criar uma transação com esse marcador.");
+            }
+            novaTrasacao.setMarcador(marcador);
+        }
         if (novaTrasacao.getTipo() == TipoTransacao.DESPESA) {
             conta.setSaldo(conta.getSaldo().subtract(novaTrasacao.getValor()));
         } else {
