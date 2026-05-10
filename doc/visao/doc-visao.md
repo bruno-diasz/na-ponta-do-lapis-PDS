@@ -3,10 +3,11 @@
 ## Histórico de Revisões
 
 |    Data    | Versão |   Descrição    |               Autores                |
-| :--------: | :----: | :------------: | :----------------------------------: |
+|:----------:| :----: | :------------: | :----------------------------------: |
 | 24/09/2025 |  1.0   | Versão inicial | Bruno, Eduardo, Lucas, Pedro, Wagner |
 | 25/01/2026 |  2.0   | Segunda versão  | Bruno, Eduardo, Lucas, Pedro, Wagner |
 | 28/03/2026 |  3.0   | Terceira versão | Bruno, Eduardo, Eric, Lucas, Pedro, Vinicius, Wagner |
+| 10/05/2026 |  4.0   | Quarta versão   | Bruno, Eduardo, Eric, Lucas, Pedro, Vinicius, Wagner |
 
 ## 1. Visão Geral do Sistema Proposto
 
@@ -90,11 +91,15 @@ Os usuários utilizarão o sistema através de um Navegador (Sistema Web), onde 
 
 ## 7. Regras de Negócio
 
-|  ID   |  Regra  |  Descrição   |
-| :---: | :-----: | :----------: |
-| RN01  | Exclusão no grupo familiar | Somente o fundador do grupo pode  excluir o grupo familiar. |
-| RN02  |   Adição no grupo familiar   |     Somente os administradores podem adicionar outra pessoa ao grupo da família.      |
-| RN03  |   Remoção de membros   |     Somente os administradores podem remover do grupo familiar.      |
+|  ID  |             Regra              |                                     Descrição                                      |
+|:----:|:------------------------------:|:----------------------------------------------------------------------------------:|
+| RN01 | Utilização das funcionalidades |         Somente usuários logados podem acessar as funcionalidades do site.         |
+| RN02 |   Exclusão no grupo familiar   |            Somente o fundador do grupo pode  excluir o grupo familiar.             |
+| RN03 |    Adição no grupo familiar    |    Somente os administradores podem adicionar outra pessoa ao grupo da família.    |
+| RN04 |       Remoção de membros       |       Somente os administradores da família podem remover do grupo familiar.       |
+| RN05 |  Promoção para administrador   | Somente os administradores da família podem promover membros para administradores. | 
+| RN06 |    Nome da conta financeira    |  Um mesmo usuário não pode ter duas ou mais contas financeiras com o mesmo nome.   |
+| RN07 |     Gerenciamento de posts     |         Somente administradores podem adicionar, editar ou excluir posts.          |
 
 ## 8. Requisitos Funcionais
 
