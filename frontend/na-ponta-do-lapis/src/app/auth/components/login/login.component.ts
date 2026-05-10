@@ -9,7 +9,7 @@ import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
-  imports: [PrimeNGModuleModule, ReactiveFormsModule],
+  imports: [PrimeNGModuleModule, ReactiveFormsModule, RouterLink],
   providers: [MessageService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -35,7 +35,6 @@ export class LoginComponent {
             detail: 'Bem-vindo ao Na Ponta do Lápis',
             life:2000
           })
-
 
         StorageService.salvarToken(res.token)
         const usuario = StorageService.getUsuarioDecodificado()
