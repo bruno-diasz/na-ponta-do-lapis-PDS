@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
 import { PrimeNGModuleModule } from '../../shared/primeNg.module';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -7,6 +7,7 @@ import { Categoria, ITransacoes, Tipo } from '../../model/ITransacoes.model';
 import { IContas, IContasRequest } from '../../model/IContas.models';
 import { Marcador } from '../../model/IMarcador.models';
 import { Popover } from 'primeng/popover';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-transacoes',
@@ -184,15 +185,23 @@ export class TransacoesComponent {
   salvar() {
     if(this.formTransacao.valid){
       const dadosParaEnviar = this.formTransacao.value
-      console.log(dadosParaEnviar)
-
+      this.exibirDialog = false
       this.transacoesService.adicionarTransacao(dadosParaEnviar).subscribe({
         next: (res:ITransacoes) => {
-          console.log(res)
-          alert("Lembrar de colocar um feedback melhor. TRANSACAO ENVIADA COM SUCESSO")
+            this.messageService.add({
+            severity: 'success',
+            summary: 'Transação salva com sucesso',
+            detail: '',
+            life: 2000
+        });
         },
         error: (error:Error) => {
-          alert("Errro ao enviar Transacao LEMBRAR DE COLOCAR UM FEEDBACK MELHOR" )
+               this.messageService.add({
+               severity: 'warn',
+               summary: 'Erro ao excluir transação',
+               detail: '',
+            life: 2000
+        });
           console.error(error)
         }
       })
