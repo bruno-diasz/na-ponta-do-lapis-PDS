@@ -20,7 +20,11 @@ public record RegisterRequestDTO(
         @NotNull
         @Size(min = 5)
         String username,
+
+        String telefone,
+
         String password,
+
         String passwordConfirmation
 ) {
     public Usuario toEntity(){
@@ -28,6 +32,7 @@ public record RegisterRequestDTO(
         usuario.setNome(nomeCompleto);
         usuario.setEmail(email);
         usuario.setUsername(username);
+        usuario.setTelefone(telefone);
         usuario.setFotoPerfil(null);
         usuario.setPapel(Papel.USUARIO);
         return usuario;
