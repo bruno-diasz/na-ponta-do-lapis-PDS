@@ -186,7 +186,7 @@
             <ng-template pTemplate="footer">
                 <div class=" flex justify-center w-full mb-5">
                     <p-button styleClass="w-60 h-12 rounded-xl! bg-[#AA7FFF]! border-[#AA7FFF]!"
-                        label="Salvar alterações" severity="success" (onClick)="salvar() "></p-button>
+                        label="Salvar" [disabled]="formTransacao.invalid" severity="success" (onClick)="salvar() "></p-button>
                 </div>
             </ng-template>
         </p-dialog>

@@ -17,11 +17,11 @@ import { MessageService } from 'primeng/api';
   styleUrl: './transacoes.component.css',
 })
 export class TransacoesComponent {
-    exibirDialog: boolean = false;
-    private messageService = inject(MessageService)
-
-   formTransacao:FormGroup;
-   constructor(private fb:FormBuilder ,private transacoesService:TransacoesService, private cdr: ChangeDetectorRef){
+  exibirDialog: boolean = false;
+  private messageService = inject(MessageService)
+  id: number | null = null;
+  formTransacao: FormGroup;
+  constructor(private fb: FormBuilder, private transacoesService: TransacoesService, private cdr: ChangeDetectorRef) {
     this.formTransacao = this.fb.group({
       descricao: ['', [Validators.required, Validators.minLength(3)]],
       idCategoria: ['', [Validators.required]],
@@ -39,44 +39,44 @@ export class TransacoesComponent {
     this.listarContas()
     this.listarCategorias()
     this.listarMarcadores()
-   }
-    transacoesDados: ITransacoes[] = [];
-   public listarTransacoes():any {
+  }
+  transacoesDados: ITransacoes[] = [];
+  public listarTransacoes(): any {
     this.transacoesService.listarTransacoes().subscribe({
-      next: (res:ITransacoes[]) => {
+      next: (res: ITransacoes[]) => {
         this.transacoesDados = res
         this.cdr.detectChanges()
       },
       error: (erro: Error) => {
         console.log(erro)
-            this.messageService.add({
-               severity: 'warn',
-               summary: 'Erro as carregar transação',
-               detail: '',
-            life: 2000
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Erro as carregar transação',
+          detail: '',
+          life: 2000
         });
       }
     })
   }
   public excluir(id: number): void {
     this.transacoesService.deletarTransacaoPorId(id).subscribe({
-      next: (res:any) => {
+      next: (res: any) => {
         this.listarTransacoes()
-            this.messageService.add({
-               severity: 'success',
-               summary: 'Transação excluida com sucesso',
-               detail: '',
-            life: 2000
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Transação excluida com sucesso',
+          detail: '',
+          life: 2000
         });
       },
       error: (res: Error) => {
         console.error("Erro ao deletar Transação", res)
-         this.listarTransacoes()
-            this.messageService.add({
-               severity: 'warn',
-               summary: 'Erro ao excluir com transação',
-               detail: '',
-            life: 2000
+        this.listarTransacoes()
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Erro ao excluir com transação',
+          detail: '',
+          life: 2000
         });
       }
     })
@@ -93,11 +93,11 @@ export class TransacoesComponent {
       },
       error: (error: Error) => {
         console.error("Erro ao listar Contas Financeiras", error)
-            this.messageService.add({
-               severity: 'warn',
-               summary: 'Erro ao carregar as transações',
-               detail: ``,
-            life: 2000
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Erro ao carregar as transações',
+          detail: ``,
+          life: 2000
         });
       }
     })
@@ -111,23 +111,23 @@ export class TransacoesComponent {
       },
       error: (error: Error) => {
         console.error("Erro ao listar Categorias", error)
-         this.messageService.add({
-               severity: 'warn',
-               summary: 'Erro ao carregar as categorias',
-               detail: ``,
-            life: 2000
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Erro ao carregar as categorias',
+          detail: ``,
+          life: 2000
         });
       }
     })
   }
 
   marcadorSelecionado: any = null
-  opcoesMarcador:Marcador[] = []
+  opcoesMarcador: Marcador[] = []
   @ViewChild('op') op!: Popover;
-  toggle(event:any){
+  toggle(event: any) {
     this.op.toggle(event);
   }
-  selecionarMarcador(marcador:Marcador){
+  selecionarMarcador(marcador: Marcador) {
     this.marcadorSelecionado = marcador
     this.formTransacao.patchValue({
       marcadorId: marcador.id
@@ -136,18 +136,18 @@ export class TransacoesComponent {
     this.formTransacao.get('marcadorId')?.markAsDirty();
   }
 
-  public listarMarcadores(){
+  public listarMarcadores() {
     this.transacoesService.listarMarcadores().subscribe({
       next: (res: Marcador[]) => {
         this.opcoesMarcador = res
       },
       error: (error: Error) => {
         console.error("Erro a listar Marcadores", error)
-         this.messageService.add({
-               severity: 'warn',
-               summary: 'Erro ao carregar os marcadores',
-               detail: ``,
-            life: 2000
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Erro ao carregar os marcadores',
+          detail: ``,
+          life: 2000
         });
       }
     })
@@ -182,30 +182,23 @@ export class TransacoesComponent {
     this.exibirDialog = true;
   }
 
-  salvar() {
-    if(this.formTransacao.valid){
-      const dadosParaEnviar = this.formTransacao.value
-      this.exibirDialog = false
-      this.transacoesService.adicionarTransacao(dadosParaEnviar).subscribe({
-        next: (res:ITransacoes) => {
-            this.messageService.add({
-            severity: 'success',
-            summary: 'Transação salva com sucesso',
-            detail: '',
-            life: 2000
-        });
-        },
-        error: (error:Error) => {
-               this.messageService.add({
-               severity: 'warn',
-               summary: 'Erro ao excluir transação',
-               detail: '',
-            life: 2000
-        });
-          console.error(error)
-        }
-      })
-    }
+  public prepararEdicao(transacao: ITransacoes) {
+    this.id = transacao.id;
+    this.exibirDialog = true;
+
+    // Preenche o formulário com os dados da linha selecionada
+    this.formTransacao.patchValue({
+      descricao: transacao.descricao,
+      valor: transacao.valor,
+      idCategoria: transacao.categoria?.id,
+      idContaFinanceira: transacao.conta?.id,
+      dataHora: new Date(transacao.dataHora),
+      estado: transacao.estado,
+      tipo: transacao.tipo,
+      marcadorId: transacao.marcador?.id
+    });
+
+    this.marcadorSelecionado = transacao.marcador;
   }
 
   salvar() {
@@ -246,16 +239,16 @@ export class TransacoesComponent {
 
 
   getSeverity(status: string) {
-    if(status == 'RECEITA'){
+    if (status == 'RECEITA') {
       return 'success'
     }
-    if(status == 'DESPESA'){
+    if (status == 'DESPESA') {
       return 'danger'
     }
-    if (status == 'PENDENTE'){
+    if (status == 'PENDENTE') {
       return 'danger'
     }
-    if (status == 'REALIZADA'){
+    if (status == 'REALIZADA') {
       return 'success'
     }
     return 'info'
