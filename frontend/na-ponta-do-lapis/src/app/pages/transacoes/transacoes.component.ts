@@ -3,7 +3,7 @@ import { PrimeNGModuleModule } from '../../shared/primeNg.module';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TransacoesService } from './service/transacoes.service';
-import { Categoria, ITransacoes, Tipo } from '../../model/ITransacoes.model';
+import { Categoria, ITransacaoRequest, ITransacoes, Tipo } from '../../model/ITransacoes.model';
 import { ContasRequest } from '../../model/IContas.models';
 import { Marcador } from '../../model/IMarcador.models';
 import { Popover } from 'primeng/popover';
@@ -17,11 +17,11 @@ import { MessageService } from 'primeng/api';
   styleUrl: './transacoes.component.css',
 })
 export class TransacoesComponent {
-    exibirDialog: boolean = false;
-    private messageService = inject(MessageService)
-
-   formTransacao:FormGroup;
-   constructor(private fb:FormBuilder ,private transacoesService:TransacoesService, private cdr: ChangeDetectorRef){
+  exibirDialog: boolean = false;
+  private messageService = inject(MessageService)
+  id: number | null = null;
+  formTransacao: FormGroup;
+  constructor(private fb: FormBuilder, private transacoesService: TransacoesService, private cdr: ChangeDetectorRef) {
     this.formTransacao = this.fb.group({
       descricao: ['', [Validators.required, Validators.minLength(3)]],
       idCategoria: ['', [Validators.required]],
@@ -34,101 +34,100 @@ export class TransacoesComponent {
     })
   }
 
-   ngOnInit():void {
+  ngOnInit(): void {
     this.listarTransacoes()
     this.listarContas()
     this.listarCategorias()
     this.listarMarcadores()
-   }
-    transacoesDados: ITransacoes[] = [];
-   public listarTransacoes():any {
+  }
+  transacoesDados: ITransacoes[] = [];
+  public listarTransacoes(): any {
     this.transacoesService.listarTransacoes().subscribe({
-      next: (res:ITransacoes[]) => {
+      next: (res: ITransacoes[]) => {
         this.transacoesDados = res
         this.cdr.detectChanges()
       },
-      error: (erro:Error) => {
+      error: (erro: Error) => {
         console.log(erro)
-            this.messageService.add({
-               severity: 'warn',
-               summary: 'Erro as carregar transação',
-               detail: '',
-            life: 2000
-        });
-      }
-    })
-   }
-
-   public excluir(id: number):void {
-    this.transacoesService.deletarTransacaoPorId(id).subscribe({
-      next: (res:any) => {
-        this.listarTransacoes()
-            this.messageService.add({
-               severity: 'success',
-               summary: 'Transação excluida com sucesso',
-               detail: '',
-            life: 2000
-        });
-      },
-      error: (res:Error) => {
-        console.error("Erro ao deletar Transação", res)
-         this.listarTransacoes()
-            this.messageService.add({
-               severity: 'warn',
-               summary: 'Erro ao excluir com transação',
-               detail: '',
-            life: 2000
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Erro as carregar transação',
+          detail: '',
+          life: 2000
         });
       }
     })
   }
-   
-  
-  novaTransacao: ITransacoes = this.resetForm();
-  opcoesConta:ContasRequest[] = [];
+  public excluir(id: number): void {
+    this.transacoesService.deletarTransacaoPorId(id).subscribe({
+      next: (res: any) => {
+        this.listarTransacoes()
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Transação excluida com sucesso',
+          detail: '',
+          life: 2000
+        });
+      },
+      error: (res: Error) => {
+        console.error("Erro ao deletar Transação", res)
+        this.listarTransacoes()
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Erro ao excluir com transação',
+          detail: '',
+          life: 2000
+        });
+      }
+    })
+  }
 
-  public listarContas(){
-      this.transacoesService.listarContasUsuarioLogado().subscribe({
-      next: (res:ContasRequest[]) => {
+
+  novaTransacao: ITransacoes = this.resetForm();
+  opcoesConta: ContasRequest[] = [];
+
+  public listarContas() {
+    this.transacoesService.listarContasUsuarioLogado().subscribe({
+      next: (res: ContasRequest[]) => {
         this.opcoesConta = res
       },
-      error: (error:Error) => {
+      error: (error: Error) => {
         console.error("Erro ao listar Contas Financeiras", error)
-            this.messageService.add({
-               severity: 'warn',
-               summary: 'Erro ao carregar as transações',
-               detail: ``,
-            life: 2000
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Erro ao carregar as transações',
+          detail: ``,
+          life: 2000
         });
       }
     })
   }
 
-  opcoesCategoria:Categoria[] = []
-  public listarCategorias(){
+  opcoesCategoria: Categoria[] = []
+  public listarCategorias() {
     this.transacoesService.listarCategorias().subscribe({
-      next: (res:Categoria[]) => {
+      next: (res: Categoria[]) => {
         this.opcoesCategoria = res
       },
-      error: (error:Error) =>{
+      error: (error: Error) => {
         console.error("Erro ao listar Categorias", error)
-         this.messageService.add({
-               severity: 'warn',
-               summary: 'Erro ao carregar as categorias',
-               detail: ``,
-            life: 2000
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Erro ao carregar as categorias',
+          detail: ``,
+          life: 2000
         });
       }
     })
   }
 
   marcadorSelecionado: any = null
-  opcoesMarcador:Marcador[] = []
+  opcoesMarcador: Marcador[] = []
   @ViewChild('op') op!: Popover;
-  toggle(event:any){
+  toggle(event: any) {
     this.op.toggle(event);
   }
-  selecionarMarcador(marcador:Marcador){
+  selecionarMarcador(marcador: Marcador) {
     this.marcadorSelecionado = marcador
     this.formTransacao.patchValue({
       marcadorId: marcador.id
@@ -136,32 +135,32 @@ export class TransacoesComponent {
     this.op.hide();
     this.formTransacao.get('marcadorId')?.markAsDirty();
   }
-  
-  public listarMarcadores(){
+
+  public listarMarcadores() {
     this.transacoesService.listarMarcadores().subscribe({
-      next: (res:Marcador[]) => {
+      next: (res: Marcador[]) => {
         this.opcoesMarcador = res
       },
-      error: (error:Error) => {
+      error: (error: Error) => {
         console.error("Erro a listar Marcadores", error)
-         this.messageService.add({
-               severity: 'warn',
-               summary: 'Erro ao carregar os marcadores',
-               detail: ``,
-            life: 2000
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Erro ao carregar os marcadores',
+          detail: ``,
+          life: 2000
         });
       }
     })
   }
 
-  opcoesEstado:any[] = [
-     { label: 'Pendente', value: 'PENDENTE' },
-     { label: 'Realizada', value: 'REALIZADA' }
+  opcoesEstado: any[] = [
+    { label: 'Pendente', value: 'PENDENTE' },
+    { label: 'Realizada', value: 'REALIZADA' }
   ]
- opcoesTipo:any[] = [
+  opcoesTipo: any[] = [
     { label: 'Receita', value: 'RECEITA' },
     { label: 'Despesa', value: 'DESPESA' }
-];
+  ];
 
 
   resetForm(): ITransacoes {
@@ -183,48 +182,76 @@ export class TransacoesComponent {
     this.exibirDialog = true;
   }
 
+  public prepararEdicao(transacao: ITransacoes) {
+    this.id = transacao.id; 
+    this.exibirDialog = true;
+
+    // Preenche o formulário com os dados da linha selecionada
+    this.formTransacao.patchValue({
+      descricao: transacao.descricao,
+      valor: transacao.valor,
+      idCategoria: transacao.categoria?.id,
+      idContaFinanceira: transacao.conta?.id,
+      dataHora: new Date(transacao.dataHora),
+      estado: transacao.estado,
+      tipo: transacao.tipo,
+      marcadorId: transacao.marcador?.id
+    });
+
+    this.marcadorSelecionado = transacao.marcador;
+  }
+
   salvar() {
-    if(this.formTransacao.valid){
-      const dadosParaEnviar = this.formTransacao.value
+    if (this.formTransacao.valid) {
+      const dadosParaEnviar:ITransacaoRequest = this.formTransacao.value
       this.exibirDialog = false
-      this.transacoesService.adicionarTransacao(dadosParaEnviar).subscribe({
-        next: (res:ITransacoes) => {
-            this.messageService.add({
-            severity: 'success',
-            summary: 'Transação salva com sucesso',
-            detail: '',
-            life: 2000
-        });
-        },
-        error: (error:Error) => {
-               this.messageService.add({
-               severity: 'warn',
-               summary: 'Erro ao excluir transação',
-               detail: '',
-            life: 2000
-        });
-          console.error(error)
-        }
-      })
+
+      if (this.id) {
+        this.transacoesService.editarTransacao(this.id, dadosParaEnviar).subscribe({
+          next: () => this.sucessoAoSalvar('Transação atualizada'),
+          error: (err: Error) => this.erroAoSalvar('Erro ao editar', err)
+        })
+      } else {
+        this.transacoesService.adicionarTransacao(dadosParaEnviar).subscribe({
+          next: (res: ITransacoes) => {
+            this.sucessoAoSalvar('Transação criada!')
+          },
+          error: (error: Error) => {
+            this.erroAoSalvar('Error ao salvar', error)
+            console.error(error)
+          }
+        })
+      }
     }
   }
 
-  
+  private sucessoAoSalvar(mensagem: string) {
+    this.messageService.add({ severity: 'success', summary: mensagem, life: 2000 });
+    this.listarTransacoes();
+    this.id = null;
+  }
+
+  private erroAoSalvar(mensagem: string, erro: any) {
+    console.error(erro);
+    this.messageService.add({ severity: 'error', summary: mensagem, life: 2000 });
+  }
+
+
 
   getSeverity(status: string) {
-    if(status == 'RECEITA'){
+    if (status == 'RECEITA') {
       return 'success'
     }
-    if(status == 'DESPESA'){
+    if (status == 'DESPESA') {
       return 'danger'
     }
-    if (status == 'PENDENTE'){
+    if (status == 'PENDENTE') {
       return 'danger'
     }
-    if (status == 'REALIZADA'){
+    if (status == 'REALIZADA') {
       return 'success'
     }
     return 'info'
   }
-  
+
 }

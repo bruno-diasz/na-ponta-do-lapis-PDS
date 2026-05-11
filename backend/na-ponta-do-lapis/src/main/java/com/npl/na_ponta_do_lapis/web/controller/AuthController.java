@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -26,13 +28,12 @@ public class AuthController {
            TokenResponseDTO token = authService.login(loginRequestDTO, response);
            return ResponseEntity.ok(token);
         } catch (AuthenticationCredentialsNotFoundException e) {
-            return ResponseEntity.badRequest().body("Email ou senha inválido");
+            return ResponseEntity.ok(Collections.singletonMap("message", "Email ou senha inválido."));
         }
     }
-
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterRequestDTO registerRequestDTO, HttpServletResponse response) {
         authService.signup(registerRequestDTO, response);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Usuário cadastrado com sucesso");
+        return ResponseEntity.ok(Collections.singletonMap("message", "Usuário cadastrado com sucesso."));
     }
 }

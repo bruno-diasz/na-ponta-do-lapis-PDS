@@ -1,4 +1,4 @@
-import { MarcadorResume } from "./IMarcador.models";
+import { Marcador } from "./IMarcador.models";
 
 
 export type Tipo = "RECEITA" | "DESPESA";
@@ -23,7 +23,7 @@ export interface ITransacoes {
   dataHora: string;
   categoria: Categoria | null;
   conta: Conta | null;
-  marcador: MarcadorResume | null
+  marcador: Marcador | null
 }
 
 export interface ITransacaoRequest {
