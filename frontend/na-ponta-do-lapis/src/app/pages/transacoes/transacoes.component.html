@@ -69,10 +69,12 @@
                                 }"></p-tag></td>
                             <td>{{ t.valor | currency: 'BRL'}}</td>
                             <td>
-                                <p-button icon="pi pi-trash" (onClick)="excluir(t.id)">
-
-                                </p-button>
+                                <div class="flex gap-3">
+                                    <p-button icon="pi pi-trash" (onClick)="excluir(t.id)"></p-button>
+                                <p-button icon="pi pi-pencil" styleClass="bg-amber-400! border-[#FFB900]!" (onClick)="prepararEdicao(t)"></p-button>
+                                </div>
                             </td>
+                            
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="paginatorleft"></ng-template>
@@ -186,7 +188,7 @@
             <ng-template pTemplate="footer">
                 <div class=" flex justify-center w-full mb-5">
                     <p-button styleClass="w-60 h-12 rounded-xl! bg-[#AA7FFF]! border-[#AA7FFF]!"
-                        label="Salvar alterações" severity="success" (onClick)="salvar() "></p-button>
+                        label="Salvar" [disabled]="formTransacao.invalid" severity="success" (onClick)="salvar() "></p-button>
                 </div>
             </ng-template>
         </p-dialog>
