@@ -16,8 +16,16 @@ export class TransacoesService {
     return this.http.get<any>(`${this.BASE_URL}/transacoes/me`)
   }
 
+    public buscarTransacaoPorId(id:number): Observable<ITransacaoRequest> {
+    return this.http.get<ITransacaoRequest>(`${this.BASE_URL}/transacoes/${id}`)
+  }
+
   public deletarTransacaoPorId(id:number): Observable<void>{
     return this.http.delete<void>(`${this.BASE_URL}/transacoes/${id}`)
+  }
+
+  public editarTransacao(id:number ,transacao:ITransacaoRequest) {
+    return this.http.put<ITransacoes>(`${this.BASE_URL}/transacoes/${id}`, transacao)
   }
 
   public adicionarTransacao(transacao:ITransacaoRequest): Observable<ITransacoes> {
@@ -35,4 +43,6 @@ export class TransacoesService {
   public listarMarcadores(): Observable<any>{
     return this.http.get<any>(`${this.BASE_URL}/marcadores/me`)
   }
+
+
 }
