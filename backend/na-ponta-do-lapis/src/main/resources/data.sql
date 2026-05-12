@@ -41,15 +41,15 @@ VALUES
     ('Mensalidade Faculdade');
 
 -- SQL Conta Financeira
-INSERT INTO conta_financeira (id, nome, saldo, usuario_id)
+INSERT INTO conta_financeira (id, nome, saldo, cor, usuario_id)
 VALUES
-    (1, 'Banco Inter', 100, 1),
-    (2, 'Banco Master', 50000000.50, 2),
-    (3, 'Santander', 0, 3),
-    (4, 'Itaú', 150, 4),
-    (5, 'Nubank', 3000, 3),
-    (6, 'BB', 10, 2),
-    (7, 'PicPay', 1, 1);
+    (1, 'Banco Inter', 100, '#FF7300', 1),
+    (2, 'Banco Master', 50000000.50, '#FF0000', 2),
+    (3, 'Santander', 0, '#D40000', 3),
+    (4, 'Itaú', 150, '#0B00D4', 4),
+    (5, 'Nubank', 3000, '#7300FF', 3),
+    (6, 'BB', 10, '#FFFF00', 2),
+    (7, 'PicPay', 1, '#00FF00', 1);
 
 -- Marcadores para o Usuário 1 (Lucas Henrique)
 INSERT INTO marcador (id ,nome, cor, usuario_id) VALUES
@@ -151,4 +151,11 @@ VALUES
 
 SELECT setval(pg_get_serial_sequence('transacao', 'id'), coalesce(max(id), 0) + 1, false) FROM transacao;
 -- Sincroniza a sequência do ID do Usuário
+-- SELECT setval(pg_get_serial_sequence('usuario', 'id'), coalesce(MAX(id), 1)) FROM usuario;
+
+SELECT setval(
+    'conta_financeira_id_seq',
+    COALESCE((SELECT MAX(id) FROM conta_financeira), 1)
+);
 SELECT setval(pg_get_serial_sequence('usuario', 'id'), coalesce(MAX(id), 1)) FROM usuario;
+SELECT setval(pg_get_serial_sequence('transacao', 'id'), coalesce(max(id), 0) + 1, false) FROM transacao;
