@@ -9,7 +9,7 @@
 
                     <div class="flex gap-2">
                       <!--
-                        <p-button
+                      <p-button
                            [disabled]="true" styleClass=" text-white! !bg-[#3B82F6] !text-slate-70 0 !border-slate-200 hover:!bg-slate-100 shadow-sm rounded-xl!"><i
                                 class="pi pi-print" pButtonIcon></i> Imprimir</p-button>
                       -->
@@ -74,7 +74,7 @@
                                 <p-button icon="pi pi-pencil" styleClass="bg-amber-400! border-[#FFB900]!" (onClick)="prepararEdicao(t)"></p-button>
                                 </div>
                             </td>
-                            
+
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="paginatorleft"></ng-template>
@@ -155,13 +155,8 @@
 
                         <div class="flex flex-col gap-1">
                             <label class="font-bold">Data</label>
-<<<<<<< HEAD
-                            <p-datePicker formControlName="dataHora" dateFormat="dd/mm/yyyy" showIcon="tue"
-                                 placeholder="Selecione o dia" [appendTo]="'body'"></p-datePicker>
-=======
                             <p-datePicker formControlName="dataHora" dateFormat="dd/mm/yy" showIcon="tue"
                                 placeholder="Selecione o dia" [appendTo]="'body'"></p-datePicker>
->>>>>>> 2d4283b (feat: implementação do crud transações)
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
