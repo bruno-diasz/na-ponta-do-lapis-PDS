@@ -11,14 +11,14 @@
 
                     <h1 class=" text-amber-400 font-bold text-2xl">Movimentações</h1>
 
-                    <div class="flex gap-2">  
+                    <div class="flex gap-2">
                           <p-button styleClass=" font-bold rounded-xl! border-[#11b981]! bg-[#11b981]!" (onClick)="abrirDialog()">
                             <i class="pi pi-plus"></i> Adicionar Transação</p-button>
                         <p-button
-                           [disabled]="true" styleClass=""><i
+                           [disabled]="true" styleClass=" text-[#1976d2]! !bg-[#fafafa] !text-[#1976d2]! border-[#3B82F6]! rounded-xl!"><i
                                 class="pi pi-sliders-h" pButtonIcon></i> Filtrar</p-button>
                                  <p-button
-                            styleClass=" text-[#1976d2]! !bg-[#fafafa] !text-slate-70 0 !border-[#1976d2] rounded-xl!" (onClick)="abrirDialog()"><i
+                           [disabled]="true" styleClass=" text-[#1976d2]! !bg-[#fafafa] !text-slate-70 0 !border-[#1976d2] rounded-xl!"><i
                                 class="pi pi-print" pButtonIcon></i> Marcador</p-button>
                         <p-floatlabel>
                             <p-iconfield>
@@ -59,14 +59,14 @@
                             <td>{{ t.conta.nome }}</td>
                             <td>{{ t.dataHora | date:'dd/MM/yyyy' }}</td>
                             <td>
-                                <p-tag class="" [value]="t.tipo" [style]="{ 
-                                'background': t.tipo === 'RECEITA' ? '#1b9e34' : '#dd3340', 
-                                'color': t.tipo === 'PENDENTE' ? '#ffffff' : '#ffffff' 
+                                <p-tag class="" [value]="t.tipo" [style]="{
+                                'background': t.tipo === 'RECEITA' ? '#1b9e34' : '#dd3340',
+                                'color': t.tipo === 'PENDENTE' ? '#ffffff' : '#ffffff'
                                 }"></p-tag>
                             </td>
-                            <td><p-tag [value]="t.estado" [style]="{ 
-                                'background': t.estado === 'PENDENTE' ? '#ffefd0' : '#cdf3e1', 
-                                'color': t.estado === 'PENDENTE' ? '#FFB016' : '#14ca74' 
+                            <td><p-tag [value]="t.estado" [style]="{
+                                'background': t.estado === 'PENDENTE' ? '#ffefd0' : '#cdf3e1',
+                                'color': t.estado === 'PENDENTE' ? '#FFB016' : '#14ca74'
                                 }"></p-tag></td>
                             <td>{{ t.valor | currency: 'BRL'}}</td>
                             <td>
@@ -75,7 +75,7 @@
                                 <p-button icon="pi pi-pencil" styleClass=" text-[#7843cd]! bg-[#e8e2ff]! border-[#e8e2ff]!" (onClick)="prepararEdicao(t)"></p-button>
                                 </div>
                             </td>
-                            
+
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="paginatorleft"></ng-template>
