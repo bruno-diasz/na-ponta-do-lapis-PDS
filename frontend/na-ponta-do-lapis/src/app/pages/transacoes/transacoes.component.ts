@@ -8,10 +8,11 @@ import { IContasRequest } from '../../model/IContas.models';
 import { Marcador } from '../../model/IMarcador.models';
 import { Popover } from 'primeng/popover';
 import { MessageService } from 'primeng/api';
+import { CardSaldoComponent } from '../../shared/components/card-saldo/card-saldo.component';
 
 @Component({
   selector: 'app-transacoes',
-  imports: [PrimeNGModuleModule, CommonModule, ReactiveFormsModule],
+  imports: [CardSaldoComponent ,PrimeNGModuleModule, CommonModule, ReactiveFormsModule],
   templateUrl: './transacoes.component.html',
   providers: [MessageService],
   styleUrl: './transacoes.component.css',
