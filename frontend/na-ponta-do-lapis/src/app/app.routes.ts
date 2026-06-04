@@ -6,6 +6,7 @@ import { MetasComponent } from './pages/metas/metas.component';
 import { authGuard } from './core/guard/auth.guard';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component'
 import { SignupComponent } from './auth/components/signup/signup.component';
+import { FamiliaComponent } from './pages/familia/familia.component';
 
 
 export const routes: Routes = [
@@ -22,6 +23,10 @@ export const routes: Routes = [
             {path: "metas", component: MetasComponent },
 
         ]
+    },
+    {
+        path: "familia",
+        component: FamiliaComponent,
     },
 
 ];
