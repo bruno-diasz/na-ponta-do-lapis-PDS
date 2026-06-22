@@ -1,0 +1,53 @@
+<div class="w-full flex flex-col font-sans" [formGroup]="formGroupPai">
+  
+  <h2 class="text-black font-bold text-lg mb-4 tracking-tight">
+    {{ titulo }}
+  </h2>
+
+  <div class="grid grid-cols-2 gap-x-6 gap-y-4 w-full">
+    
+    @for (campo of campos; track campo.key) {
+      
+      @if (campo.isCelular) {
+        <div class="flex flex-col gap-2 w-full">
+          <label class="text-black font-medium text-sm tracking-tight">
+            {{ campo.label }}
+          </label>
+          <div class="flex flex-row gap-2 w-full">
+            <div class="w-14 h-11 bg-[#eaeaea] text-[#a3a3a3] rounded-[10px] flex items-center justify-center font-normal text-sm flex-shrink-0 select-none">
+              +55
+            </div>
+            <input 
+              [type]="campo.type || 'text'" 
+              [formControlName]="campo.key"
+              [placeholder]="campo.placeholder"
+              class="flex-1 h-11 bg-[#eaeaea] text-[#a3a3a3] rounded-[10px] px-4 font-normal text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 transition-all placeholder:text-[#a3a3a3]"
+            />
+          </div>
+        </div>
+      } 
+      
+      @else {
+        <div class="flex flex-col gap-2 w-full">
+          
+          @if (campo.label) {
+            <label class="text-black font-medium text-sm tracking-tight">
+              {{ campo.label }}
+            </label>
+          } @else {
+            <div class="h-5 select-none opacity-0 pointer-events-none">Alinhador</div>
+          }
+          
+          <input 
+            [type]="campo.type || 'text'" 
+            [formControlName]="campo.key"
+            [placeholder]="campo.placeholder"
+            class="w-full h-11 bg-[#eaeaea] text-[#a3a3a3] rounded-[10px] px-4 font-normal text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 transition-all placeholder:text-[#a3a3a3]"
+          />
+        </div>
+      }
+
+    }
+    
+  </div>
+</div>

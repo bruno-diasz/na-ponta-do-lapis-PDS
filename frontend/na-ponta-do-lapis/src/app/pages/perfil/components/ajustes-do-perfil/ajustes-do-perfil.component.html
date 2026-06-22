@@ -1,0 +1,24 @@
+<div class="w-[745px] h-[790px] bg-[#ffffff] rounded-[20px] p-10 flex flex-col gap-10 font-sans shadow-sm">
+  
+  <h1 class="text-black font-bold text-2xl tracking-tight">
+    Ajustes do perfil
+  </h1>
+
+  <app-formulario-secao 
+    titulo="Detalhes" 
+    [campos]="camposDetalhes"
+    [formGroupPai]="perfilForm">
+  </app-formulario-secao>
+
+  <app-formulario-secao 
+    titulo="Senha" 
+    [campos]="camposSenha"
+    [formGroupPai]="perfilForm"
+    class="block mt-6">
+  </app-formulario-secao>
+
+  <app-botoes-acao 
+    (cliqueSalvar)="salvarMudancas()">
+  </app-botoes-acao>
+
+</div>
