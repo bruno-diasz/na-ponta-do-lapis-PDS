@@ -8,16 +8,9 @@ import { CommonModule } from '@angular/common';
   templateUrl: './botoes-acao.component.html'
 })
 export class BotoesAcaoComponent {
-  // Emissor de evento para avisar o componente pai que o botão salvar foi clicado
   @Output() cliqueSalvar = new EventEmitter<void>();
 
-  aoSalvar(): void {
+  public aoClicarSalvar(): void {
     this.cliqueSalvar.emit();
-  }
-
-  aoEsquecerSenha(event: Event): void {
-    event.preventDefault();
-    // Lógica futura de esquecer senha pode entrar aqui
-    console.log('Botão Esquceu sua senha clicado (sem ação configurada ainda).');
   }
 }

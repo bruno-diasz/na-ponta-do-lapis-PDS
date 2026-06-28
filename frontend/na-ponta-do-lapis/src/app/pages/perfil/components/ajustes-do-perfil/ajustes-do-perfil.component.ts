@@ -1,75 +1,106 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { BotoesAcaoComponent } from '../botoes-acao/botoes-acao.component';
 import { FormularioSecaoComponent, CampoFormulario } from '../formulario-secao/formulario-secao.component';
-import { BotoesAcaoComponent } from '../botoes-acao/botoes-acao.component'; // <-- Importe o novo componente aqui
+import { UsuarioService } from '../../service/perfil.services';
 
 @Component({
   selector: 'app-ajustes-do-perfil',
   standalone: true,
-  imports: [
-    CommonModule, 
-    ReactiveFormsModule, 
-    FormularioSecaoComponent,
-    BotoesAcaoComponent // <-- Adicione aqui
-  ],
-  templateUrl: './ajustes-do-perfil.component.html',
-  styleUrl: './ajustes-do-perfil.component.css'
+  imports: [CommonModule, ReactiveFormsModule, FormularioSecaoComponent, BotoesAcaoComponent],
+  templateUrl: './ajustes-do-perfil.component.html'
 })
-export class AjustesDoPerfilComponent {
+export class AjustesPerfilComponent implements OnInit {
+  public perfilForm!: FormGroup;
   
-  perfilForm: FormGroup;
+  private usuarioId!: number;
 
-  camposDetalhes: CampoFormulario[] = [
-    { key: 'nome', label: 'Nome', placeholder: 'Erick ...' },
-    { key: 'sobrenome', label: 'Sobrenome', placeholder: 'Carlos ...' },
-    { key: 'email', label: 'Email', placeholder: 'erick@gmail.com' },
-    { key: 'celular', label: 'Celular', placeholder: '849999-9999', isCelular: true }
-  ];
+  public camposDetalhes: CampoFormulario[] = [];
+  public camposSenha: CampoFormulario[] = [];
 
-  camposSenha: CampoFormulario[] = [
-    { key: 'senhaAtual', label: 'Mudar senha', placeholder: 'Coloque senha atual...', type: 'password' },
-    { key: 'confirmarSenhaAtual', label: '', placeholder: 'Confirme senha...', type: 'password' },
-    { key: 'novaSenha', label: 'Nova senha', placeholder: 'Coloque sua nova senha...', type: 'password' },
-    { key: 'confirmarNovaSenha', label: '', placeholder: 'Confirme nova senha...', type: 'password' }
-  ];
+  constructor(
+    private fb: FormBuilder,
+    private usuarioService: UsuarioService
+  ) {
+    this.inicializarFormulario();
+  }
 
-  constructor(private fb: FormBuilder) {
+  ngOnInit(): void {
+    this.carregarDadosIniciais();
+  }
+
+  private inicializarFormulario(): void {
     this.perfilForm = this.fb.group({
       nome: [''],
-      sobrenome: [''],
       email: [''],
-      celular: [''],
       senhaAtual: [''],
       confirmarSenhaAtual: [''],
       novaSenha: [''],
       confirmarNovaSenha: ['']
     });
+
+    this.configurarCamposEstaticos();
   }
 
-  salvarMudancas(): void {
-    const valoresFormulario = this.perfilForm.value;
-    
-    // Filtra o objeto mandando apenas o que não for vazio
-    const dadosParaAtualizar = Object.keys(valoresFormulario)
-      .filter(key => {
-        const valor = valoresFormulario[key];
-        return valor !== null && valor !== undefined && String(valor).trim() !== '';
-      })
-      .reduce((obj: any, key) => {
-        obj[key] = valoresFormulario[key].trim();
-        return obj;
-      }, {});
+  private configurarCamposEstaticos(nome = 'Erick Carlos...', email = 'erick@gmail.com'): void {
+    this.camposDetalhes = [
+      { key: 'nome', label: 'Nome', placeholder: nome },
+      { key: 'email', label: 'Email', placeholder: email }
+    ];
 
-    if (Object.keys(dadosParaAtualizar).length === 0) {
-      console.log('Nenhuma alteração foi digitada.');
+    this.camposSenha = [
+      { key: 'senhaAtual', label: 'Mudar senha', placeholder: 'Coloque senha atual...', type: 'password' },
+      { key: 'confirmarSenhaAtual', label: '\u00A0', placeholder: 'Confirme senha...', type: 'password' },
+      { key: 'novaSenha', label: 'Nova senha', placeholder: 'Coloque sua nova senha...', type: 'password' },
+      { key: 'confirmarNovaSenha', label: '\u00A0', placeholder: 'Confirme nova senha...', type: 'password' }
+    ];
+  }
+
+  private carregarDadosIniciais(): void {
+    this.usuarioService.obterPerfilCompleto().subscribe({
+      next: (usuario) => {
+        this.usuarioId = usuario.id;
+
+        this.configurarCamposEstaticos(
+          usuario.nome || 'Erick Carlos...',
+          usuario.email
+        );
+      },
+      error: (err) => {
+        console.error('Erro ao alimentar os placeholders da tela de ajustes:', err);
+      }
+    });
+  }
+
+  public salvarMudancas(): void {
+    const valoresFormulario = this.perfilForm.value;
+    const dadosParciaisPatch: any = {};
+
+    if (valoresFormulario.nome && valoresFormulario.nome.trim() !== '') {
+      dadosParciaisPatch.nome = valoresFormulario.nome.trim();
+    }
+
+    if (valoresFormulario.email && valoresFormulario.email.trim() !== '') {
+      dadosParciaisPatch.email = valoresFormulario.email.trim();
+    }
+
+    if (valoresFormulario.novaSenha && valoresFormulario.novaSenha.trim() !== '') {
+      dadosParciaisPatch.senha = valoresFormulario.novaSenha;
+    }
+
+    if (Object.keys(dadosParciaisPatch).length === 0) {
       return;
     }
 
-    // Objeto limpo pronto para enviar via PUT ao Spring Boot
-    console.log('Payload limpo enviado do componente de botões:', dadosParaAtualizar);
-    
-    // Exemplo de integração futura:
-    // this.userService.atualizarPerfil(dadosParaAtualizar).subscribe(...);
+    this.usuarioService.atualizarParcial(this.usuarioId, dadosParciaisPatch).subscribe({
+      next: (usuarioAtualizado) => {
+        this.perfilForm.reset();
+        this.configurarCamposEstaticos(usuarioAtualizado.nome, usuarioAtualizado.email);
+      },
+      error: (err) => {
+        console.error('Erro ao salvar via PATCH:', err);
+      }
+    });
   }
 }

@@ -3,17 +3,22 @@ import ht from '@angular/common/locales/ht';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Categoria, ITransacaoRequest, ITransacoes,  } from '../../../model/ITransacoes.model';
+import { environment}  from '@env';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TransacoesService {
-  private BASE_URL:string = "http://localhost:8080"
+  private BASE_URL:string = environment.apiBaseUrl;
 
   constructor(private http:HttpClient){}
 
   public listarTransacoes(): Observable<any> {
     return this.http.get<any>(`${this.BASE_URL}/transacoes/me`)
+  }
+
+  public listarTransacoesPorDescricao(descricao:string): Observable<ITransacoes[]> {
+    return this.http.get<ITransacoes[]>(`${this.BASE_URL}/transacoes/buscar?descricao=${descricao}`)
   }
 
     public buscarTransacaoPorId(id:number): Observable<ITransacaoRequest> {
