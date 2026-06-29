@@ -5,6 +5,7 @@ import { BotoesAcaoComponent } from '../botoes-acao/botoes-acao.component';
 import { FormularioSecaoComponent, CampoFormulario } from '../formulario-secao/formulario-secao.component';
 import { UsuarioService } from '../../service/perfil.services'; // Certifique-se de que este caminho aponta para o service correto
 import { ChangeDetectorRef } from '@angular/core';
+import { StorageService } from '../../../../auth/service/storage.service';
 
 @Component({
   selector: 'app-ajustes-do-perfil',
@@ -103,15 +104,17 @@ export class AjustesPerfilComponent implements OnInit {
 
     // 4. Dispara a requisição PATCH para /usuario/me (Sem passar ID na URL)
     this.usuarioService.atualizarParcial(dadosParciaisPatch).subscribe({
-      next: (usuarioAtualizado) => {
+      next: (res: any) => {
+        if (res.token) {
+          StorageService.salvarToken(res.token);
+        }
+
+        const usuario = res.usuario ?? res;
+
         this.perfilForm.reset();
-        
-        // Atualiza dinamicamente os placeholders na tela com os novos valores retornados pelo banco
-        this.configurarCamposEstaticos(usuarioAtualizado.nome, usuarioAtualizado.email);
-        
-        // Opcional: força o reload se quiser que a barra lateral ou outros componentes escutem a mudança
+        this.configurarCamposEstaticos(usuario.nome, usuario.email);
         window.location.reload();
-        this.cdr.detectChanges(); // Força a atualização da view após a mudança de estado
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Erro ao salvar via PATCH:', err);
