@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsuarioService } from '../../service/perfil.services';
 import { Usuario } from '../../../../model/IUsuario.models';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-perfil-resumo',
@@ -12,7 +13,7 @@ import { Usuario } from '../../../../model/IUsuario.models';
 })
 export class PerfilResumoComponent implements OnInit {
 
-  constructor(private usuarioService: UsuarioService) {}
+  constructor(private usuarioService: UsuarioService, private cdr: ChangeDetectorRef) {}
 
   public usuarioLogado: Usuario | null = null;
 
@@ -24,6 +25,7 @@ export class PerfilResumoComponent implements OnInit {
     this.usuarioService.obterPerfilCompleto().subscribe({
       next: (res: Usuario) => {
         this.usuarioLogado = res;
+        this.cdr.detectChanges(); // Força a atualização da view após a mudança de estado
       },
       error: (err: Error) => {
         console.error('Erro ao carregar resumo do perfil:', err);
