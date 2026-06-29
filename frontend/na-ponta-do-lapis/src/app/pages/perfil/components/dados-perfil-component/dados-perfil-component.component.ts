@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsuarioService } from '../../service/perfil.services'; // Ajuste o caminho até o novo service
 import { Usuario } from '../../../../model/IUsuario.models';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-dados-perfil',
@@ -13,7 +14,7 @@ import { Usuario } from '../../../../model/IUsuario.models';
 export class DadosPerfilComponent implements OnInit {
 
   // Injetando o novo UsuarioService dedicado do Perfil
-  constructor(private usuarioService: UsuarioService) {}
+  constructor(private usuarioService: UsuarioService, private cdr: ChangeDetectorRef) {}
 
   // Voltamos com segurança para a tipagem forte de Usuario!
   public usuarioLogado: Usuario | null = null;
@@ -27,6 +28,7 @@ export class DadosPerfilComponent implements OnInit {
       next: (res: Usuario) => {
         this.usuarioLogado = res;
         console.log('Perfil completo carregado com sucesso:', res);
+        this.cdr.detectChanges(); // Atualiza a view após carregar os dados do perfil
       },
       error: (err: Error) => {
         console.error('Erro ao buscar dados do perfil detalhado:', err);
