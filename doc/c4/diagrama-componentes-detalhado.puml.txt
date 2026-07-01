@@ -1,23 +1,101 @@
 @startuml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-' Força o layout a renderizar na horizontal
+' Força o layout global a alinhar os contêineres principais lado a lado
 LAYOUT_LEFT_RIGHT()
 
-title API Expandida (Componentes) — Na Ponta do Lápis
-
-' ─── Container: API (Apenas os componentes internos) ───
-Container(api, "API", "Spring Boot", "Processa as regras de negócio") {
-    Component(authCtrl, "AuthController", "Controller REST", "Gerencia autenticação e emissão de tokens JWT")
-    Component(usuarioCtrl, "UsuarioController", "Controller REST", "Gerencia cadastro e perfil dos usuários")
-    Component(transacaoCtrl, "TransacaoController", "Controller REST", "Registra e consulta transações financeiras; converte moedas via AwesomeAPI")
-    Component(contaCtrl, "ContaFinanceiraController", "Controller REST", "Gerencia contas financeiras dos usuários")
-    Component(familiaCtrl, "FamiliaController", "Controller REST", "Gerencia grupos familiares e membros")
-    Component(conviteCtrl, "ConviteController", "Controller REST", "Envia e aceita convites para grupos familiares")
-    Component(metaCtrl, "MetaController", "Controller REST", "Cria e acompanha metas financeiras")
-    Component(tipoMetaCtrl, "TipoMetaController", "Controller REST", "Gerencia os tipos de meta disponíveis")
-    Component(marcadorCtrl, "MarcadorController", "Controller REST", "Gerencia marcadores/tags de transações")
-    Component(tipoCatCtrl, "TipoCategoriaController", "Controller REST", "Gerencia os tipos de categoria de transação")
+' Força o fundo dos containers a ser branco com bordas tracejadas
+skinparam rectangle<<container>> {
+    BackgroundColor #FFFFFF
+    BorderStyle dashed
+    BorderColor #666666
 }
+skinparam rectangle<<system>> {
+    BackgroundColor #FFFFFF
+    BorderStyle dashed
+    BorderColor #333333
+}
+
+title Diagrama de Componentes — Na Ponta do Lápis
+
+' ─── Componente Externo de Entrada (Extrema Esquerda) ───
+Component(webApp, "Web App", "Navegador", "Acessa o sistema")
+
+' ─── Grande Container do Sistema Geral (Fundo Branco/Tracejado) ───
+System(sistemaGeral, "Sistema Na Ponta do Lápis", "Plataforma de Gestão de Finanças Pessoais") {
+
+    ' ─── Container: Aplicação Frontend ───
+    Container(frontend, "Aplicação Frontend", "Angular", "Interface web do usuário") {
+        Component(usuarioService, "UsuarioService", "Angular Service", "Gerencia o cadastro e dados do perfil")
+        Component(transacaoService, "TransacaoService", "Angular Service", "Cria, edita, exclui e busca movimentações")
+        Component(contaService, "ContaFinanceiraService", "Angular Service", "Gerencia as contas bancárias e carteiras")
+        Component(familiaService, "FamiliaService", "Angular Service", "Gerencia o grupo familiar e lista membros")
+        Component(conviteService, "ConviteService", "Angular Service", "Envia e aceita convites para grupos")
+        Component(metaService, "MetaService", "Angular Service", "Cria e acompanha metas financeiras")
+        Component(marcadorService, "MarcadorService", "Angular Service", "Cria e lista as tags de transações")
+        Component(tipoCatService, "TipoCategoriaService", "Angular Service", "Busca as categorias de transação")
+    }
+
+    ' Mantém os componentes do Frontend empilhados na vertical
+    usuarioService -[hidden]down-> transacaoService
+    transacaoService -[hidden]down-> contaService
+    contaService -[hidden]down-> familiaService
+    familiaService -[hidden]down-> conviteService
+    conviteService -[hidden]down-> metaService
+    metaService -[hidden]down-> marcadorService
+    marcadorService -[hidden]down-> tipoCatService
+
+    ' ─── TRAVA DE ALTURA: Força o Backend a ficar no mesmo nível, à direita do Frontend ───
+    frontend -[hidden]right-> backend
+
+    ' ─── Container: Aplicação Backend ───
+    Container(backend, "Aplicação Backend", "Spring Boot", "Processa as regras de negócio") {
+        Component(usuarioCtrl, "UsuarioController", "Spring Boot", "Gerencia cadastro e perfil dos usuários")
+        Component(transacaoCtrl, "TransacaoController", "Spring Boot", "Registra transações e converte moedas")
+        Component(contaCtrl, "ContaFinanceiraController", "Spring Boot", "Gerencia contas financeiras dos usuários")
+        Component(familiaCtrl, "FamiliaController", "Spring Boot", "Gerencia grupos familiares e membros")
+        Component(conviteCtrl, "ConviteController", "Spring Boot", "Envia e aceita convites para grupos")
+        Component(metaCtrl, "MetaController", "Spring Boot", "Cria e acompanha metas financeiras")
+        Component(marcadorCtrl, "MarcadorController", "Spring Boot", "Gerencia marcadores/tags de transações")
+        Component(tipoCatCtrl, "TipoCategoriaController", "Spring Boot", "Gerencia os tipos de categoria")
+    }
+
+    ' Mantém os componentes do Backend empilhados na vertical
+    usuarioCtrl -[hidden]down-> transacaoCtrl
+    transacaoCtrl -[hidden]down-> contaCtrl
+    contaCtrl -[hidden]down-> familiaCtrl
+    familiaCtrl -[hidden]down-> conviteCtrl
+    conviteCtrl -[hidden]down-> metaCtrl
+    metaCtrl -[hidden]down-> marcadorCtrl
+    marcadorCtrl -[hidden]down-> tipoCatCtrl
+}
+
+' ─── Sistemas Externos (FORA do grande container, posicionados à direita de tudo) ───
+System_Ext(awesomeApi, "AwesomeAPI", "Fornece cotações de moedas em tempo real")
+System_Ext(gemini, "Gemini", "Processa inteligência artificial e leitura de faturas")
+System_Ext(cloudinary, "Cloudinary", "Armazena e gerencia imagens de perfil")
+
+' Empurra as APIs externas para ficarem ao lado direito do bloco do sistema geral
+sistemaGeral -[hidden]right-> awesomeApi
+awesomeApi -[hidden]right-> gemini
+gemini -[hidden]right-> cloudinary
+
+' ─── Conexão de Entrada: Usuário acessando o Frontend (Força o Web App para a esquerda) ───
+Rel_R(webApp, usuarioService, "Acessa a interface", "HTTPS")
+
+' ─── Relacionamentos / Chamadas de API internas (Setas apontando para a direita) ───
+Rel_R(usuarioService, usuarioCtrl, "Chamada para a API", "JSON/HTTP")
+Rel_R(transacaoService, transacaoCtrl, "Chamada para a API", "JSON/HTTP")
+Rel_R(contaService, contaCtrl, "Chamada para a API", "JSON/HTTP")
+Rel_R(familiaService, familiaCtrl, "Chamada para a API", "JSON/HTTP")
+Rel_R(conviteService, conviteCtrl, "Chamada para a API", "JSON/HTTP")
+Rel_R(metaService, metaCtrl, "Chamada para a API", "JSON/HTTP")
+Rel_R(marcadorService, marcadorCtrl, "Chamada para a API", "JSON/HTTP")
+Rel_R(tipoCatService, tipoCatCtrl, "Chamada para a API", "JSON/HTTP")
+
+' ─── Integração Externa (Saindo dos Controllers para a direita) ───
+Rel_R(transacaoCtrl, awesomeApi, "Consulta cotação", "JSON/HTTPS")
+Rel_R(transacaoCtrl, gemini, "Ler fatura em PDF", "JSON/HTTPS")
+Rel_R(usuarioCtrl, cloudinary, "Envia foto de perfil", "JSON/HTTPS")
 
 @enduml
