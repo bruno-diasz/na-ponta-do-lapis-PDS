@@ -1,13 +1,4 @@
 export const environment = {
     production: true,
-    apiBaseUrl: (() => {
-        const protocol = window.location.protocol;
-        const hostname = window.location.hostname;
-
-        if (hostname.includes('.github.dev')) {
-            return `${protocol}//${hostname.replace('4200', '8080')}`;
-        }
-
-        return `${protocol}//${hostname}:8080`;
-    })(),
+    apiBaseUrl: 'http://147.15.126.57:8080/api',
 }; 
