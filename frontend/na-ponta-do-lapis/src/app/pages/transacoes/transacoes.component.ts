@@ -252,7 +252,7 @@ export class TransacoesComponent {
       valor: 0,
       idContaFinanceira: '',
       dataHora: null,
-      estado: 'PENDENTE',
+      estado: 'REALIZADA',
       tipo: '',
       marcadorId: null,
     });
