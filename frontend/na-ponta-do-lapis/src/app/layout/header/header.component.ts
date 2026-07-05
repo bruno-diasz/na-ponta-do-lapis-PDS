@@ -19,6 +19,7 @@ import { IconComponent } from '../../shared/components/icon/icon.component';
 export class HeaderComponent {
   isMobile: boolean = false;
   sidebarService: SidebarService = inject(SidebarService);
+  nomeUsuario: string | undefined = undefined;
   constructor(private authService:AuthService ,private router:Router, private messageService: MessageService, private cdr: ChangeDetectorRef){}
 
   usuarioLogado:Usuario | null = null;
@@ -35,6 +36,7 @@ export class HeaderComponent {
    this.authService.meusDados().subscribe({
     next: (res:Usuario) => {
       this.usuarioLogado = res;
+      this.nomeUsuario = this.usuarioLogado?.nome?.split(' ')[0]
       this.cdr.detectChanges();
       console.log(res)
     },
