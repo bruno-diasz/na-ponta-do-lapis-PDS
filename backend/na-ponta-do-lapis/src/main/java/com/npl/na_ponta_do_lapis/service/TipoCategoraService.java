@@ -4,7 +4,7 @@ import com.npl.na_ponta_do_lapis.entity.TipoCategoria;
 import com.npl.na_ponta_do_lapis.repository.TipoCategoriaRepository;
 import com.npl.na_ponta_do_lapis.web.dto.CategoriaDTO;
 import com.npl.na_ponta_do_lapis.web.exception.TipoCategoriaIdNaoExisteException;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
